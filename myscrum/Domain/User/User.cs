@@ -19,11 +19,19 @@ namespace myscrum.Domain.User
 
         public string Surname { get; private set; }
 
+        public string RefreshToken { get; private set; }
+
         public DateTime? LastLogin { get; private set; }
 
         public SystemRole Role { get; private set; }
 
-        public void Login() => LastLogin = DateTime.UtcNow;
+        public void Login(string refreshToken)
+        {
+            LastLogin = DateTime.UtcNow;
+            RefreshToken = refreshToken;
+        }
+
+        public void Logout() => RefreshToken = null;
     }
 
     public enum SystemRole

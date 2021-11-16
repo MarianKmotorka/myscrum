@@ -1,4 +1,5 @@
 using System.Reflection;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using myscrum.Persistence;
+using myscrum.Startup.ExceptionHandling;
 
 namespace myscrum.Startup
 {
@@ -22,7 +24,13 @@ namespace myscrum.Startup
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            FluentValidationCamelCasePropertyNameResolver.UseFluentValidationCamelCasePropertyResolver();
+
             services.AddSwagger();
+            services.AddAuth(Configuration);
+            services.AddHttpClient();
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration =>
             {
@@ -40,6 +48,7 @@ namespace myscrum.Startup
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
+            app.UseCustomExceptionHandlingMiddleware();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "myscrum-api v1"));
