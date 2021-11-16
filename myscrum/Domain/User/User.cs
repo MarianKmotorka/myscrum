@@ -8,6 +8,7 @@ namespace myscrum.Domain.User
 
         public User(string email, string givenName, string surname)
         {
+            Id = Guid.NewGuid().ToString();
             Email = email;
             GivenName = givenName;
             Surname = surname;

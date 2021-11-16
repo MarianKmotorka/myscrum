@@ -1,12 +1,11 @@
-import { ChakraProvider, Box, theme } from '@chakra-ui/react'
-
+import { Box, Button } from '@chakra-ui/react'
+import Routes from './Routes'
+import { Link } from 'react-router-dom'
 const App = () => {
   return (
-    <ChakraProvider theme={theme}>
-      <Box textAlign='start' fontSize='3xl'>
-        WORKS
-      </Box>
-    </ChakraProvider>
+    <>
+      <Routes />
+    </>
   )
 }
 

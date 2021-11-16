@@ -39,6 +39,8 @@ namespace myscrum.Persistence
         {
             builder.RemovePluralizingTableNameConvention();
             base.OnModelCreating(builder);
+
+            builder.Entity<User>().HasIndex(x => x.Email).IsUnique();
         }
     }
 
