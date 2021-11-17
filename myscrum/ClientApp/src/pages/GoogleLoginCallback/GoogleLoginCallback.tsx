@@ -26,7 +26,7 @@ const GoogleLoginCallback = () => {
       if (successOrError !== true) return setError(successOrError)
 
       await fetchUser()
-      navigate(getReturnUrlFromQuery(state) || '/')
+      navigate(getReturnUrlFromQuery(state) || '/', { replace: true })
     }
 
     code && sendCodeToServer()

@@ -15,7 +15,7 @@ using myscrum.Services.Interfaces;
 
 namespace myscrum.Startup
 {
-    public static class Extensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
