@@ -1,5 +1,5 @@
 import api, { setAuthHeader } from 'api/httpClient'
-import { IApiError } from 'api/types'
+import { ApiError } from 'api/types'
 import { AxiosInstance } from 'axios'
 import { User } from 'domainTypes'
 
@@ -52,7 +52,7 @@ export const loginUsingGoogleCode = async (code: string) => {
     setAuthHeader(res.data.accessToken)
     return true
   } catch (err) {
-    return (err as IApiError).data.errorMessage
+    return err as ApiError
   }
 }
 

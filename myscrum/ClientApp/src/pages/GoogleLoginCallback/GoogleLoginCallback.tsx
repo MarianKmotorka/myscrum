@@ -1,3 +1,7 @@
+import { Box } from '@chakra-ui/layout'
+import { Spinner } from '@chakra-ui/spinner'
+import { ApiError } from 'api/types'
+import FetchError from 'components/elements/FetchError'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from 'services/auth/AuthProvider'
@@ -14,7 +18,7 @@ const getReturnUrlFromQuery = (state: string | null) => {
 
 const GoogleLoginCallback = () => {
   const [queryParams] = useSearchParams()
-  const [error, setError] = useState<string>()
+  const [error, setError] = useState<ApiError>()
   const { fetchUser } = useAuth()
   const navigate = useNavigate()
   const code = queryParams.get('code')
@@ -34,9 +38,13 @@ const GoogleLoginCallback = () => {
 
   return (
     <div>
-      {error && <div>{error}</div>}
+      {error && <FetchError error={error} />}
 
-      {!error && <div>Authenticating...</div>}
+      {!error && (
+        <Box h='100vh' d='grid' placeItems='center'>
+          <Spinner thickness='4px' speed='0.65s' color='gray.500' size='xl' />
+        </Box>
+      )}
     </div>
   )
 }

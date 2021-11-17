@@ -1,14 +1,14 @@
-interface IApiErrorDetail {
+interface ApiErrorDetail {
   code: string
   customState: any
   propertyName: string
 }
 
-export interface IApiError {
+export interface ApiError {
   data: {
     errorCode: string
     errorMessage: string
-    errorDetails: IApiErrorDetail[]
+    errorDetails: ApiErrorDetail[]
   }
   status: number
 }
