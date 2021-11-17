@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using myscrum.Common.Constants;
@@ -56,6 +57,11 @@ namespace myscrum.Controllers
             Response.Cookies.Append(CustomCookies.RefreshToken, string.Empty, GetRefreshTokenCookieOptions(TimeSpan.FromSeconds(0)));
             return NoContent();
         }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<ActionResult<GetMe.Response>> GetMe(CancellationToken cancellationToken)
+            => await Mediator.Send(new GetMe.Query { CurrentUserId = CurrentUserService.UserId }, cancellationToken);
 
         private CookieOptions GetRefreshTokenCookieOptions(TimeSpan? maxAge = null)
             => new CookieOptions

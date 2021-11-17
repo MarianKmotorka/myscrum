@@ -106,6 +106,7 @@ namespace myscrum.Startup
             });
 
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<ICurrentUserService, CurrentUserService>();
             return services;
         }
     }

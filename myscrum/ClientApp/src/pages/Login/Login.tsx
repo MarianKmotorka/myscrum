@@ -1,6 +1,7 @@
 import { Button } from '@chakra-ui/button'
+import { useSearchParams } from 'react-router-dom'
 
-const getGoogleLoginUrl = (redirectedFrom?: string) => {
+const getGoogleLoginUrl = (redirectedFrom: string | null) => {
   const redirectUri = `${window.location.origin + process.env.REACT_APP_GOOGLE_AUTH_CALLBACK_URL}`
 
   const queryParams = [
@@ -18,7 +19,10 @@ const getGoogleLoginUrl = (redirectedFrom?: string) => {
 }
 
 const Login = () => {
-  const redirect = () => window.location.assign(getGoogleLoginUrl())
+  const [queryParams] = useSearchParams()
+  const redirectedFrom = queryParams.get('redirectedFrom')
+
+  const redirect = () => window.location.assign(getGoogleLoginUrl(redirectedFrom))
 
   return <Button onClick={redirect}>Login with google</Button>
 }
