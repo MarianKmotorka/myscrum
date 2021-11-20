@@ -1,33 +1,52 @@
 import {
   Box,
   Flex,
-  Text,
   IconButton,
   Button,
   Stack,
   Collapse,
-  Icon,
-  Link,
   Container,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
+  Menu,
+  HStack,
+  VStack,
+  Text,
+  MenuItem,
+  MenuList,
+  MenuDivider,
+  Avatar,
+  MenuButton,
   useBreakpointValue,
   useDisclosure
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
+import MobileNav from './MobileNav'
+import DesktopNav from './DesktopNav'
+import { useAuth } from 'services/auth/AuthProvider'
+import { LOGGED_OUT_NAV_ITEMS, NAV_ITEMS } from './utils'
+import { getAvatarUrl } from 'utils'
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure()
   const redirect = useRedirectToGoogleSignIn()
+  const auth = useAuth()
+  const { isLoggedIn } = auth
+
+  const navItems = isLoggedIn ? NAV_ITEMS : LOGGED_OUT_NAV_ITEMS
 
   return (
-    <Box borderBottom={1} borderStyle={'solid'} borderColor={'gray.200'} bg={'white'}>
+    <Box
+      borderBottom={1}
+      borderStyle={'solid'}
+      borderColor={'gray.200'}
+      bg={'white'}
+      position='sticky'
+      top='0px'
+    >
       <Container maxW='5xl'>
         <Flex color={'gray.700'} minH={'60px'} py={{ base: 2 }} align={'center'}>
           <Flex
-            flex={{ base: 1, md: 'auto' }}
+            flex={{ base: 0, md: 'auto' }}
             ml={{ base: -2 }}
             display={{ base: 'flex', md: 'none' }}
           >
@@ -42,227 +61,73 @@ export default function Navbar() {
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
             <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-              fontFamily={'heading'}
-              color={'gray.800'}
+              fontFamily="'Pacifico', cursive"
+              fontSize='2xl'
+              lineHeight='43px'
+              bg='linear-gradient(to right,#500472, #79cbb8)'
+              backgroundClip='text'
+              color='transparent'
             >
               myscrum
             </Text>
 
-            <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-              <DesktopNav />
+            <Flex display={{ base: 'none', md: 'flex' }} alignItems='center' ml={10}>
+              <DesktopNav items={navItems} />
             </Flex>
           </Flex>
 
-          <Stack flex={{ base: 1, md: 0 }} justify={'flex-end'} direction={'row'} spacing={6}>
-            <Button fontSize={'sm'} fontWeight={400} variant={'link'} onClick={redirect}>
-              Sign In
-            </Button>
+          {!isLoggedIn && (
+            <Stack flex={{ base: 1, md: 0 }} justify='flex-end' direction='row' spacing={6}>
+              <Button fontSize={'sm'} fontWeight={400} variant={'link'} onClick={redirect}>
+                Sign In
+              </Button>
 
-            <Button
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
-              variant='primary'
-              onClick={redirect}
-            >
-              Get started
-            </Button>
-          </Stack>
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                variant='primary'
+                onClick={redirect}
+              >
+                Get started
+              </Button>
+            </Stack>
+          )}
+
+          {isLoggedIn && (
+            <Menu>
+              <MenuButton py={2} transition='all 0.3s' _focus={{ boxShadow: 'none' }}>
+                <HStack>
+                  <Avatar size={'sm'} src={getAvatarUrl(auth.currentUser.email)} />
+                  <VStack
+                    display={{ base: 'none', md: 'flex' }}
+                    alignItems='flex-start'
+                    spacing='1px'
+                    ml='2'
+                  >
+                    <Text fontSize='sm'>
+                      {auth.currentUser.givenName} {auth.currentUser.surname}
+                    </Text>
+                  </VStack>
+
+                  <Box display={{ base: 'none', md: 'flex' }}>
+                    <ChevronDownIcon />
+                  </Box>
+                </HStack>
+              </MenuButton>
+
+              <MenuList bg='white' borderColor='gray.200'>
+                <MenuItem>Profile</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => auth.logout()}>Sign out</MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </Flex>
       </Container>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav items={navItems} />
       </Collapse>
     </Box>
   )
 }
-
-const DesktopNav = () => {
-  const linkColor = 'gray.600'
-  const linkHoverColor = 'gray.800'
-  const popoverContentBgColor = 'white'
-
-  return (
-    <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS.map(navItem => (
-        <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor
-                }}
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}
-              >
-                <Stack>
-                  {navItem.children.map(child => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
-    </Stack>
-  )
-}
-
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
-  return (
-    <Link
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: 'blue.50' }}
-    >
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text transition={'all .3s ease'} _groupHover={{ color: 'primary' }} fontWeight={500}>
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}
-        >
-          <Icon color={'primary'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
-  )
-}
-
-const MobileNav = () => {
-  return (
-    <Stack bg={'white'} p={4} display={{ md: 'none' }}>
-      {NAV_ITEMS.map(navItem => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-    </Stack>
-  )
-}
-
-const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure()
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none'
-        }}
-      >
-        <Text fontWeight={600} color={'gray.600'}>
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={'gray.200'}
-          align={'start'}
-        >
-          {children &&
-            children.map(child => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
-  )
-}
-
-interface NavItem {
-  label: string
-  subLabel?: string
-  children?: Array<NavItem>
-  href?: string
-}
-
-const NAV_ITEMS: Array<NavItem> = [
-  {
-    label: 'Inspiration',
-    children: [
-      {
-        label: 'Explore Design Work',
-        subLabel: 'Trending Design to inspire you',
-        href: '#'
-      },
-      {
-        label: 'New & Noteworthy',
-        subLabel: 'Up-and-coming Designers',
-        href: '#'
-      }
-    ]
-  },
-  {
-    label: 'Find Work',
-    children: [
-      {
-        label: 'Job Board',
-        subLabel: 'Find your dream design job',
-        href: '#'
-      },
-      {
-        label: 'Freelance Projects',
-        subLabel: 'An exclusive list for contract work',
-        href: '#'
-      }
-    ]
-  },
-  {
-    label: 'Learn Design',
-    href: '#'
-  },
-  {
-    label: 'Hire Designers',
-    href: '#'
-  }
-]
