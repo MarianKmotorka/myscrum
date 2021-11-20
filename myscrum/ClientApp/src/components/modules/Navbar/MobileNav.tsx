@@ -1,9 +1,10 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import Icon from '@chakra-ui/icon'
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { Flex, Link, Stack, Text } from '@chakra-ui/layout'
+import { Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/layout'
 import { Collapse } from '@chakra-ui/transition'
 import { NavItem } from './utils'
+import LinkOrNothing from './LinkOrNothing'
 
 interface MobileNavProps {
   items: NavItem[]
@@ -19,24 +20,27 @@ const MobileNav = ({ items }: MobileNavProps) => {
   )
 }
 
-const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, children, href, isExternal }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
         py={2}
-        as={Link}
-        href={href ?? '#'}
+        as={ChakraLink}
+        href={isExternal ? href : undefined}
         justify={'space-between'}
         align={'center'}
         _hover={{
           textDecoration: 'none'
         }}
       >
-        <Text fontWeight={600} color={'gray.600'}>
-          {label}
-        </Text>
+        <LinkOrNothing isNothing={isExternal || !href} to={href || ''}>
+          <Text fontWeight={600} color={'gray.600'}>
+            {label}
+          </Text>
+        </LinkOrNothing>
+
         {children && (
           <Icon
             as={ChevronDownIcon}
@@ -59,9 +63,11 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children &&
             children.map(child => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
+              <ChakraLink key={child.label} py={2} href={isExternal ? child.href : undefined}>
+                <LinkOrNothing isNothing={!!isExternal} to={child.href || ''}>
+                  <>{child.label}</>
+                </LinkOrNothing>
+              </ChakraLink>
             ))}
         </Stack>
       </Collapse>

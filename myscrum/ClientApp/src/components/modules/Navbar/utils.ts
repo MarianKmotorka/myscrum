@@ -3,6 +3,7 @@ export interface NavItem {
   subLabel?: string
   children?: Array<NavItem>
   href?: string
+  isExternal?: boolean
 }
 
 export const LOGGED_OUT_NAV_ITEMS: NavItem[] = [
@@ -12,12 +13,14 @@ export const LOGGED_OUT_NAV_ITEMS: NavItem[] = [
       {
         label: 'LinkedIn',
         subLabel: 'My professional profile',
-        href: 'https://www.linkedin.com/in/marian-kmotorka-191b48189/'
+        href: 'https://www.linkedin.com/in/marian-kmotorka-191b48189/',
+        isExternal: true
       },
       {
         label: 'Github',
         subLabel: 'My projects portfolio',
-        href: 'https://github.com/MarianKmotorka'
+        href: 'https://github.com/MarianKmotorka',
+        isExternal: true
       }
     ]
   }
@@ -25,41 +28,17 @@ export const LOGGED_OUT_NAV_ITEMS: NavItem[] = [
 
 export const NAV_ITEMS: NavItem[] = [
   {
-    label: 'Inspiration',
+    label: 'Nested',
     children: [
       {
         label: 'Explore Design Work',
         subLabel: 'Trending Design to inspire you',
-        href: '#'
-      },
-      {
-        label: 'New & Noteworthy',
-        subLabel: 'Up-and-coming Designers',
-        href: '#'
+        href: '/nestedRoute'
       }
     ]
   },
   {
-    label: 'Find Work',
-    children: [
-      {
-        label: 'Job Board',
-        subLabel: 'Find your dream design job',
-        href: '#'
-      },
-      {
-        label: 'Freelance Projects',
-        subLabel: 'An exclusive list for contract work',
-        href: '#'
-      }
-    ]
-  },
-  {
-    label: 'Learn Design',
-    href: '#'
-  },
-  {
-    label: 'Hire Designers',
-    href: '#'
+    label: 'Projects',
+    href: '/projects'
   }
 ]
