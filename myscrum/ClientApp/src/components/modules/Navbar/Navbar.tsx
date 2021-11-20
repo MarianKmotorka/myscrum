@@ -25,12 +25,14 @@ import DesktopNav from './DesktopNav'
 import { useAuth } from 'services/auth/AuthProvider'
 import { LOGGED_OUT_NAV_ITEMS, NAV_ITEMS } from './utils'
 import { getAvatarUrl } from 'utils'
+import { useNavigate } from 'react-router'
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure()
   const redirect = useRedirectToGoogleSignIn()
   const auth = useAuth()
   const { isLoggedIn } = auth
+  const navigate = useNavigate()
 
   const navItems = isLoggedIn ? NAV_ITEMS : LOGGED_OUT_NAV_ITEMS
 
@@ -42,6 +44,7 @@ export default function Navbar() {
       bg={'white'}
       position='sticky'
       top='0px'
+      zIndex={10}
     >
       <Container maxW='5xl'>
         <Flex color={'gray.700'} minH={'60px'} py={{ base: 2 }} align={'center'}>
@@ -67,6 +70,8 @@ export default function Navbar() {
               bg='linear-gradient(to right,#500472, #79cbb8)'
               backgroundClip='text'
               color='transparent'
+              cursor='pointer'
+              onClick={() => navigate('/')}
             >
               myscrum
             </Text>

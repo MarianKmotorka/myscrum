@@ -6,7 +6,7 @@ const Home = () => {
 
   return (
     <DefaultLayout>
-      <div style={{ height: 1500 }}>Home</div>
+      <div>Home</div>
     </DefaultLayout>
   )
 }
