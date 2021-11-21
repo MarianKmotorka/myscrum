@@ -62,23 +62,28 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
         <ModalHeader>Manage project</ModalHeader>
         <ModalCloseButton />
 
-        <ModalBody {...modalBodyProps}>
+        <ModalBody {...modalBodyProps} pb={4}>
           <Form defaultValues={{ name: project.name }} onSubmit={onSubmit}>
-            <FormInput name='name' label='Name' />
-            <Box d='flex' justifyContent='flex-end'>
-              <Button mt={3} mb={4} isLoading={submitting} type='submit'>
-                Rename
-              </Button>
-            </Box>
+            <FormInput isDisabled={!project.amIOwner} name='name' label='Name' />
+
+            {project.amIOwner && (
+              <Box d='flex' justifyContent='flex-end'>
+                <Button mt={3} isLoading={submitting} type='submit'>
+                  Rename
+                </Button>
+              </Box>
+            )}
           </Form>
         </ModalBody>
 
         <ModalBody {...modalBodyProps}>Add people</ModalBody>
 
         <ModalFooter {...modalBodyProps}>
-          <Button colorScheme='red' variant='outline' onClick={deleteProject}>
-            Delete
-          </Button>
+          {project.amIOwner && (
+            <Button colorScheme='red' variant='outline' onClick={deleteProject}>
+              Delete
+            </Button>
+          )}
 
           {selectedProject?.id === project.id ? (
             <Text bg='gray.50' color='gray.400' px={3} ml={3} py={2} borderRadius='md'>
