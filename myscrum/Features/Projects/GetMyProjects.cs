@@ -34,6 +34,7 @@ namespace myscrum.Features.Projects
                         Name = x.Name,
                         CreatedAtUtc = x.CreatedAtUtc
                     })
+                    .OrderByDescending(x => x.CreatedAtUtc)
                     .ToListAsync(cancellationToken);
             }
         }

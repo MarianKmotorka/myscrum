@@ -1,3 +1,4 @@
+import DefaultLayout from 'components/layouts/DefaultLayout'
 import ProtectedRoute from 'components/layouts/ProtectedRoute'
 import { Route, Routes as RouterRoutes } from 'react-router'
 import GoogleLoginCallback from './pages/GoogleLoginCallback/GoogleLoginCallback'
@@ -11,7 +12,9 @@ const Routes = () => {
         path='/'
         element={
           <ProtectedRoute>
-            <Home />
+            <DefaultLayout>
+              <Home />
+            </DefaultLayout>
           </ProtectedRoute>
         }
       />

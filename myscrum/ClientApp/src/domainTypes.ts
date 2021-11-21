@@ -11,3 +11,9 @@ export enum SystemRole {
   User = 0,
   Admin = 1
 }
+
+export interface Project {
+  id: string
+  name: string
+  createdAtUtc: string
+}

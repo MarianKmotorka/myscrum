@@ -9,6 +9,7 @@ import theme from 'styles/theme'
 import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from 'styles/GlobalStyles'
 import AuthProvider from 'services/auth/AuthProvider'
+import ProjectsProvider from 'services/ProjectsProvider'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } }
@@ -19,11 +20,13 @@ ReactDOM.render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <ChakraProvider theme={theme}>
-            <GlobalStyles />
+          <ProjectsProvider>
+            <ChakraProvider theme={theme}>
+              <GlobalStyles />
 
-            <App />
-          </ChakraProvider>
+              <App />
+            </ChakraProvider>
+          </ProjectsProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
