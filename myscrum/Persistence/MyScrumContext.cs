@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using myscrum.Domain.Common;
+using myscrum.Domain.Project;
 using myscrum.Domain.User;
 
 namespace myscrum.Persistence
@@ -19,6 +20,8 @@ namespace myscrum.Persistence
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Project> Projects { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -41,6 +44,12 @@ namespace myscrum.Persistence
             base.OnModelCreating(builder);
 
             builder.Entity<User>().HasIndex(x => x.Email).IsUnique();
+
+            builder.Entity<Project>(project =>
+            {
+                project.Property(x => x.OwnerId).IsRequired();
+                project.Property(x => x.Name).IsRequired();
+            });
         }
     }
 
