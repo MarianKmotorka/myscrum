@@ -55,7 +55,7 @@ namespace myscrum.Persistence
             {
                 pc.HasKey(x => new { x.UserId, x.ProjectId });
                 pc.HasOne(x => x.Project).WithMany(x => x.Contributors);
-                pc.HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.NoAction);
+                pc.HasOne(x => x.User).WithMany(x => x.Projects).OnDelete(DeleteBehavior.NoAction);
             });
 
             builder.Entity<ProjectInvitation>(pi =>

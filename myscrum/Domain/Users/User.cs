@@ -8,6 +8,7 @@ namespace myscrum.Domain.Users
     public class User : Entity<string>
     {
         private List<ProjectInvitation> _projectInvitations;
+        private List<ProjectContributor> _projects;
 
         public User(string email, string givenName, string surname)
         {
@@ -16,6 +17,7 @@ namespace myscrum.Domain.Users
             GivenName = givenName;
             Surname = surname;
             _projectInvitations = new();
+            _projects = new();
         }
 
         public string Email { get; private set; }
@@ -31,6 +33,8 @@ namespace myscrum.Domain.Users
         public SystemRole Role { get; private set; }
 
         public IReadOnlyCollection<ProjectInvitation> ProjectInvitations => _projectInvitations;
+
+        public IReadOnlyCollection<ProjectContributor> Projects => _projects;
 
         public void Login(string refreshToken)
         {
