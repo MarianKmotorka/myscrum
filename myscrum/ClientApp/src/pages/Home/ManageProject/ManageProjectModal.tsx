@@ -17,7 +17,6 @@ import { Project } from 'domainTypes'
 import api from 'api/httpClient'
 import { useProjects } from 'services/ProjectsProvider'
 import { errorToast, errorToastIfNotValidationError, successToast } from 'services/toastService'
-import { modalBodyProps } from './utils'
 import { ApiError } from 'api/types'
 import Contributors from './Contributors'
 
@@ -63,7 +62,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
         <ModalHeader>Manage project</ModalHeader>
         <ModalCloseButton />
 
-        <ModalBody {...modalBodyProps} pb={4}>
+        <ModalBody pt={4}>
           <Form defaultValues={{ name: project.name }} onSubmit={onSubmit}>
             <FormInput isDisabled={!project.amIOwner} name='name' label='Name' />
 
@@ -77,11 +76,11 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
           </Form>
         </ModalBody>
 
-        <ModalBody {...modalBodyProps}>
-          <Contributors />
+        <ModalBody pt={4} pb={10}>
+          <Contributors {...project} />
         </ModalBody>
 
-        <ModalFooter {...modalBodyProps}>
+        <ModalFooter pt={4} borderTop='solid 1px' borderColor='gray.200'>
           {project.amIOwner && (
             <Button colorScheme='red' variant='outline' onClick={deleteProject}>
               Delete

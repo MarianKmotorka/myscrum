@@ -102,7 +102,7 @@ export default function Navbar() {
             <Menu>
               <MenuButton py={2} transition='all 0.3s' _focus={{ boxShadow: 'none' }}>
                 <HStack>
-                  <Avatar size={'sm'} src={getAvatarUrl(auth.currentUser.email)} />
+                  <Avatar size={'sm'} src={getAvatarUrl(auth.currentUser.id)} />
                   <VStack
                     display={{ base: 'none', md: 'flex' }}
                     alignItems='flex-start'
@@ -121,8 +121,6 @@ export default function Navbar() {
               </MenuButton>
 
               <MenuList bg='white' borderColor='gray.200'>
-                <MenuItem>Profile</MenuItem>
-                <MenuDivider />
                 <MenuItem onClick={() => auth.logout()}>Sign out</MenuItem>
               </MenuList>
             </Menu>
