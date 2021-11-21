@@ -14,9 +14,11 @@ import Form from 'components/elements/HookForm/Form'
 import FormInput from 'components/elements/HookForm/FormInput'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
 import { Project } from 'domainTypes'
+import api from 'api/httpClient'
 import { useProjects } from 'services/ProjectsProvider'
-import { errorToastIfNotValidationError, successToast } from 'services/toastService'
+import { errorToast, errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { modalBodyProps } from './utils'
+import { ApiError } from 'api/types'
 
 interface ManageProjectModalProps {
   onClose: () => void
@@ -28,7 +30,7 @@ interface FormValue {
 }
 
 const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
-  const { updateProject, setSelectedProject, selectedProject } = useProjects()
+  const { updateProject, setSelectedProject, removeProject, selectedProject } = useProjects()
   const { onSubmit, submitting } = useSubmitForm<FormValue, Project>({
     url: `/projects/${project.id}`,
     method: 'put',
@@ -38,6 +40,19 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
     },
     errorCallback: errorToastIfNotValidationError
   })
+
+  const deleteProject = async () => {
+    if (!window.confirm(`Do you really want to delete '${project.name}' ?`)) return
+
+    try {
+      await api.delete(`/projects/${project.id}`)
+      successToast('Deleted')
+      removeProject(project)
+      onClose()
+    } catch (err) {
+      errorToast((err as ApiError).data.errorMessage)
+    }
+  }
 
   return (
     <Modal isOpen onClose={onClose}>
@@ -61,7 +76,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
         <ModalBody {...modalBodyProps}>Add people</ModalBody>
 
         <ModalFooter {...modalBodyProps}>
-          <Button colorScheme='red' variant='outline'>
+          <Button colorScheme='red' variant='outline' onClick={deleteProject}>
             Delete
           </Button>
 

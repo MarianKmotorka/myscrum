@@ -1,27 +1,20 @@
-﻿using System.Text.Json.Serialization;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
 using MediatR;
 using myscrum.Common.Behaviours.Authorization;
-using myscrum.Common.Constants;
-using myscrum.Features.Projects.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
 
 namespace myscrum.Features.Projects
 {
-    public class EditProject
+    public class DeleteProject
     {
-        public class Command : IRequest<ProjectDto>
+        public class Command : IRequest
         {
-            [JsonIgnore]
             public string ProjectId { get; set; }
-
-            public string Name { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, ProjectDto>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly MyScrumContext _db;
 
@@ -30,28 +23,13 @@ namespace myscrum.Features.Projects
                 _db = db;
             }
 
-            public async Task<ProjectDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var project = await _db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
-                project.Name = request.Name;
+                _db.Remove(project);
 
                 await _db.SaveChangesAsync(cancellationToken);
-
-                return new ProjectDto
-                {
-                    Id = project.Id,
-                    Name = project.Name,
-                    CreatedAtUtc = project.CreatedAtUtc,
-                    AmIOwner = true
-                };
-            }
-        }
-
-        public class Validator : AbstractValidator<Command>
-        {
-            public Validator()
-            {
-                RuleFor(x => x.Name).NotEmpty().WithErrorCode(ErrorCodes.Required).WithMessage("Required");
+                return Unit.Value;
             }
         }
 

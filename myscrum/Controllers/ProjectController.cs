@@ -29,5 +29,12 @@ namespace myscrum.Controllers
             request.ProjectId = id;
             return await Mediator.Send(request, ct);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProject(string id, CancellationToken ct)
+        {
+            await Mediator.Send(new DeleteProject.Command { ProjectId = id }, ct);
+            return NoContent();
+        }
     }
 }

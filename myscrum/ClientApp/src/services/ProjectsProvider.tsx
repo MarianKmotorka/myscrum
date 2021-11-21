@@ -13,6 +13,7 @@ interface IProjectsContextValue {
   selectedProject?: Project
   addProject: (newProject: Project) => void
   updateProject: (project: Project) => void
+  removeProject: (project: Project) => void
   setSelectedProject: (project: Project) => void
 }
 
@@ -50,6 +51,17 @@ const ProjectsProvider: FC = ({ children }) => {
     [queryClient]
   )
 
+  const removeProject = useCallback(
+    (project: Project) => {
+      if (selectedProject?.id === project.id) setSelectedProject(undefined)
+
+      queryClient.setQueryData<Project[]>(['projects'], prev =>
+        prev ? prev.filter(x => x.id !== project.id) : []
+      )
+    },
+    [queryClient, selectedProject, setSelectedProject]
+  )
+
   const value: IProjectsContextValue = {
     projects: data || [],
     isLoading: isLoading || isIdle,
@@ -57,6 +69,7 @@ const ProjectsProvider: FC = ({ children }) => {
     selectedProject,
     addProject,
     updateProject,
+    removeProject,
     setSelectedProject
   }
 
