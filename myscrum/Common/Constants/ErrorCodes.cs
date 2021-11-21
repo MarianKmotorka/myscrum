@@ -6,5 +6,6 @@
         public const string InvalidRefreshToken = nameof(InvalidRefreshToken);
         public const string RefreshTokenExpired = nameof(RefreshTokenExpired);
         public const string Required = nameof(Required);
+        public const string UserAlreadyInvited = nameof(UserAlreadyInvited);
     }
 }

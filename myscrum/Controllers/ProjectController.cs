@@ -23,6 +23,14 @@ namespace myscrum.Controllers
             return await Mediator.Send(request, ct);
         }
 
+        [HttpPost("{id}/invite")]
+        public async Task<ActionResult> CreateProject(string id, InviteToProject.Command request, CancellationToken ct)
+        {
+            request.ProjectId = id;
+            await Mediator.Send(request, ct);
+            return NoContent();
+        }
+
         [HttpPut("{id}")]
         public async Task<ProjectDto> CreateProject(string id, EditProject.Command request, CancellationToken ct)
         {
