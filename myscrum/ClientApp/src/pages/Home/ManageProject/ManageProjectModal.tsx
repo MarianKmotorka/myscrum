@@ -15,6 +15,7 @@ import FormInput from 'components/elements/HookForm/FormInput'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
 import { Project } from 'domainTypes'
 import { useProjects } from 'services/ProjectsProvider'
+import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { modalBodyProps } from './utils'
 
 interface ManageProjectModalProps {
@@ -33,7 +34,9 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
     method: 'put',
     successCallback: project => {
       updateProject(project)
-    }
+      successToast('Saved')
+    },
+    errorCallback: errorToastIfNotValidationError
   })
 
   return (

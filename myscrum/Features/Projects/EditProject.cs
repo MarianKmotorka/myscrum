@@ -59,6 +59,7 @@ namespace myscrum.Features.Projects
         {
             public async Task<bool> IsAuthorized(Command request, MyScrumContext db, ICurrentUserService currentUserService, CancellationToken cancellationToken)
             {
+
                 var project = await db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
                 return project.OwnerId == currentUserService.UserId;
             }

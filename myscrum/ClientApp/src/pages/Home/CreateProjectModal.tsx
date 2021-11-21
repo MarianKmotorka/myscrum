@@ -13,6 +13,7 @@ import FormInput from 'components/elements/HookForm/FormInput'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
 import { Project } from 'domainTypes'
 import { useProjects } from 'services/ProjectsProvider'
+import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 
 interface CreateProjectModalProps {
   onClose: () => void
@@ -30,8 +31,10 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
     successCallback: newProject => {
       addProject(newProject)
       onClose()
+      successToast('Saved')
       if (projects.length === 0) setSelectedProject(newProject)
-    }
+    },
+    errorCallback: errorToastIfNotValidationError
   })
 
   return (
