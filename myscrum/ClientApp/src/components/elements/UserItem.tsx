@@ -1,5 +1,5 @@
 import { Avatar } from '@chakra-ui/avatar'
-import { Box, HStack, Text } from '@chakra-ui/layout'
+import { HStack, Text } from '@chakra-ui/layout'
 import { User } from 'domainTypes'
 import { getAvatarUrl } from 'utils'
 

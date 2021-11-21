@@ -12,7 +12,6 @@ import {
   Text,
   MenuItem,
   MenuList,
-  MenuDivider,
   Avatar,
   MenuButton,
   useBreakpointValue,
