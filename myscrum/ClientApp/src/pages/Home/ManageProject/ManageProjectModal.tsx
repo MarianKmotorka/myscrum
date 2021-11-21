@@ -63,7 +63,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
           </Button>
 
           {selectedProject?.id === project.id ? (
-            <Text bg='gray.200' px={3} ml={3} py={2} borderRadius='md'>
+            <Text bg='gray.50' color='gray.400' px={3} ml={3} py={2} borderRadius='md'>
               <CheckIcon mr={2} />
               Selected
             </Text>

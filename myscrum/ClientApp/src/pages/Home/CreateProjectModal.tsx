@@ -24,12 +24,13 @@ interface FormValue {
 }
 
 const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
-  const { addProject } = useProjects()
+  const { addProject, projects, setSelectedProject } = useProjects()
   const { onSubmit, submitting } = useSubmitForm<FormValue, Project>({
     url: '/projects',
     successCallback: newProject => {
       addProject(newProject)
       onClose()
+      if (projects.length === 0) setSelectedProject(newProject)
     }
   })
 
