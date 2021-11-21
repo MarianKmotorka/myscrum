@@ -48,14 +48,14 @@ namespace myscrum.Startup.ExceptionHandling
                     code = HttpStatusCode.NotFound;
                     errorResponse = ErrorResponseFactory.CreateNotFoundErrorResponse(exception.Message);
                     break;
-                //case Unauthorized401Exception _:
-                //    code = HttpStatusCode.Unauthorized;
-                //    errorResponse = ErrorResponseFactory.CreateUnauthorizedn401Response(exception.Message);
-                //    break;
-                //case Forbidden403Exception _:
-                //    code = HttpStatusCode.Forbidden;
-                //    errorResponse = ErrorResponseFactory.CreateForbiden403Response(exception.Message);
-                //    break;
+                case Unauthorized401Exception _:
+                    code = HttpStatusCode.Unauthorized;
+                    errorResponse = ErrorResponseFactory.CreateUnauthorizedn401Response(exception.Message);
+                    break;
+                case Forbidden403Exception _:
+                    code = HttpStatusCode.Forbidden;
+                    errorResponse = ErrorResponseFactory.CreateForbiden403Response(exception.Message);
+                    break;
                 case ValidationException validationException:
                     errorResponse = ErrorResponseFactory.CreateBadRequestErrorResponse(validationException.Errors);
                     break;

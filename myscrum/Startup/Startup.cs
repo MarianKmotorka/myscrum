@@ -1,4 +1,5 @@
 using System.Reflection;
+using Autofac;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using myscrum.Common.Behaviours;
+using myscrum.Common.Behaviours.Authorization;
+using myscrum.Common.Exceptions;
 using myscrum.Persistence;
 using myscrum.Startup.ExceptionHandling;
 
@@ -38,11 +42,21 @@ namespace myscrum.Startup
             });
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationCheckBehavior<,>)); // Register this IPipelineBehavior before other IPipelineBehavior-s so AuthCheck is executed first
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddDbContext<MyScrumContext>(options =>
                  options.UseSqlServer(
                      Configuration.GetConnectionString("MyScrumContext"),
                      builder => builder.MigrationsAssembly(typeof(MyScrumContext).Assembly.FullName)));
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(typeof(BadRequestException).Assembly)
+                .AsClosedTypesOf(typeof(IAuthorizationCheck<>))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
