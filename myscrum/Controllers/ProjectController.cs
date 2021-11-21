@@ -21,5 +21,12 @@ namespace myscrum.Controllers
             request.OwnerId = CurrentUserService.UserId;
             return await Mediator.Send(request, ct);
         }
+
+        [HttpPut("{id}")]
+        public async Task<EditProject.ResponseDto> CreateProject(string id, EditProject.Command request, CancellationToken ct)
+        {
+            request.ProjectId = id;
+            return await Mediator.Send(request, ct);
+        }
     }
 }

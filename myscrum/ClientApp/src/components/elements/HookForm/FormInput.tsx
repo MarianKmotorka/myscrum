@@ -7,16 +7,15 @@ interface IFormInputProps extends Omit<InputProps, 'value' | 'onChange'> {
   name: string
   label?: string
   type?: string
-  disabled?: boolean
   placeholder?: string
   validate?: Validator<any>
 }
 
 const FormInput = ({
   name,
+  isDisabled,
   label,
   type,
-  disabled,
   validate: initialValidate,
   ...rest
 }: IFormInputProps) => {
@@ -47,7 +46,7 @@ const FormInput = ({
             {...rest}
             type={type}
             onChange={getParsingOnChangeFunction(onChange)}
-            disabled={disabled || form.formState.isSubmitting}
+            isDisabled={isDisabled || form.formState.isSubmitting}
           />
 
           {errorMessage && (

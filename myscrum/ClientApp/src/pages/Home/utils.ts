@@ -7,3 +7,10 @@ export const projectCardProps = {
   _hover: { boxShadow: '0 0 20px rgba(0,0,0,0.1)', borderColor: 'primary' },
   transition: '0.1s'
 }
+
+export const selectedCardOverrideProps = {
+  border: 'solid 2px',
+  borderColor: 'primary',
+  color: 'primary',
+  fontWeight: 500
+}

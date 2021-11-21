@@ -1,15 +1,19 @@
 import { useDisclosure } from '@chakra-ui/hooks'
+import { useState } from 'react'
 import { AddIcon } from '@chakra-ui/icons'
 import { AspectRatio, Box, Grid, Text } from '@chakra-ui/layout'
 import { Spinner } from '@chakra-ui/spinner'
 import FetchError from 'components/elements/FetchError'
 import { useProjects } from 'services/ProjectsProvider'
 import CreateProjectModal from './CreateProjectModal'
-import { projectCardProps } from './utils'
+import { projectCardProps, selectedCardOverrideProps } from './utils'
+import { Project } from 'domainTypes'
+import ManageProjectModal from './ManageProject/ManageProjectModal'
 
 const Home = () => {
-  const { projects, isLoading, error } = useProjects()
+  const { projects, isLoading, error, selectedProject } = useProjects()
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const [projectToManage, setProjectToManage] = useState<Project>()
 
   if (isLoading) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
   if (error) return <FetchError error={error} />
@@ -37,16 +41,30 @@ const Home = () => {
           </Box>
         </AspectRatio>
 
-        {projects.map(x => (
-          <AspectRatio key={x.id} ratio={1}>
-            <Box {...projectCardProps}>
-              <Text noOfLines={3}>{x.name}</Text>
-            </Box>
-          </AspectRatio>
-        ))}
+        {projects.map(x => {
+          const isSelected = x.id === selectedProject?.id
+          const overrideProps = isSelected ? selectedCardOverrideProps : {}
+
+          return (
+            <AspectRatio key={x.id} ratio={1}>
+              <Box {...projectCardProps} {...overrideProps} onClick={() => setProjectToManage(x)}>
+                <Text textDecoration={isSelected ? 'underline' : undefined} noOfLines={3}>
+                  {x.name}
+                </Text>
+              </Box>
+            </AspectRatio>
+          )
+        })}
       </Grid>
 
       <CreateProjectModal isOpen={isOpen} onClose={onClose} />
+
+      {projectToManage && (
+        <ManageProjectModal
+          onClose={() => setProjectToManage(undefined)}
+          project={projectToManage}
+        />
+      )}
     </Box>
   )
 }

@@ -37,7 +37,7 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
 
-      <Form debug defaultValues={{ name: '' }} onSubmit={onSubmit}>
+      <Form defaultValues={{ name: '' }} onSubmit={onSubmit}>
         <ModalContent>
           <ModalHeader>Create New Project</ModalHeader>
 

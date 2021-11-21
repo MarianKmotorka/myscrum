@@ -19,7 +19,7 @@ namespace myscrum.Domain.Projects
         {
         }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public User Owner { get; private set; }
 
