@@ -50,6 +50,13 @@ namespace myscrum.Persistence
                 project.Property(x => x.OwnerId).IsRequired();
                 project.Property(x => x.Name).IsRequired();
             });
+
+            builder.Entity<ProjectContributor>(pc =>
+            {
+                pc.HasKey(x => new { x.UserId, x.ProjectId });
+                pc.HasOne(x => x.Project).WithMany(x => x.Contributors);
+                pc.HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.NoAction);
+            });
         }
     }
 

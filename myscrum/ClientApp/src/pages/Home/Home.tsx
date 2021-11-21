@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import { useState } from 'react'
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon, StarIcon } from '@chakra-ui/icons'
 import { AspectRatio, Box, Grid, Text } from '@chakra-ui/layout'
 import { Spinner } from '@chakra-ui/spinner'
 import FetchError from 'components/elements/FetchError'
@@ -20,11 +20,14 @@ const Home = () => {
 
   return (
     <Box mb={3}>
-      <Text fontSize='4xl' mt='20px'>
+      <Text fontSize='4xl' mt={5}>
         Projects
       </Text>
-      <Text mb='40px' fontSize='md' color='gray.500'>
+      <Text my={3} fontSize='md' color='gray.600'>
         Here you can create or select project to work with.
+      </Text>
+      <Text mt={10} mb={10} fontSize='md' color='gray.600' fontStyle='italic'>
+        <StarIcon color='gray.500' /> - indicates that you are the owner of the project
       </Text>
 
       <Grid
@@ -48,9 +51,8 @@ const Home = () => {
           return (
             <AspectRatio key={x.id} ratio={1}>
               <Box {...projectCardProps} {...overrideProps} onClick={() => setProjectToManage(x)}>
-                <Text textDecoration={isSelected ? 'underline' : undefined} noOfLines={3}>
-                  {x.name}
-                </Text>
+                {x.amIOwner && <StarIcon position='absolute' right={2} top={2} color='gray.500' />}
+                <Text noOfLines={3}>{x.name}</Text>
               </Box>
             </AspectRatio>
           )

@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using myscrum.Features.Projects.Dto;
 using myscrum.Persistence;
 
 namespace myscrum.Features.Projects
 {
     public class GetMyProjects
     {
-        public class Query : IRequest<List<ResponseDto>>
+        public class Query : IRequest<List<ProjectDto>>
         {
             public string UserId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<ResponseDto>>
+        public class Handler : IRequestHandler<Query, List<ProjectDto>>
         {
             private readonly MyScrumContext _db;
 
@@ -25,27 +25,20 @@ namespace myscrum.Features.Projects
                 _db = db;
             }
 
-            public async Task<List<ResponseDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<ProjectDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _db.Projects.Where(x => x.OwnerId == request.UserId)
-                    .Select(x => new ResponseDto
+                return await _db.Projects
+                    .Where(x => x.OwnerId == request.UserId || x.Contributors.Any(c => c.UserId == request.UserId))
+                    .Select(x => new ProjectDto
                     {
                         Id = x.Id,
                         Name = x.Name,
-                        CreatedAtUtc = x.CreatedAtUtc
+                        CreatedAtUtc = x.CreatedAtUtc,
+                        AmIOwner = x.OwnerId == request.UserId
                     })
                     .OrderByDescending(x => x.CreatedAtUtc)
                     .ToListAsync(cancellationToken);
             }
-        }
-
-        public class ResponseDto
-        {
-            public string Id { get; set; }
-
-            public string Name { get; set; }
-
-            public DateTime CreatedAtUtc { get; set; }
         }
     }
 }

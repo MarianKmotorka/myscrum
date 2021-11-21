@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -7,13 +6,14 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Constants;
 using myscrum.Domain.Projects;
+using myscrum.Features.Projects.Dto;
 using myscrum.Persistence;
 
 namespace myscrum.Features.Projects
 {
     public class CreateProject
     {
-        public class Command : IRequest<ResponseDto>
+        public class Command : IRequest<ProjectDto>
         {
             public string Name { get; set; }
 
@@ -21,7 +21,7 @@ namespace myscrum.Features.Projects
             public string OwnerId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, ResponseDto>
+        public class Handler : IRequestHandler<Command, ProjectDto>
         {
             private readonly MyScrumContext _db;
 
@@ -30,7 +30,7 @@ namespace myscrum.Features.Projects
                 _db = db;
             }
 
-            public async Task<ResponseDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<ProjectDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 var owner = await _db.Users.SingleAsync(x => x.Id == request.OwnerId, cancellationToken);
                 var newProject = new Project(request.Name, owner);
@@ -38,11 +38,12 @@ namespace myscrum.Features.Projects
                 _db.Add(newProject);
                 await _db.SaveChangesAsync(cancellationToken);
 
-                return new ResponseDto
+                return new ProjectDto
                 {
                     Id = newProject.Id,
                     Name = newProject.Name,
                     CreatedAtUtc = newProject.CreatedAtUtc,
+                    AmIOwner = true
                 };
             }
         }
@@ -53,15 +54,6 @@ namespace myscrum.Features.Projects
             {
                 RuleFor(x => x.Name).NotEmpty().WithErrorCode(ErrorCodes.Required).WithMessage("Required");
             }
-        }
-
-        public class ResponseDto
-        {
-            public string Id { get; set; }
-
-            public string Name { get; set; }
-
-            public DateTime CreatedAtUtc { get; set; }
         }
     }
 }
