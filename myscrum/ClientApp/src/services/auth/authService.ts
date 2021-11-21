@@ -1,7 +1,7 @@
 import api, { setAuthHeader } from 'api/httpClient'
 import { ApiError } from 'api/types'
 import { AxiosInstance } from 'axios'
-import { User } from 'domainTypes'
+import { CurrentUser } from 'domainTypes'
 
 export const logout = async () => {
   try {
@@ -20,7 +20,7 @@ export const fetchCurrentUser = async () => {
       await refreshToken()
     }
     const res = await api.get('/auth/me')
-    return res.data as User
+    return res.data as CurrentUser
   } catch (err) {
     return undefined
   }

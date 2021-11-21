@@ -19,6 +19,7 @@ import { useProjects } from 'services/ProjectsProvider'
 import { errorToast, errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { modalBodyProps } from './utils'
 import { ApiError } from 'api/types'
+import Contributors from './Contributors'
 
 interface ManageProjectModalProps {
   onClose: () => void
@@ -76,7 +77,9 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
           </Form>
         </ModalBody>
 
-        <ModalBody {...modalBodyProps}>Add people</ModalBody>
+        <ModalBody {...modalBodyProps}>
+          <Contributors />
+        </ModalBody>
 
         <ModalFooter {...modalBodyProps}>
           {project.amIOwner && (

@@ -1,4 +1,4 @@
-export interface User {
+export interface CurrentUser {
   id: string
   email: string
   givenName: string
@@ -12,9 +12,16 @@ export enum SystemRole {
   Admin = 1
 }
 
+export interface User {
+  id: string
+  fullName: string
+}
+
 export interface Project {
   id: string
   name: string
   createdAtUtc: string
   amIOwner: boolean
+  owner: User
+  contributors: User[]
 }

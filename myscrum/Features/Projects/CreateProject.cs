@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Constants;
 using myscrum.Domain.Projects;
+using myscrum.Features.Common;
 using myscrum.Features.Projects.Dto;
 using myscrum.Persistence;
 
@@ -43,7 +44,13 @@ namespace myscrum.Features.Projects
                     Id = newProject.Id,
                     Name = newProject.Name,
                     CreatedAtUtc = newProject.CreatedAtUtc,
-                    AmIOwner = true
+                    AmIOwner = true,
+                    Owner = new UserDto
+                    {
+                        Id = newProject.Owner.Id,
+                        GivenName = newProject.Owner.GivenName,
+                        Surname = newProject.Owner.Surname
+                    }
                 };
             }
         }

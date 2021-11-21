@@ -1,4 +1,4 @@
-import { User } from 'domainTypes'
+import { CurrentUser } from 'domainTypes'
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import * as authService from './authService'
@@ -14,10 +14,10 @@ type AuthContextValue =
   | {
       isLoggedIn: true
       isLoading: boolean
-      currentUser: User
+      currentUser: CurrentUser
       logout: (shouldCallServer?: boolean) => Promise<void>
       fetchUser: () => Promise<void>
-      updateUser: (newValues: Partial<User>) => void
+      updateUser: (newValues: Partial<CurrentUser>) => void
     }
 
 const AuthContext = createContext<AuthContextValue>(null!)
@@ -38,7 +38,7 @@ export const useAuthorizedUser = () => {
 
 const AuthProvider: FC = ({ children }) => {
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<CurrentUser>()
   const queryClient = useQueryClient()
   useRefreshToken(!!user)
 
@@ -78,7 +78,7 @@ const AuthProvider: FC = ({ children }) => {
   }, [])
 
   const updateUser = useCallback(
-    (newValues: Partial<User>) => {
+    (newValues: Partial<CurrentUser>) => {
       if (user) setUser({ ...user, ...newValues })
     },
     [user]

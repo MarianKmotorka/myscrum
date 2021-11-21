@@ -1,10 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Common.Constants;
+using myscrum.Features.Common;
 using myscrum.Features.Projects.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
@@ -32,9 +35,13 @@ namespace myscrum.Features.Projects
 
             public async Task<ProjectDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var project = await _db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
-                project.Name = request.Name;
+                var project = await _db.Projects
+                    .Include(x => x.Owner)
+                    .Include(x => x.Contributors)
+                    .ThenInclude(x => x.User)
+                    .SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
 
+                project.Name = request.Name;
                 await _db.SaveChangesAsync(cancellationToken);
 
                 return new ProjectDto
@@ -42,7 +49,19 @@ namespace myscrum.Features.Projects
                     Id = project.Id,
                     Name = project.Name,
                     CreatedAtUtc = project.CreatedAtUtc,
-                    AmIOwner = true
+                    AmIOwner = true,
+                    Contributors = project.Contributors.Select(c => new UserDto
+                    {
+                        Id = c.User.Id,
+                        GivenName = c.User.GivenName,
+                        Surname = c.User.Surname
+                    }),
+                    Owner = new UserDto
+                    {
+                        Id = project.Owner.Id,
+                        GivenName = project.Owner.GivenName,
+                        Surname = project.Owner.Surname
+                    }
                 };
             }
         }
