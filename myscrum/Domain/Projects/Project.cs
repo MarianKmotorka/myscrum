@@ -1,12 +1,14 @@
 ﻿using System;
 using myscrum.Domain.Common;
+using myscrum.Domain.Users;
 
-namespace myscrum.Domain.Project
+namespace myscrum.Domain.Projects
 {
     public class Project : Entity<string>
     {
-        public Project(string name, User.User owner)
+        public Project(string name, User owner)
         {
+            Id = Guid.NewGuid().ToString();
             Name = name;
             Owner = owner;
             OwnerId = owner.Id;
@@ -19,7 +21,7 @@ namespace myscrum.Domain.Project
 
         public string Name { get; private set; }
 
-        public User.User Owner { get; private set; }
+        public User Owner { get; private set; }
 
         public string OwnerId { get; private set; }
 

@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using myscrum.Common;
 using myscrum.Common.Constants;
 using myscrum.Common.Options;
-using myscrum.Domain.User;
+using myscrum.Domain.Users;
 using myscrum.Features.Auth.GoogleLogin;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;

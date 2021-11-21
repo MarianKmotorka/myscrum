@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using myscrum.Domain.User;
+using myscrum.Domain.Users;
 using myscrum.Persistence;
 
 namespace myscrum.Features.Auth

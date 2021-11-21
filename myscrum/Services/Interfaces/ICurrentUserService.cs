@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using myscrum.Domain.User;
+using myscrum.Domain.Users;
 
 namespace myscrum.Services.Interfaces
 {

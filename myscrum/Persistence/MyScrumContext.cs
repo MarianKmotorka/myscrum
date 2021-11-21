@@ -5,8 +5,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using myscrum.Domain.Common;
-using myscrum.Domain.Project;
-using myscrum.Domain.User;
+using myscrum.Domain.Projects;
+using myscrum.Domain.Users;
 
 namespace myscrum.Persistence
 {

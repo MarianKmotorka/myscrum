@@ -1,7 +1,7 @@
 ﻿using System;
 using myscrum.Domain.Common;
 
-namespace myscrum.Domain.User
+namespace myscrum.Domain.Users
 {
     public class User : Entity<string>
     {

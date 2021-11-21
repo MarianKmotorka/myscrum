@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using myscrum.Common.Constants;
-using myscrum.Domain.User;
+using myscrum.Domain.Users;
 using myscrum.Services.Interfaces;
 
 namespace myscrum.Services
