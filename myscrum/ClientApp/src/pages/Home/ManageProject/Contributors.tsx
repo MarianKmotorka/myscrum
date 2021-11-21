@@ -1,12 +1,15 @@
 import { Button } from '@chakra-ui/button'
+import { useDisclosure } from '@chakra-ui/hooks'
 import { AddIcon } from '@chakra-ui/icons'
 import { Box, HStack, Text } from '@chakra-ui/layout'
 import UserItem from 'components/elements/UserItem'
 import { Project } from 'domainTypes'
 import { useAuthorizedUser } from 'services/auth/AuthProvider'
+import InviteUsersModal from './InviteUsersModal'
 
-const Contributors = ({ amIOwner, contributors, owner }: Project) => {
+const Contributors = ({ amIOwner, contributors, owner, id }: Project) => {
   const { currentUser } = useAuthorizedUser()
+  const { isOpen, onClose, onOpen } = useDisclosure()
 
   return (
     <Box>
@@ -26,7 +29,12 @@ const Contributors = ({ amIOwner, contributors, owner }: Project) => {
       >
         <Text fontWeight={500}>Contributors</Text>
 
-        <Button variant='ghost' leftIcon={<AddIcon />} visibility={amIOwner ? undefined : 'hidden'}>
+        <Button
+          variant='ghost'
+          leftIcon={<AddIcon />}
+          visibility={amIOwner ? undefined : 'hidden'}
+          onClick={onOpen}
+        >
           Add
         </Button>
       </HStack>
@@ -48,6 +56,8 @@ const Contributors = ({ amIOwner, contributors, owner }: Project) => {
           </HStack>
         )
       })}
+
+      <InviteUsersModal projectId={id} isOpen={isOpen} onClose={onClose} />
     </Box>
   )
 }

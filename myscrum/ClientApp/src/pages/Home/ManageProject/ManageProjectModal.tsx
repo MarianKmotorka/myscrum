@@ -59,7 +59,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
       <ModalOverlay />
 
       <ModalContent maxW='2xl'>
-        <ModalHeader>Manage project</ModalHeader>
+        <ModalHeader>Manage Project</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pt={4}>
