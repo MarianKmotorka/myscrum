@@ -8,6 +8,8 @@ import FetchError from 'components/elements/FetchError'
 import { ApiError } from 'api/types'
 import { User } from 'domainTypes'
 import UserItem from 'components/elements/UserItem'
+import { apiErrorToast, successToast } from 'services/toastService'
+import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 
 interface InviteUsersProps {
   projectId: string
@@ -17,9 +19,10 @@ interface InviteUsersProps {
 
 const InviteUsersModal = ({ projectId, onClose, isOpen }: InviteUsersProps) => {
   const [search, setSearch] = useState('')
+  const [invitedIds, setInvitedIds] = useState<string[]>([])
   const debounced = useDebounce(search)
 
-  const { data, isLoading, isFetching, isIdle, error } = useQuery<User[], ApiError>(
+  const { data, isLoading, isFetching, error } = useQuery<User[], ApiError>(
     ['projects', projectId, 'users-to-invite', debounced],
     async () =>
       await (
@@ -27,6 +30,18 @@ const InviteUsersModal = ({ projectId, onClose, isOpen }: InviteUsersProps) => {
       ).data,
     { enabled: debounced.length > 2 }
   )
+
+  const invite = async (user: User) => {
+    if (invitedIds.includes(user.id)) return
+
+    try {
+      await api.post(`/projects/${projectId}/invite`, { invitedId: user.id })
+      successToast(`${user.fullName} was invited.`)
+      setInvitedIds(x => [...x, user.id])
+    } catch (err) {
+      apiErrorToast(err as ApiError)
+    }
+  }
 
   if (error) return <FetchError error={error} />
 
@@ -56,7 +71,9 @@ const InviteUsersModal = ({ projectId, onClose, isOpen }: InviteUsersProps) => {
             <HStack justifyContent='space-between'>
               <UserItem user={x} key={x.id} />
 
-              <Button variant='outline'>Invite</Button>
+              <Button variant='outline' onClick={() => invite(x)}>
+                {invitedIds.includes(x.id) ? <CheckIcon /> : 'Invite'}
+              </Button>
             </HStack>
           ))}
         </ModalBody>
