@@ -9,9 +9,11 @@ import CreateProjectModal from './CreateProjectModal'
 import { projectCardProps, selectedCardOverrideProps } from './utils'
 import { Project } from 'domainTypes'
 import ManageProjectModal from './ManageProject/ManageProjectModal'
+import { IconButton } from '@chakra-ui/react'
+import { FiRefreshCcw } from 'react-icons/fi'
 
 const Home = () => {
-  const { projects, isLoading, error, selectedProject } = useProjects()
+  const { projects, isLoading, error, selectedProject, refetch, isFetching } = useProjects()
   const { isOpen, onClose, onOpen } = useDisclosure()
   const [projectToManage, setProjectToManage] = useState<Project>()
 
@@ -22,10 +24,15 @@ const Home = () => {
     <Box mb={3}>
       <Text fontSize='4xl' mt={5}>
         Projects
+        <IconButton aria-label='refresh' ml={4} onClick={refetch} isLoading={isFetching}>
+          <FiRefreshCcw />
+        </IconButton>
       </Text>
+
       <Text my={3} fontSize='md' color='gray.600'>
         Here you can create or select project to work with.
       </Text>
+
       <Text mt={10} mb={10} fontSize='md' color='gray.600' fontStyle='italic'>
         <StarIcon color='gray.500' /> - indicates that you are the owner of the project
       </Text>

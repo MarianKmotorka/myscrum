@@ -5,10 +5,11 @@ import api from 'api/httpClient'
 import { Spinner } from '@chakra-ui/spinner'
 import FetchError from 'components/elements/FetchError'
 import { Box, Grid, HStack, Text, VStack } from '@chakra-ui/layout'
-import { Button, ButtonGroup } from '@chakra-ui/button'
+import { Button, ButtonGroup, IconButton } from '@chakra-ui/button'
 import UserItem from 'components/elements/UserItem'
 import { apiErrorToast, successToast } from 'services/toastService'
 import { useProjects } from 'services/ProjectsProvider'
+import { FiRefreshCcw } from 'react-icons/fi'
 
 interface InvitedToProject {
   id: string
@@ -19,7 +20,7 @@ interface InvitedToProject {
 const Invitations = () => {
   const queryClient = useQueryClient()
   const { refetch: refetchProjects } = useProjects()
-  const { data, isLoading, error } = useQuery<InvitedToProject[], ApiError>(
+  const { data, isLoading, error, refetch, isFetching } = useQuery<InvitedToProject[], ApiError>(
     ['users', 'me', 'recieved-project-invitations'],
     async () => (await api.get('/users/me/recieved-project-invitations')).data
   )
@@ -45,7 +46,11 @@ const Invitations = () => {
     <Box>
       <Text fontSize='4xl' mt={5}>
         Invitations
+        <IconButton aria-label='refresh' ml={4} onClick={() => refetch()} isLoading={isFetching}>
+          <FiRefreshCcw />
+        </IconButton>
       </Text>
+
       <Text my={3} fontSize='md' color='gray.600'>
         See who would like you to contribute to their project.
       </Text>

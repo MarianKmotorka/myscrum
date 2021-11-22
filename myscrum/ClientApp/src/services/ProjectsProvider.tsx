@@ -9,6 +9,7 @@ import useLocalStorage from 'utils/useLocalStorage'
 interface IProjectsContextValue {
   projects: Project[]
   isLoading: boolean
+  isFetching: boolean
   error: ApiError | null
   selectedProject?: Project
   addProject: (newProject: Project) => void
@@ -29,7 +30,7 @@ const ProjectsProvider: FC = ({ children }) => {
     undefined
   )
 
-  const { data, isLoading, isIdle, error, refetch } = useQuery<Project[], ApiError>(
+  const { data, isLoading, isIdle, isFetching, error, refetch } = useQuery<Project[], ApiError>(
     ['projects'],
     async () => (await api.get('/projects')).data,
     {
@@ -72,6 +73,7 @@ const ProjectsProvider: FC = ({ children }) => {
   const value: IProjectsContextValue = {
     projects: data || [],
     isLoading: isLoading || isIdle,
+    isFetching,
     error,
     selectedProject,
     addProject,
