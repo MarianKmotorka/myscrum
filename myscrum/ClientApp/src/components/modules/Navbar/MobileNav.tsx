@@ -17,7 +17,9 @@ interface MobileNavProps {
 
 const MobileNav = ({ items }: MobileNavProps) => {
   const { selectedProject } = useProjects()
-  const { isLoggedIn } = useAuth()
+  const auth = useAuth()
+  const { isLoggedIn } = auth
+
   return (
     <Stack bg={'white'} p={4} display={{ md: 'none' }}>
       {selectedProject && isLoggedIn && (
@@ -34,16 +36,19 @@ const MobileNav = ({ items }: MobileNavProps) => {
             <IconButton aria-label='invitations' variant='outline' size='md'>
               <Box position='relative'>
                 <BiEnvelope />
-                <Badge
-                  bg='secondary'
-                  color='white'
-                  rounded='full'
-                  position='absolute'
-                  top='-15px'
-                  right='-15px'
-                >
-                  5
-                </Badge>
+
+                {!!auth.currentUser.projectInvitationCount && (
+                  <Badge
+                    bg='secondary'
+                    color='white'
+                    rounded='full'
+                    position='absolute'
+                    top='-15px'
+                    right='-15px'
+                  >
+                    {auth.currentUser.projectInvitationCount}
+                  </Badge>
+                )}
               </Box>
             </IconButton>
           </Link>

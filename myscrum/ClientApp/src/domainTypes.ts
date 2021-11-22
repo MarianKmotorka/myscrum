@@ -5,6 +5,7 @@ export interface CurrentUser {
   surname: string
   lastLogin: string
   role: SystemRole
+  projectInvitationCount: number
 }
 
 export enum SystemRole {

@@ -124,16 +124,19 @@ export default function Navbar() {
                   <IconButton aria-label='invitations' mr={3} variant='outline' size='md'>
                     <Box position='relative'>
                       <BiEnvelope />
-                      <Badge
-                        bg='secondary'
-                        color='white'
-                        rounded='full'
-                        position='absolute'
-                        top='-15px'
-                        right='-15px'
-                      >
-                        5
-                      </Badge>
+
+                      {!!auth.currentUser.projectInvitationCount && (
+                        <Badge
+                          bg='secondary'
+                          color='white'
+                          rounded='full'
+                          position='absolute'
+                          top='-15px'
+                          right='-15px'
+                        >
+                          {auth.currentUser.projectInvitationCount}
+                        </Badge>
+                      )}
                     </Box>
                   </IconButton>
                 </Link>

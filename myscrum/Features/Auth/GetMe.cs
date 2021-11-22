@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using myscrum.Domain.Users;
 using myscrum.Persistence;
 
@@ -25,7 +27,7 @@ namespace myscrum.Features.Auth
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _db.Users.SingleOrNotFoundAsync(x => x.Id == request.CurrentUserId, cancellationToken);
+                var user = await _db.Users.Include(x => x.ProjectInvitations).SingleOrNotFoundAsync(x => x.Id == request.CurrentUserId, cancellationToken);
                 return new Response
                 {
                     Id = user.Id,
@@ -33,7 +35,8 @@ namespace myscrum.Features.Auth
                     GivenName = user.GivenName,
                     Surname = user.Surname,
                     LastLogin = user.LastLogin,
-                    Role = user.Role
+                    Role = user.Role,
+                    ProjectInvitationCount = user.ProjectInvitations.Count()
                 };
             }
         }
@@ -51,6 +54,8 @@ namespace myscrum.Features.Auth
             public DateTime? LastLogin { get; set; }
 
             public SystemRole Role { get; set; }
+
+            public int ProjectInvitationCount { get; set; }
         }
     }
 }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { ApiError } from 'api/types'
 import { User } from 'domainTypes'
 import { useQuery, useQueryClient } from 'react-query'
@@ -10,6 +11,7 @@ import UserItem from 'components/elements/UserItem'
 import { apiErrorToast, successToast } from 'services/toastService'
 import { useProjects } from 'services/ProjectsProvider'
 import { FiRefreshCcw } from 'react-icons/fi'
+import { useAuthorizedUser } from 'services/auth/AuthProvider'
 
 interface InvitedToProject {
   id: string
@@ -20,15 +22,22 @@ interface InvitedToProject {
 const Invitations = () => {
   const queryClient = useQueryClient()
   const { refetch: refetchProjects } = useProjects()
+  const { updateUser, currentUser } = useAuthorizedUser()
   const { data, isLoading, error, refetch, isFetching } = useQuery<InvitedToProject[], ApiError>(
     ['users', 'me', 'recieved-project-invitations'],
     async () => (await api.get('/users/me/recieved-project-invitations')).data
   )
 
+  useEffect(() => {
+    if (!data) return
+    updateUser({ projectInvitationCount: data.length })
+  }, [data, updateUser])
+
   const acceptOrReject = async (accepted: boolean, projectId: string) => {
     try {
       await api.post(`/projects/${projectId}/accept-reject-invitation`, { accepted })
       successToast(accepted ? 'Invitation was accepted.' : 'Invitation was rejected.')
+      updateUser({ projectInvitationCount: currentUser.projectInvitationCount - 1 })
       queryClient.setQueryData<InvitedToProject[]>(
         ['users', 'me', 'recieved-project-invitations'],
         prev => (prev ? prev.filter(x => x.id !== projectId) : [])
