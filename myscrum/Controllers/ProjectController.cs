@@ -36,6 +36,15 @@ namespace myscrum.Controllers
             return NoContent();
         }
 
+        [HttpPost("{id}/accept-reject-invitation")]
+        public async Task<ActionResult> AcceptOrRejectInvitation(string id, AcceptOrRejectInvitation.Command request, CancellationToken ct)
+        {
+            request.ProjectId = id;
+            request.UserId = CurrentUserService.UserId;
+            await Mediator.Send(request, ct);
+            return NoContent();
+        }
+
         [HttpPut("{id}")]
         public async Task<ProjectDto> EditProject(string id, EditProject.Command request, CancellationToken ct)
         {

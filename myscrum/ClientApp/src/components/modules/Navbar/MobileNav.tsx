@@ -31,7 +31,7 @@ const MobileNav = ({ items }: MobileNavProps) => {
           </Link>
 
           <Link to='/invitations'>
-            <IconButton aria-label='invitations' variant='ghost' size='md'>
+            <IconButton aria-label='invitations' variant='outline' size='md'>
               <Box position='relative'>
                 <BiEnvelope />
                 <Badge

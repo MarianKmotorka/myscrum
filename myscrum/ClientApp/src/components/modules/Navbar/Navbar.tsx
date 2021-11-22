@@ -121,7 +121,7 @@ export default function Navbar() {
             <HStack>
               {!isSmallScreen && (
                 <Link to='/invitations'>
-                  <IconButton aria-label='invitations' mr={3} variant='ghost' size='md'>
+                  <IconButton aria-label='invitations' mr={3} variant='outline' size='md'>
                     <Box position='relative'>
                       <BiEnvelope />
                       <Badge
@@ -146,11 +146,14 @@ export default function Navbar() {
                     <VStack
                       display={{ base: 'none', md: 'flex' }}
                       alignItems='flex-start'
-                      spacing='1px'
+                      spacing='-3px'
                       ml='2'
                     >
                       <Text fontSize='sm'>
                         {auth.currentUser.givenName} {auth.currentUser.surname}
+                      </Text>
+                      <Text fontSize='xs' color='gray.500'>
+                        {auth.currentUser.email}
                       </Text>
                     </VStack>
 

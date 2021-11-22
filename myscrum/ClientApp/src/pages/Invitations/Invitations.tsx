@@ -1,12 +1,13 @@
 import { ApiError } from 'api/types'
 import { User } from 'domainTypes'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import api from 'api/httpClient'
 import { Spinner } from '@chakra-ui/spinner'
 import FetchError from 'components/elements/FetchError'
-import { AspectRatio, Badge, Box, Grid, HStack, Text, VStack } from '@chakra-ui/layout'
+import { Box, Grid, HStack, Text, VStack } from '@chakra-ui/layout'
 import { Button, ButtonGroup } from '@chakra-ui/button'
 import UserItem from 'components/elements/UserItem'
+import { apiErrorToast, successToast } from 'services/toastService'
 
 interface InvitedToProject {
   id: string
@@ -15,10 +16,24 @@ interface InvitedToProject {
 }
 
 const Invitations = () => {
+  const queryClient = useQueryClient()
   const { data, isLoading, error } = useQuery<InvitedToProject[], ApiError>(
     ['users', 'me', 'recieved-project-invitations'],
     async () => (await api.get('/users/me/recieved-project-invitations')).data
   )
+
+  const acceptOrReject = async (accepted: boolean, projectId: string) => {
+    try {
+      await api.post(`/projects/${projectId}/accept-reject-invitation`, { accepted })
+      successToast(accepted ? 'Invitation was accepted.' : 'Invitation was rejected.')
+      queryClient.setQueryData<InvitedToProject[]>(
+        ['users', 'me', 'recieved-project-invitations'],
+        prev => (prev ? prev.filter(x => x.id !== projectId) : [])
+      )
+    } catch (err) {
+      apiErrorToast(err as ApiError)
+    }
+  }
 
   if (isLoading) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
   if (error) return <FetchError error={error} />
@@ -38,8 +53,14 @@ const Invitations = () => {
           md: 'repeat(auto-fit,400px)'
         }}
         gridGap={{ base: '10px', md: '20px' }}
-        mb={4}
+        my={7}
       >
+        {data?.length === 0 && (
+          <Text border='solid 1px' borderColor='gray.200' color='gray.500' borderRadius='xl' p={5}>
+            {'No invitations so far :('}
+          </Text>
+        )}
+
         {data?.map(x => (
           <VStack
             key={x.id}
@@ -59,8 +80,10 @@ const Invitations = () => {
             </HStack>
 
             <ButtonGroup isAttached alignSelf='flex-end' alignItems='flex-end' flex='1'>
-              <Button variant='primary'>Accept</Button>
-              <Button>Reject</Button>
+              <Button variant='primary' onClick={() => acceptOrReject(true, x.id)}>
+                Accept
+              </Button>
+              <Button onClick={() => acceptOrReject(false, x.id)}>Reject</Button>
             </ButtonGroup>
           </VStack>
         ))}
