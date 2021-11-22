@@ -57,7 +57,7 @@ namespace myscrum.Features.Projects
             private async Task<bool> NotBeInvited(Command request, string invitedId, CancellationToken ct)
             {
                 var user = await _db.Users.Include(x => x.ProjectInvitations).SingleOrNotFoundAsync(x => x.Id == invitedId, ct);
-                if (user.ProjectInvitations.Any(x => x.UserId == invitedId))
+                if (user.ProjectInvitations.Any(x => x.UserId == invitedId && x.ProjectId == request.ProjectId))
                     return false;
 
                 return true;

@@ -120,21 +120,23 @@ export default function Navbar() {
           {isLoggedIn && (
             <HStack>
               {!isSmallScreen && (
-                <IconButton aria-label='invitations' mr={3} variant='ghost' size='md'>
-                  <Box position='relative'>
-                    <BiEnvelope />
-                    <Badge
-                      bg='secondary'
-                      color='white'
-                      rounded='full'
-                      position='absolute'
-                      top='-15px'
-                      right='-15px'
-                    >
-                      5
-                    </Badge>
-                  </Box>
-                </IconButton>
+                <Link to='/invitations'>
+                  <IconButton aria-label='invitations' mr={3} variant='ghost' size='md'>
+                    <Box position='relative'>
+                      <BiEnvelope />
+                      <Badge
+                        bg='secondary'
+                        color='white'
+                        rounded='full'
+                        position='absolute'
+                        top='-15px'
+                        right='-15px'
+                      >
+                        5
+                      </Badge>
+                    </Box>
+                  </IconButton>
+                </Link>
               )}
 
               <Menu>

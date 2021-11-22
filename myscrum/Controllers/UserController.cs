@@ -8,7 +8,7 @@ using myscrum.Features.Users;
 namespace myscrum.Controllers
 {
     [Authorize]
-    [Route("users")]
+    [Route("api/users")]
     public class UserController : BaseController
     {
         [HttpGet("me/recieved-project-invitations")]

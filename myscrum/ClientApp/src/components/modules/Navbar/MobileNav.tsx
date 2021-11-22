@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import Icon from '@chakra-ui/icon'
-import { AddIcon, ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
 import { Badge, Box, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/layout'
 import { Collapse } from '@chakra-ui/transition'
 import { NavItem } from './utils'
@@ -9,7 +9,6 @@ import { useProjects } from 'services/ProjectsProvider'
 import { useAuth } from 'services/auth/AuthProvider'
 import { Link } from 'react-router-dom'
 import { Button, IconButton } from '@chakra-ui/button'
-import { useBreakpointValue } from '@chakra-ui/media-query'
 import { BiEnvelope } from 'react-icons/bi'
 
 interface MobileNavProps {
@@ -31,21 +30,23 @@ const MobileNav = ({ items }: MobileNavProps) => {
             </Button>
           </Link>
 
-          <IconButton aria-label='invitations' variant='ghost' size='md'>
-            <Box position='relative'>
-              <BiEnvelope />
-              <Badge
-                bg='primary'
-                color='white'
-                rounded='full'
-                position='absolute'
-                top='-15px'
-                right='-15px'
-              >
-                5
-              </Badge>
-            </Box>
-          </IconButton>
+          <Link to='/invitations'>
+            <IconButton aria-label='invitations' variant='ghost' size='md'>
+              <Box position='relative'>
+                <BiEnvelope />
+                <Badge
+                  bg='secondary'
+                  color='white'
+                  rounded='full'
+                  position='absolute'
+                  top='-15px'
+                  right='-15px'
+                >
+                  5
+                </Badge>
+              </Box>
+            </IconButton>
+          </Link>
         </Box>
       )}
 
