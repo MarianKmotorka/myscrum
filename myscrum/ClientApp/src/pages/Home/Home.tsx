@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AddIcon, StarIcon } from '@chakra-ui/icons'
 import { AspectRatio, Box, Grid, Text } from '@chakra-ui/layout'
 import { Spinner } from '@chakra-ui/spinner'
@@ -16,6 +16,12 @@ const Home = () => {
   const { projects, isLoading, error, selectedProject, refetch, isFetching } = useProjects()
   const { isOpen, onClose, onOpen } = useDisclosure()
   const [projectToManage, setProjectToManage] = useState<Project>()
+
+  useEffect(() => {
+    if (!projectToManage) return
+    setProjectToManage(projects.find(x => x.id === projectToManage.id))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projects])
 
   if (isLoading) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
   if (error) return <FetchError error={error} />

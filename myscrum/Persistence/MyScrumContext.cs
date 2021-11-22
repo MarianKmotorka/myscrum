@@ -25,6 +25,8 @@ namespace myscrum.Persistence
 
         public DbSet<ProjectInvitation> ProjectInvitations { get; set; }
 
+        public DbSet<ProjectContributor> ProjectContributors { get; set; }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             for (var i = 0; i < 3; i++) // To prevent infinite loop, number of iteration is capped to 3.

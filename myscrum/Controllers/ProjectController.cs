@@ -58,5 +58,12 @@ namespace myscrum.Controllers
             await Mediator.Send(new DeleteProject.Command { ProjectId = id }, ct);
             return NoContent();
         }
+
+        [HttpDelete("{projectId}/contributors/{userId}")]
+        public async Task<ActionResult> RemoveContributor(string projectId, string userId, CancellationToken ct)
+        {
+            await Mediator.Send(new RemoveProjectContributor.Command { ProjectId = projectId, ContributorId = userId }, ct);
+            return NoContent();
+        }
     }
 }

@@ -14,7 +14,8 @@ interface IProjectsContextValue {
   selectedProject?: Project
   addProject: (newProject: Project) => void
   updateProject: (project: Project) => void
-  removeProject: (project: Project) => void
+  removeProject: (projectId: string) => void
+  removeContributor: (projectId: string, userId: string) => void
   setSelectedProject: (project: Project) => void
   refetch: () => Promise<void>
 }
@@ -62,9 +63,24 @@ const ProjectsProvider: FC = ({ children }) => {
   )
 
   const removeProject = useCallback(
-    (project: Project) => {
+    (projectId: string) => {
       queryClient.setQueryData<Project[]>(['projects'], prev =>
-        prev ? prev.filter(x => x.id !== project.id) : []
+        prev ? prev.filter(x => x.id !== projectId) : []
+      )
+    },
+    [queryClient]
+  )
+
+  const removeContributor = useCallback(
+    (projectId: string, userId: string) => {
+      queryClient.setQueryData<Project[]>(['projects'], prev =>
+        prev
+          ? prev.map(x =>
+              x.id === projectId
+                ? { ...x, contributors: x.contributors.filter(c => c.id !== userId) }
+                : x
+            )
+          : []
       )
     },
     [queryClient]
@@ -79,6 +95,7 @@ const ProjectsProvider: FC = ({ children }) => {
     addProject,
     updateProject,
     removeProject,
+    removeContributor,
     setSelectedProject,
     refetch: async () => {
       await refetch()

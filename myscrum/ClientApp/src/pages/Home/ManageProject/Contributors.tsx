@@ -3,13 +3,42 @@ import { useDisclosure } from '@chakra-ui/hooks'
 import { AddIcon } from '@chakra-ui/icons'
 import { Box, HStack, Text } from '@chakra-ui/layout'
 import UserItem from 'components/elements/UserItem'
-import { Project } from 'domainTypes'
+import { Project, User } from 'domainTypes'
 import { useAuthorizedUser } from 'services/auth/AuthProvider'
 import InviteUsersModal from './InviteUsersModal'
+import api from 'api/httpClient'
+import { apiErrorToast, successToast } from 'services/toastService'
+import { ApiError } from 'api/types'
+import { useProjects } from 'services/ProjectsProvider'
 
-const Contributors = ({ amIOwner, contributors, owner, id }: Project) => {
+interface ContributorsProps {
+  project: Project
+  closeManageProjectModal: () => void
+}
+
+const Contributors = ({
+  project: { amIOwner, contributors, owner, id, name },
+  closeManageProjectModal
+}: ContributorsProps) => {
   const { currentUser } = useAuthorizedUser()
+  const { removeContributor, removeProject } = useProjects()
   const { isOpen, onClose, onOpen } = useDisclosure()
+
+  const remove = async (user: User) => {
+    try {
+      await api.delete(`/projects/${id}/contributors/${user.id}`)
+      if (currentUser.id === user.id) {
+        successToast(`You left ${name}.`)
+        removeProject(id)
+        closeManageProjectModal()
+      } else {
+        successToast(`${user.fullName} was removed.`)
+        removeContributor(id, user.id)
+      }
+    } catch (err) {
+      apiErrorToast(err as ApiError)
+    }
+  }
 
   return (
     <Box>
@@ -49,7 +78,7 @@ const Contributors = ({ amIOwner, contributors, owner, id }: Project) => {
             <UserItem user={x} key={x.id} />
 
             {(isMe || amIOwner) && (
-              <Button variant='outline' colorScheme='red' size='sm'>
+              <Button onClick={() => remove(x)} variant='outline' colorScheme='red' size='sm'>
                 {isMe ? 'Leave' : 'Remove'}
               </Button>
             )}

@@ -47,7 +47,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
     try {
       await api.delete(`/projects/${project.id}`)
       successToast('Deleted')
-      removeProject(project)
+      removeProject(project.id)
       onClose()
     } catch (err) {
       errorToast((err as ApiError).data.errorMessage)
@@ -77,7 +77,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
         </ModalBody>
 
         <ModalBody pt={4} pb={10}>
-          <Contributors {...project} />
+          <Contributors project={project} closeManageProjectModal={onClose} />
         </ModalBody>
 
         <ModalFooter pt={4} borderTop='solid 1px' borderColor='gray.200'>
