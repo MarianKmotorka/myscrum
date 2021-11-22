@@ -8,6 +8,7 @@ import { Box, Grid, HStack, Text, VStack } from '@chakra-ui/layout'
 import { Button, ButtonGroup } from '@chakra-ui/button'
 import UserItem from 'components/elements/UserItem'
 import { apiErrorToast, successToast } from 'services/toastService'
+import { useProjects } from 'services/ProjectsProvider'
 
 interface InvitedToProject {
   id: string
@@ -17,6 +18,7 @@ interface InvitedToProject {
 
 const Invitations = () => {
   const queryClient = useQueryClient()
+  const { refetch: refetchProjects } = useProjects()
   const { data, isLoading, error } = useQuery<InvitedToProject[], ApiError>(
     ['users', 'me', 'recieved-project-invitations'],
     async () => (await api.get('/users/me/recieved-project-invitations')).data
@@ -30,6 +32,7 @@ const Invitations = () => {
         ['users', 'me', 'recieved-project-invitations'],
         prev => (prev ? prev.filter(x => x.id !== projectId) : [])
       )
+      if (accepted) await refetchProjects()
     } catch (err) {
       apiErrorToast(err as ApiError)
     }

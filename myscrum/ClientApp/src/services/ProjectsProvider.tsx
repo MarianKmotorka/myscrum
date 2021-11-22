@@ -15,6 +15,7 @@ interface IProjectsContextValue {
   updateProject: (project: Project) => void
   removeProject: (project: Project) => void
   setSelectedProject: (project: Project) => void
+  refetch: () => Promise<void>
 }
 
 const ProjectsContext = createContext<IProjectsContextValue>(null!)
@@ -28,7 +29,7 @@ const ProjectsProvider: FC = ({ children }) => {
     undefined
   )
 
-  const { data, isLoading, isIdle, error } = useQuery<Project[], ApiError>(
+  const { data, isLoading, isIdle, error, refetch } = useQuery<Project[], ApiError>(
     ['projects'],
     async () => (await api.get('/projects')).data,
     {
@@ -76,7 +77,10 @@ const ProjectsProvider: FC = ({ children }) => {
     addProject,
     updateProject,
     removeProject,
-    setSelectedProject
+    setSelectedProject,
+    refetch: async () => {
+      await refetch()
+    }
   }
 
   return <ProjectsContext.Provider value={value}>{children}</ProjectsContext.Provider>
