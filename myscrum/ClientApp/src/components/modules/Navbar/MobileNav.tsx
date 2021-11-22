@@ -1,15 +1,16 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import Icon from '@chakra-ui/icon'
-import { ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
-import { Box, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/layout'
+import { AddIcon, ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
+import { Badge, Box, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/layout'
 import { Collapse } from '@chakra-ui/transition'
 import { NavItem } from './utils'
 import LinkOrNothing from './LinkOrNothing'
 import { useProjects } from 'services/ProjectsProvider'
 import { useAuth } from 'services/auth/AuthProvider'
 import { Link } from 'react-router-dom'
-import { Button } from '@chakra-ui/button'
+import { Button, IconButton } from '@chakra-ui/button'
 import { useBreakpointValue } from '@chakra-ui/media-query'
+import { BiEnvelope } from 'react-icons/bi'
 
 interface MobileNavProps {
   items: NavItem[]
@@ -18,11 +19,10 @@ interface MobileNavProps {
 const MobileNav = ({ items }: MobileNavProps) => {
   const { selectedProject } = useProjects()
   const { isLoggedIn } = useAuth()
-  const isSmallScreen = useBreakpointValue({ base: true, md: false })
   return (
     <Stack bg={'white'} p={4} display={{ md: 'none' }}>
-      {selectedProject && isLoggedIn && isSmallScreen && (
-        <Box display='flex' justifyContent='center'>
+      {selectedProject && isLoggedIn && (
+        <Box display='flex' justifyContent='center' alignItems='center'>
           <Link to='/'>
             <Button size='sm' variant='outline' rightIcon={<TriangleDownIcon w='8px' h='8px' />}>
               <Text maxW='200px' overflow='hidden' textOverflow='ellipsis'>
@@ -30,6 +30,22 @@ const MobileNav = ({ items }: MobileNavProps) => {
               </Text>
             </Button>
           </Link>
+
+          <IconButton aria-label='invitations' variant='ghost' size='md'>
+            <Box position='relative'>
+              <BiEnvelope />
+              <Badge
+                bg='primary'
+                color='white'
+                rounded='full'
+                position='absolute'
+                top='-15px'
+                right='-15px'
+              >
+                5
+              </Badge>
+            </Box>
+          </IconButton>
         </Box>
       )}
 

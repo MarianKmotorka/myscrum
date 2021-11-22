@@ -15,8 +15,10 @@ import {
   Avatar,
   MenuButton,
   useBreakpointValue,
-  useDisclosure
+  useDisclosure,
+  Badge
 } from '@chakra-ui/react'
+import { BiEnvelope } from 'react-icons/bi'
 import { HamburgerIcon, CloseIcon, ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
 import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
 import MobileNav from './MobileNav'
@@ -82,7 +84,6 @@ export default function Navbar() {
               <Link to='/'>
                 <Button
                   ml={3}
-                  mb='-6px'
                   size='xs'
                   variant='outline'
                   rightIcon={<TriangleDownIcon w='8px' h='8px' />}
@@ -117,31 +118,51 @@ export default function Navbar() {
           )}
 
           {isLoggedIn && (
-            <Menu>
-              <MenuButton py={2} transition='all 0.3s' _focus={{ boxShadow: 'none' }}>
-                <HStack>
-                  <Avatar size={'sm'} src={getAvatarUrl(auth.currentUser.id)} />
-                  <VStack
-                    display={{ base: 'none', md: 'flex' }}
-                    alignItems='flex-start'
-                    spacing='1px'
-                    ml='2'
-                  >
-                    <Text fontSize='sm'>
-                      {auth.currentUser.givenName} {auth.currentUser.surname}
-                    </Text>
-                  </VStack>
-
-                  <Box display={{ base: 'none', md: 'flex' }}>
-                    <ChevronDownIcon />
+            <HStack>
+              {!isSmallScreen && (
+                <IconButton aria-label='invitations' mr={3} variant='ghost' size='md'>
+                  <Box position='relative'>
+                    <BiEnvelope />
+                    <Badge
+                      bg='secondary'
+                      color='white'
+                      rounded='full'
+                      position='absolute'
+                      top='-15px'
+                      right='-15px'
+                    >
+                      5
+                    </Badge>
                   </Box>
-                </HStack>
-              </MenuButton>
+                </IconButton>
+              )}
 
-              <MenuList bg='white' borderColor='gray.200'>
-                <MenuItem onClick={() => auth.logout()}>Sign out</MenuItem>
-              </MenuList>
-            </Menu>
+              <Menu>
+                <MenuButton py={2} transition='all 0.3s' _focus={{ boxShadow: 'none' }}>
+                  <HStack>
+                    <Avatar size={'sm'} src={getAvatarUrl(auth.currentUser.id)} />
+                    <VStack
+                      display={{ base: 'none', md: 'flex' }}
+                      alignItems='flex-start'
+                      spacing='1px'
+                      ml='2'
+                    >
+                      <Text fontSize='sm'>
+                        {auth.currentUser.givenName} {auth.currentUser.surname}
+                      </Text>
+                    </VStack>
+
+                    <Box display={{ base: 'none', md: 'flex' }}>
+                      <ChevronDownIcon />
+                    </Box>
+                  </HStack>
+                </MenuButton>
+
+                <MenuList bg='white' borderColor='gray.200'>
+                  <MenuItem onClick={() => auth.logout()}>Sign out</MenuItem>
+                </MenuList>
+              </Menu>
+            </HStack>
           )}
         </Flex>
       </Container>
