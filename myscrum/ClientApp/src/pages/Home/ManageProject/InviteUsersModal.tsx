@@ -9,7 +9,7 @@ import { ApiError } from 'api/types'
 import { User } from 'domainTypes'
 import UserItem from 'components/elements/UserItem'
 import { apiErrorToast, successToast } from 'services/toastService'
-import { AddIcon, CheckIcon } from '@chakra-ui/icons'
+import { CheckIcon } from '@chakra-ui/icons'
 
 interface InviteUsersProps {
   projectId: string

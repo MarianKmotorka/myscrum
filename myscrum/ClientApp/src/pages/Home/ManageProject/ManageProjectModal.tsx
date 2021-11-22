@@ -94,7 +94,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
             </Text>
           ) : (
             <Button variant='primary' ml={3} onClick={() => setSelectedProject(project)}>
-              Select for workspace
+              Select this project
             </Button>
           )}
         </ModalFooter>

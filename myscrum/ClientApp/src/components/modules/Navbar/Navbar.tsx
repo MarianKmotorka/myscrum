@@ -17,7 +17,7 @@ import {
   useBreakpointValue,
   useDisclosure
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon, ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
 import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
 import MobileNav from './MobileNav'
 import DesktopNav from './DesktopNav'
@@ -25,14 +25,17 @@ import { useAuth } from 'services/auth/AuthProvider'
 import { LOGGED_OUT_NAV_ITEMS, NAV_ITEMS } from './utils'
 import { getAvatarUrl } from 'utils'
 import { useNavigate } from 'react-router'
+import { useProjects } from 'services/ProjectsProvider'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure()
   const redirect = useRedirectToGoogleSignIn()
+  const { selectedProject } = useProjects()
+  const isSmallScreen = useBreakpointValue({ base: true, md: false })
   const auth = useAuth()
   const { isLoggedIn } = auth
   const navigate = useNavigate()
-
   const navItems = isLoggedIn ? NAV_ITEMS : LOGGED_OUT_NAV_ITEMS
 
   return (
@@ -60,7 +63,7 @@ export default function Navbar() {
             />
           </Flex>
 
-          <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+          <Flex flex={{ base: 1 }} alignItems='center' justify={{ base: 'center', md: 'start' }}>
             <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily="'Pacifico', cursive"
@@ -74,6 +77,22 @@ export default function Navbar() {
             >
               myscrum
             </Text>
+
+            {selectedProject && isLoggedIn && !isSmallScreen && (
+              <Link to='/'>
+                <Button
+                  ml={3}
+                  mb='-6px'
+                  size='xs'
+                  variant='outline'
+                  rightIcon={<TriangleDownIcon w='8px' h='8px' />}
+                >
+                  <Text maxW='200px' overflow='hidden' textOverflow='ellipsis'>
+                    {selectedProject.name}
+                  </Text>
+                </Button>
+              </Link>
+            )}
 
             <Flex display={{ base: 'none', md: 'flex' }} alignItems='center' ml={10}>
               <DesktopNav items={navItems} />

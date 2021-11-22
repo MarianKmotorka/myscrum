@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, useState, useCallback } from 'react'
+import { createContext, FC, useContext, useCallback, useEffect } from 'react'
 import { ApiError } from 'api/types'
 import { Project } from 'domainTypes'
 import api from 'api/httpClient'
@@ -37,6 +37,13 @@ const ProjectsProvider: FC = ({ children }) => {
       cacheTime: Number.POSITIVE_INFINITY
     }
   )
+
+  useEffect(() => {
+    if (!data) return
+    if (selectedProject) setSelectedProject(data.find(x => x.id === selectedProject.id))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
   const addProject = useCallback(
     (project: Project) =>
       queryClient.setQueryData<Project[]>(['projects'], prev => [project, ...(prev || [])]),
@@ -44,22 +51,21 @@ const ProjectsProvider: FC = ({ children }) => {
   )
 
   const updateProject = useCallback(
-    (project: Project) =>
+    (project: Project) => {
       queryClient.setQueryData<Project[]>(['projects'], prev =>
         prev ? prev.map(x => (x.id === project.id ? project : x)) : []
-      ),
+      )
+    },
     [queryClient]
   )
 
   const removeProject = useCallback(
     (project: Project) => {
-      if (selectedProject?.id === project.id) setSelectedProject(undefined)
-
       queryClient.setQueryData<Project[]>(['projects'], prev =>
         prev ? prev.filter(x => x.id !== project.id) : []
       )
     },
-    [queryClient, selectedProject, setSelectedProject]
+    [queryClient]
   )
 
   const value: IProjectsContextValue = {

@@ -1,18 +1,38 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import Icon from '@chakra-ui/icon'
-import { ChevronDownIcon } from '@chakra-ui/icons'
-import { Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/layout'
+import { ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
+import { Box, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/layout'
 import { Collapse } from '@chakra-ui/transition'
 import { NavItem } from './utils'
 import LinkOrNothing from './LinkOrNothing'
+import { useProjects } from 'services/ProjectsProvider'
+import { useAuth } from 'services/auth/AuthProvider'
+import { Link } from 'react-router-dom'
+import { Button } from '@chakra-ui/button'
+import { useBreakpointValue } from '@chakra-ui/media-query'
 
 interface MobileNavProps {
   items: NavItem[]
 }
 
 const MobileNav = ({ items }: MobileNavProps) => {
+  const { selectedProject } = useProjects()
+  const { isLoggedIn } = useAuth()
+  const isSmallScreen = useBreakpointValue({ base: true, md: false })
   return (
     <Stack bg={'white'} p={4} display={{ md: 'none' }}>
+      {selectedProject && isLoggedIn && isSmallScreen && (
+        <Box display='flex' justifyContent='center'>
+          <Link to='/'>
+            <Button size='sm' variant='outline' rightIcon={<TriangleDownIcon w='8px' h='8px' />}>
+              <Text maxW='200px' overflow='hidden' textOverflow='ellipsis'>
+                {selectedProject.name}
+              </Text>
+            </Button>
+          </Link>
+        </Box>
+      )}
+
       {items.map(navItem => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
