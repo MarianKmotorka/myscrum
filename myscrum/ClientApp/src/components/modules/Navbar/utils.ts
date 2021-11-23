@@ -28,17 +28,22 @@ export const LOGGED_OUT_NAV_ITEMS: NavItem[] = [
 
 export const NAV_ITEMS: NavItem[] = [
   {
-    label: 'Nested',
+    label: 'Sprints',
+    href: '/sprints',
     children: [
       {
-        label: 'Explore Design Work',
-        subLabel: 'Trending Design to inspire you',
-        href: '/nestedRoute'
+        label: 'Current Sprint',
+        subLabel: 'Work that needs to be done now.',
+        href: '/sprints/current'
       }
     ]
   },
   {
-    label: 'Projects',
-    href: '/projects'
+    label: 'Backlog',
+    href: '/backlog'
+  },
+  {
+    label: 'Restrospectives',
+    href: '/retrospectives'
   }
 ]

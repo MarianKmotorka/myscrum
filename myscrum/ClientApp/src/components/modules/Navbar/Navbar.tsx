@@ -38,7 +38,7 @@ export default function Navbar() {
   const auth = useAuth()
   const { isLoggedIn } = auth
   const navigate = useNavigate()
-  const navItems = isLoggedIn ? NAV_ITEMS : LOGGED_OUT_NAV_ITEMS
+  const navItems = isLoggedIn ? (selectedProject ? NAV_ITEMS : []) : LOGGED_OUT_NAV_ITEMS
 
   return (
     <Box

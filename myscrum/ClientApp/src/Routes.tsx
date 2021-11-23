@@ -19,13 +19,62 @@ const Routes = () => {
           </ProtectedRoute>
         }
       />
-
       <Route
         path='/invitations'
         element={
           <ProtectedRoute>
             <DefaultLayout>
               <Invitations />
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/sprints'
+        element={
+          <ProtectedRoute needsSelectedProject>
+            <DefaultLayout>
+              <h1>Sprints</h1>
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/sprints/current'
+        element={
+          <ProtectedRoute needsSelectedProject>
+            <DefaultLayout>
+              <h1>Sprint current</h1>
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/sprints/:id'
+        element={
+          <ProtectedRoute needsSelectedProject>
+            <DefaultLayout>
+              <h1>Sprint with id</h1>
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/retrospectives'
+        element={
+          <ProtectedRoute needsSelectedProject>
+            <DefaultLayout>
+              <h1>Retro</h1>
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/backlog'
+        element={
+          <ProtectedRoute needsSelectedProject>
+            <DefaultLayout>
+              <h1>Backlog</h1>
             </DefaultLayout>
           </ProtectedRoute>
         }

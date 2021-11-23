@@ -31,7 +31,8 @@ const Invitations = () => {
   useEffect(() => {
     if (!data) return
     updateUser({ projectInvitationCount: data.length })
-  }, [data, updateUser])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   const acceptOrReject = async (accepted: boolean, projectId: string) => {
     try {
