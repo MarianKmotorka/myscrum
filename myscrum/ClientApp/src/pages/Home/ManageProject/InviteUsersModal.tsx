@@ -60,10 +60,16 @@ const InviteUsersModal = ({ projectId, onClose, isOpen }: InviteUsersProps) => {
             placeholder='Search for people'
             value={search}
             onChange={e => setSearch(e.target.value)}
-            mb={5}
           />
+          <Text mt={1} mb={5} textAlign='end' color='gray.500' fontSize='xs'>
+            Type at least 3 characters.
+          </Text>
 
-          {search.length >= 3 && !loading && data?.length === 0 && <Text mt={3}>No results</Text>}
+          {search.length >= 3 && !loading && data?.length === 0 && (
+            <Text mt={3} color='gray.500'>
+              No results
+            </Text>
+          )}
 
           {loading && <Spinner />}
 
