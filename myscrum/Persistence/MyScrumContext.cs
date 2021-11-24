@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
+using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
 
 namespace myscrum.Persistence
@@ -22,6 +23,8 @@ namespace myscrum.Persistence
         public DbSet<User> Users { get; set; }
 
         public DbSet<Project> Projects { get; set; }
+
+        public DbSet<Sprint> Sprints { get; set; }
 
         public DbSet<ProjectInvitation> ProjectInvitations { get; set; }
 
