@@ -16,6 +16,10 @@ namespace myscrum.Domain.Sprints
             ProjectId = project.Id;
         }
 
+        private Sprint()
+        {
+        }
+
         public string Name { get; set; }
 
         public DateTime StartDate { get; set; }
