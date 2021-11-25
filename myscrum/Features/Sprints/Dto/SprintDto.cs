@@ -1,8 +1,10 @@
 ﻿using System;
+using myscrum.Common.Mappings;
+using myscrum.Domain.Sprints;
 
 namespace myscrum.Features.Sprints.Dto
 {
-    public class SprintDto
+    public class SprintDto : IMapFrom<Sprint>
     {
         public string Id { get; set; }
 

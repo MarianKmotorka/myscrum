@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Domain.Sprints;
 using myscrum.Features.Sprints.Dto;
@@ -41,7 +40,7 @@ namespace myscrum.Features.Sprints
 
             public async Task<SprintDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var project = await _db.Projects.AsNoTracking().SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
+                var project = await _db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
                 var newSprint = new Sprint(request.Name, request.StartDate, request.EndDate, project) { Goal = request.Goal };
 
                 _db.Add(newSprint);
@@ -56,7 +55,7 @@ namespace myscrum.Features.Sprints
             public Validator()
             {
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Required");
-                RuleFor(x => x.StartDate).Must(x => DateTime.UtcNow < x).WithMessage("Must be in the future");
+                RuleFor(x => x.StartDate).Must(x => DateTime.UtcNow.Date <= x).WithMessage("Must be in the future");
                 RuleFor(x => x.EndDate).Must((req, _) => req.StartDate < req.EndDate).WithMessage("Start date must be before end date");
             }
         }

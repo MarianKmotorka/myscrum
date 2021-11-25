@@ -26,3 +26,11 @@ export interface Project {
   owner: User
   contributors: User[]
 }
+
+export interface Sprint {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  goal: string
+}

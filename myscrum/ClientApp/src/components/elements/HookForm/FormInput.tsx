@@ -15,6 +15,7 @@ const FormInput = ({
   name,
   isDisabled,
   label,
+  isRequired,
   type,
   validate: initialValidate,
   ...rest
@@ -38,8 +39,8 @@ const FormInput = ({
       name={name}
       rules={{ validate }}
       render={({ onChange, ...innerRest }) => (
-        <FormControl>
-          <FormLabel>{label}</FormLabel>
+        <FormControl isRequired={isRequired}>
+          <FormLabel mb={1}>{label}</FormLabel>
 
           <Input
             {...innerRest}

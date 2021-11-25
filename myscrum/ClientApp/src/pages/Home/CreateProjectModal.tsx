@@ -48,7 +48,7 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
           <ModalCloseButton />
 
           <ModalBody>
-            <FormInput name='name' label='Name' />
+            <FormInput isRequired name='name' label='Name' />
           </ModalBody>
 
           <ModalFooter>

@@ -4,7 +4,7 @@ import { Project } from 'domainTypes'
 import api from 'api/httpClient'
 import { useQuery, useQueryClient } from 'react-query'
 import { useAuth } from './auth/AuthProvider'
-import useLocalStorage from 'utils/useLocalStorage'
+import useLocalStorage from 'utils/hooks/useLocalStorage'
 
 interface IProjectsContextValue {
   projects: Project[]

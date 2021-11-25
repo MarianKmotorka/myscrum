@@ -3,7 +3,7 @@ import { ModalBody, ModalFooter, Button, HStack, Spinner, Text, Input } from '@c
 import api from 'api/httpClient'
 import { useQuery } from 'react-query'
 import { useState } from 'react'
-import useDebounce from 'utils/useDebounce'
+import useDebounce from 'utils/hooks/useDebounce'
 import FetchError from 'components/elements/FetchError'
 import { ApiError } from 'api/types'
 import { User } from 'domainTypes'
