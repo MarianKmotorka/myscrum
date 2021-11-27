@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
 import { ModalBody, ModalFooter, Button, VStack, HStack, Checkbox } from '@chakra-ui/react'
 import Form from 'components/elements/HookForm/Form'
@@ -7,6 +8,8 @@ import { Sprint } from 'domainTypes'
 import { useProjects } from 'services/ProjectsProvider'
 import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { requiredValidator } from 'utils/validators'
+import { useEffect } from 'hoist-non-react-statics/node_modules/@types/react'
+import SprintNameInput from './SprintNameInput'
 
 interface CreateSprintModalProps {
   isOpen: boolean
@@ -49,17 +52,6 @@ const CreateSprintModal = ({ isOpen, onClose }: CreateSprintModalProps) => {
 
           <ModalBody>
             <VStack spacing={3}>
-              <HStack width='100%'>
-                <FormInput
-                  flex='1'
-                  isRequired
-                  name='name'
-                  label='Name'
-                  validate={requiredValidator}
-                />
-                <Checkbox pt={7}>Generate</Checkbox>
-              </HStack>
-
               <FormInput
                 isRequired
                 label='Start date'
@@ -75,6 +67,8 @@ const CreateSprintModal = ({ isOpen, onClose }: CreateSprintModalProps) => {
                 type='date'
                 validate={requiredValidator}
               />
+
+              <SprintNameInput />
 
               <FormInput name='goal' label='Goal' />
             </VStack>

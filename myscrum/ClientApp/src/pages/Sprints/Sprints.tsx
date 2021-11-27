@@ -4,7 +4,7 @@ import { AddIcon } from '@chakra-ui/icons'
 import { Box, Text } from '@chakra-ui/layout'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { useProjects } from 'services/ProjectsProvider'
-import CreateSprintModal from './CreateSprintModal'
+import CreateSprintModal from './CreateSprintModal/CreateSprintModal'
 
 const Sprints = () => {
   const { isOpen, onClose, onOpen } = useDisclosure()
