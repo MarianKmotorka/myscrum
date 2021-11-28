@@ -64,14 +64,18 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
 
         <ModalBody pt={4}>
           <Form defaultValues={{ name: project.name }} onSubmit={onSubmit}>
-            <FormInput isDisabled={!project.amIOwner} name='name' label='Name' />
+            {({ formState: { isDirty } }) => (
+              <>
+                <FormInput isDisabled={!project.amIOwner} name='name' label='Name' />
 
-            {project.amIOwner && (
-              <Box d='flex' justifyContent='flex-end'>
-                <Button mt={3} isLoading={submitting} type='submit'>
-                  Rename
-                </Button>
-              </Box>
+                {project.amIOwner && (
+                  <Box d='flex' justifyContent='flex-end'>
+                    <Button mt={3} isLoading={submitting} type='submit' isDisabled={!isDirty}>
+                      Rename
+                    </Button>
+                  </Box>
+                )}
+              </>
             )}
           </Form>
         </ModalBody>
