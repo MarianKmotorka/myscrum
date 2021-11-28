@@ -8,11 +8,11 @@ import { useProjects } from 'services/ProjectsProvider'
 import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { requiredValidator } from 'utils/validators'
 import SprintNameInput from './SprintNameInput'
-import { useQueryClient } from 'react-query'
 
 interface CreateSprintModalProps {
   isOpen: boolean
   onClose: () => void
+  refetch: () => Promise<void>
 }
 
 interface FormValue {
@@ -29,19 +29,15 @@ const defaultValues: FormValue = {
   goal: ''
 }
 
-const CreateSprintModal = ({ isOpen, onClose }: CreateSprintModalProps) => {
+const CreateSprintModal = ({ isOpen, refetch, onClose }: CreateSprintModalProps) => {
   const { selectedProject } = useProjects()
-  const queryClient = useQueryClient()
   const { submitting, onSubmit } = useSubmitForm<FormValue, Sprint>({
     url: '/sprints',
     formatter: values => ({ ...values, projectId: selectedProject?.id }),
-    successCallback: sprint => {
+    successCallback: () => {
       successToast('Sprint created.')
-      queryClient.setQueryData<Sprint[]>(['sprints', { projectId: selectedProject?.id }], prev => [
-        sprint,
-        ...(prev || [])
-      ])
       onClose()
+      refetch()
     },
     errorCallback: errorToastIfNotValidationError
   })

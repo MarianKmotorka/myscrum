@@ -33,4 +33,5 @@ export interface Sprint {
   startDate: string
   endDate: string
   goal: string
+  isCurrentSprint: boolean
 }

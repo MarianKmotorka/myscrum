@@ -64,7 +64,6 @@ namespace myscrum.Features.Sprints
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Required");
 
                 RuleFor(x => x.StartDate).Cascade(CascadeMode.Stop)
-                    .Must(x => DateTime.UtcNow.Date <= x).WithMessage("Must be in the future")
                     .Must((req, _) => req.StartDate < req.EndDate).WithMessage("Start date must be before start date")
                     .MustAsync(NotOverlapOtherSprint).WithMessage((_) => $"Provided date range overlaps with existing sprint: {_overlappingSprintName}");
             }
@@ -81,7 +80,7 @@ namespace myscrum.Features.Sprints
                 if (start1 >= end1) throw new ArgumentException("start1 must be less that end1");
                 if (start2 >= end2) throw new ArgumentException("start2 must be less that end2");
 
-                return end1 > start2 && start1 < end2;
+                return end1 >= start2 && start1 <= end2;
             }
         }
 

@@ -43,7 +43,7 @@ const Sprints = () => {
         </Button>
       )}
 
-      <VStack alignItems='stretch' mt={5}>
+      <VStack alignItems='stretch' mt={5} spacing={0}>
         {data?.length === 0 && (
           <Text maxW='250px' border='solid 1px' borderColor='gray.200' color='gray.500' p={5}>
             {'No sprints created so far :('}
@@ -51,11 +51,27 @@ const Sprints = () => {
         )}
 
         {data?.map(x => (
-          <Box key={x.id}>{x.name}</Box>
+          <Box
+            key={x.id}
+            color={x.isCurrentSprint ? 'primary' : 'gray.800'}
+            fontWeight={x.isCurrentSprint ? '500' : '400'}
+            px={2}
+            py={3}
+            borderBottom='solid 1px'
+            borderColor='gray.200'
+          >
+            {x.name}
+          </Box>
         ))}
       </VStack>
 
-      <CreateSprintModal isOpen={isOpen} onClose={onClose} />
+      <CreateSprintModal
+        isOpen={isOpen}
+        onClose={onClose}
+        refetch={async () => {
+          await refetch()
+        }}
+      />
     </Box>
   )
 }

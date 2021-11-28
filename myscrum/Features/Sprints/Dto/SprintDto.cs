@@ -18,5 +18,6 @@ namespace myscrum.Features.Sprints.Dto
 
         public string ProjectId { get; set; }
 
+        public bool IsCurrentSprint { get; set; }
     }
 }

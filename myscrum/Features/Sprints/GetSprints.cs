@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,11 +34,17 @@ namespace myscrum.Features.Sprints
 
             public async Task<List<SprintDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _db.Sprints
+                return (await _db.Sprints
                     .Where(x => x.ProjectId == request.ProjectId)
                     .ProjectTo<SprintDto>(_mapper.ConfigurationProvider)
                     .OrderByDescending(x => x.StartDate)
-                    .ToListAsync(cancellationToken);
+                    .ToListAsync(cancellationToken))
+                    .Select(x =>
+                    {
+                        x.IsCurrentSprint = x.StartDate <= DateTime.UtcNow && x.EndDate.AddDays(1) > DateTime.UtcNow;
+                        return x;
+                    })
+                    .ToList();
             }
         }
 
