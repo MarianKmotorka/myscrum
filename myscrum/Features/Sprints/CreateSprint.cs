@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Domain.Sprints;
 using myscrum.Features.Sprints.Dto;
@@ -52,11 +54,34 @@ namespace myscrum.Features.Sprints
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator()
+            private MyScrumContext _db;
+            private string _overlappingSprintName;
+
+            public Validator(MyScrumContext db)
             {
+                _db = db;
+
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Required");
-                RuleFor(x => x.StartDate).Must(x => DateTime.UtcNow.Date <= x).WithMessage("Must be in the future");
-                RuleFor(x => x.EndDate).Must((req, _) => req.StartDate < req.EndDate).WithMessage("Start date must be before end date");
+
+                RuleFor(x => x.StartDate).Cascade(CascadeMode.Stop)
+                    .Must(x => DateTime.UtcNow.Date <= x).WithMessage("Must be in the future")
+                    .Must((req, _) => req.StartDate < req.EndDate).WithMessage("Start date must be before start date")
+                    .MustAsync(NotOverlapOtherSprint).WithMessage((_) => $"Provided date range overlaps with existing sprint: {_overlappingSprintName}");
+            }
+
+            private async Task<bool> NotOverlapOtherSprint(Command command, DateTime _, CancellationToken cancellationToken)
+            {
+                var projectSprints = await _db.Sprints.Where(x => x.ProjectId == command.ProjectId).ToListAsync(cancellationToken);
+                _overlappingSprintName = projectSprints.FirstOrDefault(x => IsOverlap(command.StartDate, command.EndDate, x.StartDate, x.EndDate))?.Name;
+                return _overlappingSprintName is null;
+            }
+
+            private bool IsOverlap(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
+            {
+                if (start1 >= end1) throw new ArgumentException("start1 must be less that end1");
+                if (start2 >= end2) throw new ArgumentException("start2 must be less that end2");
+
+                return end1 > start2 && start1 < end2;
             }
         }
 

@@ -36,7 +36,7 @@ namespace myscrum.Features.Sprints
                 return await _db.Sprints
                     .Where(x => x.ProjectId == request.ProjectId)
                     .ProjectTo<SprintDto>(_mapper.ConfigurationProvider)
-                    .OrderBy(x => x.StartDate)
+                    .OrderByDescending(x => x.StartDate)
                     .ToListAsync(cancellationToken);
             }
         }

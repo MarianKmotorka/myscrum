@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
-import { ModalBody, ModalFooter, Button, VStack, HStack, Checkbox } from '@chakra-ui/react'
+import { ModalBody, ModalFooter, Button, VStack } from '@chakra-ui/react'
 import Form from 'components/elements/HookForm/Form'
 import FormInput from 'components/elements/HookForm/FormInput'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
@@ -8,8 +7,8 @@ import { Sprint } from 'domainTypes'
 import { useProjects } from 'services/ProjectsProvider'
 import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { requiredValidator } from 'utils/validators'
-import { useEffect } from 'hoist-non-react-statics/node_modules/@types/react'
 import SprintNameInput from './SprintNameInput'
+import { useQueryClient } from 'react-query'
 
 interface CreateSprintModalProps {
   isOpen: boolean
@@ -32,11 +31,17 @@ const defaultValues: FormValue = {
 
 const CreateSprintModal = ({ isOpen, onClose }: CreateSprintModalProps) => {
   const { selectedProject } = useProjects()
+  const queryClient = useQueryClient()
   const { submitting, onSubmit } = useSubmitForm<FormValue, Sprint>({
     url: '/sprints',
     formatter: values => ({ ...values, projectId: selectedProject?.id }),
     successCallback: sprint => {
       successToast('Sprint created.')
+      queryClient.setQueryData<Sprint[]>(['sprints', { projectId: selectedProject?.id }], prev => [
+        sprint,
+        ...(prev || [])
+      ])
+      onClose()
     },
     errorCallback: errorToastIfNotValidationError
   })

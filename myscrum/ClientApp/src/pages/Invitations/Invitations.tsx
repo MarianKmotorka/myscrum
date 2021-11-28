@@ -74,7 +74,7 @@ const Invitations = () => {
         my={7}
       >
         {data?.length === 0 && (
-          <Text border='solid 1px' borderColor='gray.200' color='gray.500' borderRadius='xl' p={5}>
+          <Text border='solid 1px' borderColor='gray.200' color='gray.500' p={5}>
             {'No invitations so far :('}
           </Text>
         )}
