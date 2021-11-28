@@ -1,6 +1,7 @@
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import ProtectedRoute from 'components/layouts/ProtectedRoute'
 import Invitations from 'pages/Invitations/Invitations'
+import SprintDetail from 'pages/Sprints/SprintDetail/SprintDetail'
 import Sprints from 'pages/Sprints/Sprints'
 import { Route, Routes as RouterRoutes } from 'react-router'
 import GoogleLoginCallback from './pages/GoogleLoginCallback/GoogleLoginCallback'
@@ -45,7 +46,7 @@ const Routes = () => {
         element={
           <ProtectedRoute needsSelectedProject>
             <DefaultLayout>
-              <h1>Sprint with id</h1>
+              <SprintDetail />
             </DefaultLayout>
           </ProtectedRoute>
         }

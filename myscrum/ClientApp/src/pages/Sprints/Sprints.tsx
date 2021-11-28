@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button'
 import { useDisclosure } from '@chakra-ui/hooks'
 import { AddIcon } from '@chakra-ui/icons'
-import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/layout'
+import { Box, HStack, Text } from '@chakra-ui/layout'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { useProjects } from 'services/ProjectsProvider'
 import { Sprint } from 'domainTypes'
@@ -33,6 +33,7 @@ const Sprints = () => {
         <Text fontSize='4xl' mr={4}>
           Sprints
         </Text>
+
         <ButtonGroup>
           <IconButton aria-label='refresh' onClick={() => refetch()} isLoading={isFetching}>
             <FiRefreshCcw />

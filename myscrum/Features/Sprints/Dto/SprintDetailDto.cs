@@ -4,7 +4,7 @@ using myscrum.Domain.Sprints;
 
 namespace myscrum.Features.Sprints.Dto
 {
-    public class SprintDto : IMapFrom<Sprint>
+    public class SprintDetailDto : IMapFrom<Sprint>
     {
         public string Id { get; set; }
 
@@ -15,7 +15,5 @@ namespace myscrum.Features.Sprints.Dto
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public bool IsCurrentSprint { get; set; }
     }
 }

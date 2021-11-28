@@ -19,5 +19,9 @@ namespace myscrum.Controllers
         [HttpGet]
         public async Task<List<SprintDto>> Get([FromQuery] GetSprints.Query request, CancellationToken cancellationToken)
            => await Mediator.Send(request, cancellationToken);
+
+        [HttpGet("{id}")]
+        public async Task<SprintDetailDto> Get(string id, string projectId, CancellationToken cancellationToken)
+           => await Mediator.Send(new GetSprintDetail.Query { Id = id, ProjectId = projectId }, cancellationToken);
     }
 }

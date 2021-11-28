@@ -35,3 +35,11 @@ export interface Sprint {
   goal: string
   isCurrentSprint: boolean
 }
+
+export interface SprintDetail {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  goal: string
+}

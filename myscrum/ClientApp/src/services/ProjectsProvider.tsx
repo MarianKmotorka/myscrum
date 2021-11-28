@@ -22,6 +22,14 @@ interface IProjectsContextValue {
 
 const ProjectsContext = createContext<IProjectsContextValue>(null!)
 export const useProjects = () => useContext(ProjectsContext)
+export const useSelectedProject = () => {
+  const { selectedProject } = useProjects()
+
+  if (!selectedProject)
+    throw new Error('This hook must be used only for routes with "needsSelectedProject=true"')
+
+  return selectedProject
+}
 
 const ProjectsProvider: FC = ({ children }) => {
   const { isLoggedIn } = useAuth()
