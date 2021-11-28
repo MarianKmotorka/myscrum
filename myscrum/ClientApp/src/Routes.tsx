@@ -41,16 +41,6 @@ const Routes = () => {
         }
       />
       <Route
-        path='/sprints/current'
-        element={
-          <ProtectedRoute needsSelectedProject>
-            <DefaultLayout>
-              <h1>Sprint current</h1>
-            </DefaultLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path='/sprints/:id'
         element={
           <ProtectedRoute needsSelectedProject>

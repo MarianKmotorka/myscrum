@@ -72,7 +72,6 @@ const DesktopSubNav = ({ label, href, subLabel, isExternal }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: 'teal.50' }}
     >
       <LinkOrNothing isNothing={!!isExternal} to={href || ''}>
         <Stack direction={'row'} align={'center'}>

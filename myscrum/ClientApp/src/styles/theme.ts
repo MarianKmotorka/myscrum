@@ -4,6 +4,7 @@ import { ButtonStyles } from './components/ButtonStyles'
 const theme = extendTheme({
   colors: {
     primary: '#500472',
+    'primary.50': '#fdfaff',
     secondary: '#79cbb8'
   },
   components: {
