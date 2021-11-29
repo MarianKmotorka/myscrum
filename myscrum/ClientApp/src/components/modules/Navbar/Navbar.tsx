@@ -109,7 +109,7 @@ export default function Navbar() {
               <Button
                 display={{ base: 'none', md: 'inline-flex' }}
                 fontSize={'sm'}
-                variant='primary'
+                colorScheme='linkedin'
                 onClick={redirect}
               >
                 Get started

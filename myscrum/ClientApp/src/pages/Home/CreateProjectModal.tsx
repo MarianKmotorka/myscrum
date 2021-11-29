@@ -56,7 +56,7 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
               Discard
             </Button>
 
-            <Button variant='primary' ml={3} isLoading={submitting} type='submit'>
+            <Button colorScheme='linkedin' ml={3} isLoading={submitting} type='submit'>
               Create
             </Button>
           </ModalFooter>

@@ -5,4 +5,8 @@ export const GlobalStyles = createGlobalStyle`
         background-color: white;
     }
 
+    *:focus{
+        box-shadow: none !important;
+    }
+
 `

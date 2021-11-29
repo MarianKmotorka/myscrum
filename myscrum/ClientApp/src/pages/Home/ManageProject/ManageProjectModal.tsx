@@ -97,7 +97,7 @@ const ManageProjectModal = ({ project, onClose }: ManageProjectModalProps) => {
               Selected
             </Text>
           ) : (
-            <Button variant='primary' ml={3} onClick={() => setSelectedProject(project)}>
+            <Button colorScheme='linkedin' ml={3} onClick={() => setSelectedProject(project)}>
               Select this project
             </Button>
           )}

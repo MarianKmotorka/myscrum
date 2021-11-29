@@ -53,7 +53,7 @@ const Home = () => {
       >
         <AspectRatio ratio={1}>
           <Box {...projectCardProps} onClick={onOpen}>
-            <AddIcon color='primary' />
+            <AddIcon color='linkedin.700' />
           </Box>
         </AspectRatio>
 

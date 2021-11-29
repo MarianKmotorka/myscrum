@@ -29,15 +29,15 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
       <Tbody>
         {data.map(x => (
           <Tr key={x.id}>
-            <Link to={`/sprints/${x.id}`}>
-              <Td
-                fontWeight={x.isCurrentSprint ? '500' : '400'}
-                color={x.isCurrentSprint ? 'primary' : undefined}
-                _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
-              >
+            <Td
+              fontWeight={x.isCurrentSprint ? '500' : '400'}
+              color={x.isCurrentSprint ? 'linkedin.700' : undefined}
+              _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
+            >
+              <Link to={`/sprints/${x.id}`}>
                 <Text noOfLines={1}>{x.name}</Text>
-              </Td>
-            </Link>
+              </Link>
+            </Td>
             <Td>{formatDate(x.startDate)}</Td>
             <Td>{formatDate(x.endDate)}</Td>
           </Tr>

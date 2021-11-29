@@ -39,7 +39,7 @@ export default function Login() {
                 Number 1 tool
               </Text>
               <br />
-              <Text as={'span'} color={'primary'}>
+              <Text as={'span'} color={'primary.700'}>
                 for scrum teams!
               </Text>
             </Heading>
@@ -50,11 +50,18 @@ export default function Login() {
             </Text>
 
             <Stack spacing={{ base: 4, sm: 6 }} direction={{ base: 'column', sm: 'row' }}>
-              <Button size={'lg'} fontWeight={'normal'} px={6} variant='primary' onClick={redirect}>
+              <Button
+                size={'lg'}
+                fontWeight={'normal'}
+                px={6}
+                rounded='full'
+                colorScheme='linkedin'
+                onClick={redirect}
+              >
                 Get started
               </Button>
 
-              <Button size={'lg'} fontWeight={'normal'} px={6}>
+              <Button size={'lg'} fontWeight={'normal'} px={6} rounded='full'>
                 How It Works
               </Button>
             </Stack>

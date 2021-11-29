@@ -10,17 +10,17 @@ export const ButtonStyles = {
   // styles for different visual variants ("outline", "solid")
   variants: {
     primary: {
-      bg: 'primary',
+      bg: 'primary.700',
       color: 'white',
       _hover: {
-        bg: whiten('primary', 20)
+        bg: 'primary.800'
       }
     },
     primaryOutline: {
       bg: 'transparent',
-      color: 'primary',
+      color: 'primary.700',
       border: '1px solid',
-      borderColor: 'primary',
+      borderColor: 'primary.700',
       transition: 'all 200ms ease',
       _hover: {
         bg: 'gray.100'
