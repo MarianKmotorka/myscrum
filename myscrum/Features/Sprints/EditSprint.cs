@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,29 +8,29 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
-using myscrum.Domain.Sprints;
 using myscrum.Features.Sprints.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
 
 namespace myscrum.Features.Sprints
 {
-    public class CreateSprint
+    public class EditSprint
     {
-        public class Command : IRequest<SprintDto>
+        public class Command : IRequest<SprintDetailDto>
         {
-            public string ProjectId { get; set; }
+            [JsonIgnore]
+            public string Id { get; set; }
 
             public string Name { get; set; }
-
-            public string Goal { get; set; }
 
             public DateTime StartDate { get; set; }
 
             public DateTime EndDate { get; set; }
+
+            public string Goal { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, SprintDto>
+        public class Handler : IRequestHandler<Command, SprintDetailDto>
         {
             private readonly MyScrumContext _db;
             private readonly IMapper _mapper;
@@ -40,15 +41,16 @@ namespace myscrum.Features.Sprints
                 _mapper = mapper;
             }
 
-            public async Task<SprintDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<SprintDetailDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var project = await _db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
-                var newSprint = new Sprint(request.Name, request.StartDate, request.EndDate, project) { Goal = request.Goal };
+                var sprint = await _db.Sprints.SingleOrNotFoundAsync(x => x.Id == request.Id, cancellationToken);
+                sprint.Name = request.Name;
+                sprint.StartDate = request.StartDate;
+                sprint.EndDate = request.EndDate;
+                sprint.Goal = request.Goal;
 
-                _db.Add(newSprint);
                 await _db.SaveChangesAsync(cancellationToken);
-
-                return _mapper.Map<SprintDto>(newSprint);
+                return _mapper.Map<SprintDetailDto>(sprint);
             }
         }
 
@@ -61,7 +63,7 @@ namespace myscrum.Features.Sprints
             {
                 _db = db;
 
-                RuleFor(x => x.Name).NotEmpty().WithMessage("Required");
+                RuleFor(x => x.Name).NotEmpty().WithMessage("Sprint name cannot be empty");
 
                 RuleFor(x => x.StartDate).Cascade(CascadeMode.Stop)
                     .Must((req, _) => req.StartDate < req.EndDate).WithMessage("Start date must be before end date")
@@ -70,7 +72,8 @@ namespace myscrum.Features.Sprints
 
             private async Task<bool> NotOverlapOtherSprint(Command command, DateTime _, CancellationToken cancellationToken)
             {
-                var projectSprints = await _db.Sprints.Where(x => x.ProjectId == command.ProjectId).ToListAsync(cancellationToken);
+                var sprint = await _db.Sprints.SingleOrNotFoundAsync(x => x.Id == command.Id, cancellationToken);
+                var projectSprints = await _db.Sprints.Where(x => x.ProjectId == sprint.ProjectId && x.Id != sprint.Id).ToListAsync(cancellationToken);
                 _overlappingSprintName = projectSprints.FirstOrDefault(x => IsOverlap(command.StartDate, command.EndDate, x.StartDate, x.EndDate))?.Name;
                 return _overlappingSprintName is null;
             }
@@ -88,8 +91,8 @@ namespace myscrum.Features.Sprints
         {
             public async Task<bool> IsAuthorized(Command request, MyScrumContext db, ICurrentUserService currentUserService, CancellationToken cancellationToken)
             {
-                var project = await db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
-                return project.OwnerId == currentUserService.UserId;
+                var sprint = await db.Sprints.Include(x => x.Project).SingleOrNotFoundAsync(x => x.Id == request.Id, cancellationToken);
+                return sprint.Project.OwnerId == currentUserService.UserId;
             }
         }
     }

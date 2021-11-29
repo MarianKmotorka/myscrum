@@ -13,6 +13,8 @@ import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
 import { css } from '@emotion/react'
 import SprintDetailTab from './Tabs/SprintDetailTab/SprintDetail'
+import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
+import EditableSprintName from './Tabs/SprintDetailTab/EditableSprintName'
 
 const SprintDetailPage = () => {
   const { id } = useParams()
@@ -34,19 +36,7 @@ const SprintDetailPage = () => {
         </Button>
       </Link>
 
-      <Text
-        fontSize='lg'
-        boxShadow='xl'
-        color='white'
-        bg='primary'
-        p={3}
-        pl={5}
-        borderRadius='100px'
-        fontWeight='500'
-        mt={5}
-      >
-        {data.name}
-      </Text>
+      <EditableSprintName sprint={data} isEditable={project.amIOwner} />
 
       <Tabs
         variant='enclosed'
