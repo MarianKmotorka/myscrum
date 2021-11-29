@@ -10,7 +10,10 @@ export const projectCardProps = {
 }
 
 export const selectedCardOverrideProps = {
-  borderColor: 'linkedin.700',
-  color: 'linkedin.700',
-  fontWeight: 500
+  color: 'white',
+  border: 'none',
+  fontWeight: 500,
+  boxShadow: '0 20px 40px rgba(0,0,0,0.25)',
+  bg: 'linear-gradient(45deg, #500472, #79cbb8 ,#fff  )',
+  _hover: {}
 }

@@ -1,4 +1,4 @@
-import { whiten } from '@chakra-ui/theme-tools'
+import { whiten, darken } from '@chakra-ui/theme-tools'
 
 export const ButtonStyles = {
   // style object for base or default style
@@ -10,17 +10,17 @@ export const ButtonStyles = {
   // styles for different visual variants ("outline", "solid")
   variants: {
     primary: {
-      bg: 'primary.700',
+      bg: 'primary',
       color: 'white',
       _hover: {
-        bg: 'primary.800'
+        bg: darken('primary', 5)
       }
     },
     primaryOutline: {
       bg: 'transparent',
-      color: 'primary.700',
+      color: 'primary',
       border: '1px solid',
-      borderColor: 'primary.700',
+      borderColor: 'primary',
       transition: 'all 200ms ease',
       _hover: {
         bg: 'gray.100'

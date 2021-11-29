@@ -31,7 +31,7 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
           <Tr key={x.id}>
             <Td
               fontWeight={x.isCurrentSprint ? '500' : '400'}
-              color={x.isCurrentSprint ? 'linkedin.700' : undefined}
+              color={x.isCurrentSprint ? 'primary' : undefined}
               _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
             >
               <Link to={`/sprints/${x.id}`}>

@@ -80,7 +80,7 @@ const CreateSprintModal = ({ isOpen, refetch, onClose }: CreateSprintModalProps)
               Dismiss
             </Button>
 
-            <Button colorScheme='linkedin' type='submit' isLoading={submitting}>
+            <Button variant='primary' type='submit' isLoading={submitting}>
               Create
             </Button>
           </ModalFooter>

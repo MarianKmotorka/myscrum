@@ -55,7 +55,7 @@ export default function Login() {
                 fontWeight={'normal'}
                 px={6}
                 rounded='full'
-                colorScheme='linkedin'
+                variant='primary'
                 onClick={redirect}
               >
                 Get started

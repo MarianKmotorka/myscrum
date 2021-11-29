@@ -34,8 +34,8 @@ const SprintDetailPage = () => {
 
       <Text
         fontSize='lg'
-        color='linkedin.700'
-        bg='linear-gradient(to right, #E2F4FD 0%,#ffffff 40%)'
+        color='primary'
+        boxShadow='md'
         p={3}
         pl={5}
         borderRadius='100px'
@@ -45,7 +45,7 @@ const SprintDetailPage = () => {
         {data.name}
       </Text>
 
-      <Tabs colorScheme='linkedin' variant='enclosed' mt={6} isLazy>
+      <Tabs variant='enclosed' mt={6} isLazy>
         <TabList>
           <Tab>Info</Tab>
           <Tab>Sprint backlog</Tab>

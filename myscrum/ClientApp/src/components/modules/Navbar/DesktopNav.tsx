@@ -72,16 +72,11 @@ const DesktopSubNav = ({ label, href, subLabel, isExternal }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: 'linkedin.50' }}
     >
       <LinkOrNothing isNothing={!!isExternal} to={href || ''}>
         <Stack direction={'row'} align={'center'}>
           <Box>
-            <Text
-              transition={'all .3s ease'}
-              _groupHover={{ color: 'linkedin.700' }}
-              fontWeight={500}
-            >
+            <Text transition={'all .3s ease'} _groupHover={{ color: 'primary' }} fontWeight={500}>
               {label}
             </Text>
             <Text fontSize={'sm'}>{subLabel}</Text>
@@ -96,7 +91,7 @@ const DesktopSubNav = ({ label, href, subLabel, isExternal }: NavItem) => {
             align={'center'}
             flex={1}
           >
-            <Icon color={'linkedin.700'} w={5} h={5} as={ChevronRightIcon} />
+            <Icon color='primary' w={5} h={5} as={ChevronRightIcon} />
           </Flex>
         </Stack>
       </LinkOrNothing>

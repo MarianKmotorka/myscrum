@@ -28,8 +28,8 @@ const Sprints = () => {
   const currentSprint = data.find(x => x.isCurrentSprint)
 
   return (
-    <Box mb={3}>
-      <HStack mt={5} mb={10}>
+    <Box mb={10}>
+      <HStack mt={5}>
         <Text fontSize='4xl' mr={4}>
           Sprints
         </Text>

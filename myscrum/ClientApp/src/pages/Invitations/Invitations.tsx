@@ -98,7 +98,7 @@ const Invitations = () => {
             </HStack>
 
             <ButtonGroup isAttached alignSelf='flex-end' alignItems='flex-end' flex='1'>
-              <Button colorScheme='linkedin' onClick={() => acceptOrReject(true, x.id)}>
+              <Button variant='primary' onClick={() => acceptOrReject(true, x.id)}>
                 Accept
               </Button>
               <Button onClick={() => acceptOrReject(false, x.id)}>Reject</Button>
