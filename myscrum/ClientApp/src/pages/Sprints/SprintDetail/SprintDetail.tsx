@@ -11,6 +11,8 @@ import { Box, Text } from '@chakra-ui/layout'
 import { Button } from '@chakra-ui/button'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
+import { css } from '@emotion/react'
+import SprintDetailTab from './Tabs/SprintDetailTab/SprintDetail'
 
 const SprintDetailPage = () => {
   const { id } = useParams()
@@ -34,8 +36,9 @@ const SprintDetailPage = () => {
 
       <Text
         fontSize='lg'
-        color='primary'
-        boxShadow='md'
+        boxShadow='xl'
+        color='white'
+        bg='primary'
         p={3}
         pl={5}
         borderRadius='100px'
@@ -45,7 +48,16 @@ const SprintDetailPage = () => {
         {data.name}
       </Text>
 
-      <Tabs variant='enclosed' mt={6} isLazy>
+      <Tabs
+        variant='enclosed'
+        mt={7}
+        css={css`
+          [aria-selected='true'] {
+            color: var(--chakra-colors-primary) !important;
+            font-weight: 500;
+          }
+        `}
+      >
         <TabList>
           <Tab>Info</Tab>
           <Tab>Sprint backlog</Tab>
@@ -56,7 +68,7 @@ const SprintDetailPage = () => {
 
         <TabPanels>
           <TabPanel>
-            <p>one!</p>
+            <SprintDetailTab sprint={data} />
           </TabPanel>
         </TabPanels>
       </Tabs>

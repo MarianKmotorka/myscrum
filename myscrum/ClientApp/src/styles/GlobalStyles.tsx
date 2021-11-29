@@ -5,8 +5,7 @@ export const GlobalStyles = createGlobalStyle`
         background-color: white;
     }
 
-    *:focus{
-        box-shadow: none !important;
+    .chakra-tabs__tablist button {
+            box-shadow: none !important;
     }
-
 `
