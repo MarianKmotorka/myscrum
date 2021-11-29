@@ -19,6 +19,8 @@ const EditableSprintName = ({ sprint, isEditable }: EditableSprintNameProps) => 
   const project = useSelectedProject()
 
   const rename = async (newName: string) => {
+    if (newName === sprint.name) return
+
     try {
       const resp = await api.patch<SprintDetail>(`/sprints/${sprint.id}`, {
         ...sprint,
