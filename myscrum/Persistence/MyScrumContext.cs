@@ -8,6 +8,7 @@ using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
+using myscrum.Domain.WorkItems;
 
 namespace myscrum.Persistence
 {
@@ -25,6 +26,8 @@ namespace myscrum.Persistence
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Sprint> Sprints { get; set; }
+
+        public DbSet<WorkItem> WorkItems { get; set; }
 
         public DbSet<ProjectInvitation> ProjectInvitations { get; set; }
 
@@ -75,6 +78,12 @@ namespace myscrum.Persistence
             builder.Entity<Sprint>(s =>
             {
                 s.HasOne(x => x.Project).WithMany().IsRequired();
+            });
+
+            builder.Entity<WorkItem>(wit =>
+            {
+                wit.HasOne(x => x.Parent).WithMany();
+                wit.Property(x => x.Title).IsRequired();
             });
         }
     }
