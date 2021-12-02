@@ -82,7 +82,7 @@ namespace myscrum.Persistence
 
             builder.Entity<WorkItem>(wit =>
             {
-                wit.HasOne(x => x.Parent).WithMany();
+                wit.HasOne(x => x.Parent).WithMany(x => x.Children);
                 wit.Property(x => x.Title).IsRequired();
             });
         }

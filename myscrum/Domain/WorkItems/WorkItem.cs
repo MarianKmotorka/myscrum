@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using myscrum.Domain.Common;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
@@ -18,11 +19,21 @@ namespace myscrum.Domain.WorkItems
             [WorkItemType.TestCase] = Array.Empty<WorkItemType>(),
         };
 
-        public WorkItem(string title, WorkItemType type, WorkItem parent = null)
+        private List<WorkItem> _children;
+
+        public WorkItem(string title, WorkItemType type, int priority)
         {
-            Title = title;
-            Parent = parent;
+            Title = string.IsNullOrEmpty(title)
+                ? throw new ArgumentException("Title cannot be null or empty string")
+                : title;
+
+            if (priority < 1)
+                throw new ArgumentException("Priority must be more than zero.");
+
+            Priority = priority;
+
             Type = type;
+            _children = new();
         }
 
         private WorkItem()
@@ -41,10 +52,15 @@ namespace myscrum.Domain.WorkItems
 
         public WorkItem Parent { get; private set; }
 
+        public IReadOnlyList<WorkItem> Children => _children;
+
         public string ParentId { get; private set; }
 
         public WorkItemType Type { get; private set; }
 
+        /// <summary>
+        /// Number 1 is the highest priority
+        /// </summary>
         public int Priority { get; private set; }
 
         public string Description { get; private set; }
@@ -60,6 +76,113 @@ namespace myscrum.Domain.WorkItems
         public string ImplementationDetails { get; private set; }
 
         public string AcceptationCriteria { get; private set; }
+
+        public void SetParent(WorkItem parent)
+        {
+            if (parent?.Id == ParentId)
+                return;
+
+            if (parent is not null && !AllowedParentsMap[Type].Contains(parent.Type))
+                throw new InvalidOperationException($"WorkItem of type {Type} cannot have parent of type {parent.Type}");
+
+            Parent = parent;
+            ParentId = parent?.Id;
+        }
+
+        public void SetTitle(string title)
+        {
+            if (title == Title)
+                return;
+
+            Title = string.IsNullOrEmpty(title)
+                ? throw new ArgumentException("Title cannot be null or empty string")
+                : title;
+        }
+
+        public void SetAssignedTo(User user)
+        {
+            if (user?.Id == AssignedToId)
+                return;
+
+            AssignedTo = user;
+            AssignedToId = user?.Id;
+        }
+
+        public void SetSprint(Sprint sprint)
+        {
+            if (sprint?.Id == SprintId)
+                return;
+
+            Sprint = sprint;
+            SprintId = sprint?.Id;
+        }
+
+        public void SetPriority(int priority)
+        {
+            if (priority < 1)
+                throw new ArgumentException("Priority must be more than zero.");
+
+            if (priority == Priority)
+                return;
+
+            Priority = priority;
+        }
+
+        public void SetDescription(string description)
+        {
+            if (description == Description)
+                return;
+
+            Description = description;
+        }
+
+        public void SetState(WorkItemState state)
+        {
+            if (state == State)
+                return;
+
+            State = state;
+        }
+
+        public void SetRemainingHours(double? hours)
+        {
+            if (hours == RemainingHours)
+                return;
+
+            RemainingHours = hours;
+        }
+
+        public void SetStartDate(DateTime? start)
+        {
+            if (StartDate == start)
+                return;
+
+            StartDate = start;
+        }
+
+        public void SetFinishDate(DateTime? finish)
+        {
+            if (FinishDate == finish)
+                return;
+
+            FinishDate = finish;
+        }
+
+        public void SetImplementationDetails(string details)
+        {
+            if (ImplementationDetails == details)
+                return;
+
+            ImplementationDetails = details;
+        }
+
+        public void SetAcceptanceCriteria(string criteria)
+        {
+            if (AcceptationCriteria == criteria)
+                return;
+
+            AcceptationCriteria = criteria;
+        }
     }
 
     public enum WorkItemState
