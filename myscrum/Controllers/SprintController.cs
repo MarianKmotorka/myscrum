@@ -30,5 +30,12 @@ namespace myscrum.Controllers
             command.Id = id;
             return await Mediator.Send(command, cancellationToken);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id, CancellationToken cancellationToken)
+        {
+            await Mediator.Send(new DeleteSprint.Command { SprintId = id }, cancellationToken);
+            return NoContent();
+        }
     }
 }

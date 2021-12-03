@@ -10,10 +10,13 @@ import InfoItem from './InfoItem'
 import { useState } from 'react'
 import Form from 'components/elements/HookForm/Form'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
-import { errorToastIfNotValidationError, successToast } from 'services/toastService'
+import { apiErrorToast, errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { useQueryClient } from 'react-query'
 import FormInput from 'components/elements/HookForm/FormInput'
 import { requiredValidator } from 'utils/validators'
+import { ApiError } from 'api/types'
+import api from 'api/httpClient'
+import { useNavigate } from 'react-router'
 
 interface SprintDetailTabProps {
   sprint: SprintDetail
@@ -28,6 +31,7 @@ interface FormValue {
 const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
   const project = useSelectedProject()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false)
 
   const { onSubmit, submitting } = useSubmitForm<FormValue, SprintDetail>({
@@ -41,6 +45,18 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
     },
     errorCallback: errorToastIfNotValidationError
   })
+
+  const deleteSprint = async () => {
+    if (!window.confirm(`Do you really want to delete ${sprint.name} ?`)) return
+
+    try {
+      await api.delete(`/sprints/${sprint.id}`)
+      successToast('Sprint deleted.')
+      navigate('/sprints')
+    } catch (err) {
+      apiErrorToast(err as ApiError)
+    }
+  }
 
   const formatDateForInput = (date: string) => moment(date).format('YYYY-MM-DD')
 
@@ -60,7 +76,7 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
                 <Button leftIcon={<EditIcon />} onClick={() => setIsEditing(true)}>
                   Edit
                 </Button>
-                <Button leftIcon={<DeleteIcon />} colorScheme='red'>
+                <Button leftIcon={<DeleteIcon />} colorScheme='red' onClick={deleteSprint}>
                   Delete
                 </Button>
               </>
