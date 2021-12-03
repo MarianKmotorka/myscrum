@@ -10,10 +10,11 @@ export const projectCardProps = {
 }
 
 export const selectedCardOverrideProps = {
-  color: 'white',
+  color: '#fff',
   border: 'none',
+  borderColor: '#000033',
   fontWeight: 500,
-  boxShadow: '0 20px 40px rgba(0,0,0,0.25)',
-  bg: 'linear-gradient(45deg, #500472, #79cbb8 ,#fff  )',
+  boxShadow: '0 10px 20px rgba(5,0,40,0.17)',
+  bg: 'linear-gradient(45deg,#500472bb, #79cbb8  )',
   _hover: {}
 }

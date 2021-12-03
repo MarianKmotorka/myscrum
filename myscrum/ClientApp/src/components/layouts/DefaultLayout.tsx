@@ -1,20 +1,23 @@
 import { Box, Container } from '@chakra-ui/layout'
+import { SlideFade } from '@chakra-ui/react'
 import Navbar from 'components/modules/Navbar/Navbar'
+import { useLocation } from 'react-router'
 
 interface DefaultLayoutProps {
   children: JSX.Element
 }
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
+  const { pathname } = useLocation()
   return (
     <Box>
-      {/* <Box h='70px' borderBottom='1px solid' borderBottomColor='gray.200'>
-        <Container maxW='5xl'>NAVBAR</Container>
-      </Box> */}
-
       <Navbar />
 
-      <Container maxW='5xl'>{children}</Container>
+      <Container maxW='5xl'>
+        <SlideFade key={pathname} in offsetY={0} offsetX={-10}>
+          {children}
+        </SlideFade>
+      </Container>
     </Box>
   )
 }
