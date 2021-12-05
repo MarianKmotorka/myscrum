@@ -73,10 +73,15 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
           <ButtonGroup ml='auto' mb='-15px'>
             {!isEditing && (
               <>
-                <Button leftIcon={<EditIcon />} onClick={() => setIsEditing(true)}>
+                <Button variant='ghost' leftIcon={<EditIcon />} onClick={() => setIsEditing(true)}>
                   Edit
                 </Button>
-                <Button leftIcon={<DeleteIcon />} colorScheme='red' onClick={deleteSprint}>
+                <Button
+                  variant='outline'
+                  leftIcon={<DeleteIcon />}
+                  colorScheme='red'
+                  onClick={deleteSprint}
+                >
                   Delete
                 </Button>
               </>

@@ -61,7 +61,8 @@ namespace myscrum.Startup.ExceptionHandling
                     break;
                 default:
                     _logger.LogError(exception, string.Empty);
-                    errorResponse = ErrorResponseFactory.CreateBadRequestErrorResponse("Processing error");
+                    var message = string.IsNullOrEmpty(exception.Message) ? "Processing error" : exception.Message;
+                    errorResponse = ErrorResponseFactory.CreateBadRequestErrorResponse(message);
                     break;
             }
 

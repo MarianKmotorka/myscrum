@@ -56,12 +56,43 @@ namespace myscrum.Features.WorkItems
 
             public async Task<WorkItemDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var newWorkItem = new WorkItem(request.Title, request.Type);
-                //newWorkItem.SetAcceptanceCriteria(request.AcceptationCriteria);
-                //newWorkItem.SetImplementationDetails(request.ImplementationDetails);
+                var project = await _db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
+                var lowestPriority = await _db.WorkItems
+                    .Where(x => x.ProjectId == request.ProjectId)
+                    .OrderBy(x => x.Priority)
+                    .Select(x => x.Priority)
+                    .LastOrDefaultAsync(cancellationToken);
 
+                var newWorkItem = new WorkItem(request.Title, request.Type, lowestPriority + 1, project);
 
-                throw new NotImplementedException();
+                newWorkItem.SetAcceptanceCriteria(request.AcceptationCriteria);
+                newWorkItem.SetImplementationDetails(request.ImplementationDetails);
+                newWorkItem.SetDescription(request.Description);
+                newWorkItem.SetStartDate(request.StartDate);
+                newWorkItem.SetFinishDate(request.FinishDate);
+                newWorkItem.SetRemainingHours(request.RemainingHours);
+
+                if (request.AssignedToId is not null)
+                {
+                    var assignedTo = await _db.Users.FindOrNotFoundAsync(cancellationToken, request.AssignedToId);
+                    newWorkItem.SetAssignedTo(assignedTo);
+                }
+
+                if (request.SprintId is not null)
+                {
+                    var sprint = await _db.Sprints.FindOrNotFoundAsync(cancellationToken, request.SprintId);
+                    newWorkItem.SetSprint(sprint); ;
+                }
+
+                if (request.ParentId is not null)
+                {
+                    var parent = await _db.WorkItems.Where(x => x.ProjectId == request.ProjectId).SingleOrNotFoundAsync(x => x.Id == request.ParentId, cancellationToken);
+                    newWorkItem.SetParent(parent); ;
+                }
+
+                _db.Add(newWorkItem);
+                await _db.SaveChangesAsync(cancellationToken);
+                return _mapper.Map<WorkItemDto>(newWorkItem);
             }
         }
 

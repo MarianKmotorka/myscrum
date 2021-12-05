@@ -84,6 +84,7 @@ namespace myscrum.Persistence
             {
                 wit.HasOne(x => x.Parent).WithMany(x => x.Children);
                 wit.Property(x => x.Title).IsRequired();
+                wit.HasOne(x => x.Project).WithMany().IsRequired();
             });
         }
     }

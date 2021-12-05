@@ -1,6 +1,9 @@
-﻿namespace myscrum.Features.Common
+﻿using myscrum.Common.Mappings;
+using myscrum.Domain.Users;
+
+namespace myscrum.Features.Common
 {
-    public class UserDto
+    public class UserDto : IMapFrom<User>
     {
         public string Id { get; set; }
 

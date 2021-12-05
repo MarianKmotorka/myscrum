@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using myscrum.Domain.Common;
+using myscrum.Domain.Projects;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
 
@@ -21,8 +22,10 @@ namespace myscrum.Domain.WorkItems
 
         private List<WorkItem> _children;
 
-        public WorkItem(string title, WorkItemType type, int priority)
+        public WorkItem(string title, WorkItemType type, int priority, Project project)
         {
+            Id = Guid.NewGuid().ToString();
+
             Title = string.IsNullOrEmpty(title)
                 ? throw new ArgumentException("Title cannot be null or empty string")
                 : title;
@@ -31,14 +34,19 @@ namespace myscrum.Domain.WorkItems
                 throw new ArgumentException("Priority must be more than zero.");
 
             Priority = priority;
-
             Type = type;
+            Project = project;
+            ProjectId = project.Id;
             _children = new();
         }
 
         private WorkItem()
         {
         }
+
+        public string ProjectId { get; private set; }
+
+        public Project Project { get; private set; }
 
         public string Title { get; private set; }
 

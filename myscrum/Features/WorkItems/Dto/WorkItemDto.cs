@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using myscrum.Common.Mappings;
 using myscrum.Domain.WorkItems;
 using myscrum.Features.Common;
-using myscrum.Features.Sprints.Dto;
 
 namespace myscrum.Features.WorkItems.Dto
 {
     public class WorkItemDto : IMapFrom<WorkItem>
     {
         public string Id { get; set; }
+
         public string Title { get; set; }
 
         public UserDto AssignedTo { get; set; }
 
-        public SprintDto Sprint { get; set; }
+        public string SprintId { get; set; }
 
-        public WorkItemDto Parent { get; set; }
+        public string ProjectId { get; set; }
+
+        public string ParentId { get; set; }
 
         public List<WorkItemDto> Children { get; set; }
 
