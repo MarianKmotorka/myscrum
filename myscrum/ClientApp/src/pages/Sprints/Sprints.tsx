@@ -34,13 +34,24 @@ const Sprints = () => {
           Sprints
         </Text>
 
-        <ButtonGroup>
-          <IconButton aria-label='refresh' onClick={() => refetch()} isLoading={isFetching}>
+        <ButtonGroup alignItems='center'>
+          <IconButton
+            aria-label='refresh'
+            variant='bgGhost'
+            onClick={() => refetch()}
+            isLoading={isFetching}
+          >
             <FiRefreshCcw />
           </IconButton>
 
           {selectedProject?.amIOwner && (
-            <Button leftIcon={<AddIcon />} onClick={onOpen}>
+            <Button
+              variant='primary'
+              fontWeight={400}
+              size='sm'
+              leftIcon={<AddIcon />}
+              onClick={onOpen}
+            >
               Create sprint
             </Button>
           )}
@@ -52,7 +63,7 @@ const Sprints = () => {
       <SprintsTable data={data} caption='All sprints' />
 
       {data.length === 0 && (
-        <Text mt={5} maxW='250px' border='solid 1px' borderColor='gray.200' color='gray.500' p={5}>
+        <Text mt={5} maxW='250px' bg='bg2' borderRadius='md' color='gray.700' p={5}>
           {'No sprints created so far :('}
         </Text>
       )}

@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/layout'
 import { Table, TableCaption, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/table'
+import { css } from '@emotion/react'
 import { Sprint } from 'domainTypes'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
@@ -19,7 +20,13 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
       </TableCaption>
 
       <Thead>
-        <Tr>
+        <Tr
+          css={css`
+            > th {
+              border-color: white;
+            }
+          `}
+        >
           <Th>Name</Th>
           <Th minW='150px'>Start date</Th>
           <Th minW='150px'>End date</Th>
@@ -28,7 +35,14 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
 
       <Tbody>
         {data.map(x => (
-          <Tr key={x.id}>
+          <Tr
+            key={x.id}
+            css={css`
+              > td {
+                border-color: white;
+              }
+            `}
+          >
             <Td
               fontWeight={x.isCurrentSprint ? '500' : '400'}
               color={x.isCurrentSprint ? 'primary' : undefined}

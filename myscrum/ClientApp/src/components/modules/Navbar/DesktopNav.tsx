@@ -10,8 +10,7 @@ interface DesktopNavProps {
 }
 
 const DesktopNav = ({ items }: DesktopNavProps) => {
-  const linkColor = 'gray.600'
-  const linkHoverColor = 'gray.800'
+  const linkColor = 'secondary'
   const popoverContentBgColor = 'white'
 
   return (
@@ -27,8 +26,7 @@ const DesktopNav = ({ items }: DesktopNavProps) => {
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor
+                  textDecoration: 'none'
                 }}
               >
                 <LinkOrNothing
@@ -72,6 +70,7 @@ const DesktopSubNav = ({ label, href, subLabel, isExternal }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
+      _hover={{ bg: 'bg' }}
     >
       <LinkOrNothing isNothing={!!isExternal} to={href || ''}>
         <Stack direction={'row'} align={'center'}>

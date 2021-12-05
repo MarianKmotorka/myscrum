@@ -56,7 +56,13 @@ const Invitations = () => {
     <Box>
       <Text fontSize='4xl' mt={5}>
         Invitations
-        <IconButton aria-label='refresh' ml={4} onClick={() => refetch()} isLoading={isFetching}>
+        <IconButton
+          variant='bgGhost'
+          aria-label='refresh'
+          ml={4}
+          onClick={() => refetch()}
+          isLoading={isFetching}
+        >
           <FiRefreshCcw />
         </IconButton>
       </Text>
@@ -74,7 +80,7 @@ const Invitations = () => {
         my={7}
       >
         {data?.length === 0 && (
-          <Text border='solid 1px' borderColor='gray.200' color='gray.500' p={5}>
+          <Text mt={5} maxW='250px' bg='bg2' borderRadius='md' color='gray.700' p={5}>
             {'No invitations so far :('}
           </Text>
         )}
@@ -83,6 +89,7 @@ const Invitations = () => {
           <VStack
             key={x.id}
             border='solid 1px'
+            bg='white'
             borderColor='gray.200'
             borderRadius='xl'
             alignItems='stretch'

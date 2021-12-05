@@ -30,19 +30,28 @@ const SprintDetailPage = () => {
   return (
     <Box>
       <Link to='/sprints'>
-        <Button variant='link' mt={3} fontWeight='normal' leftIcon={<ChevronLeftIcon />}>
-          Sprints
+        <Button
+          variant='link'
+          color='gray.700'
+          mt={3}
+          fontWeight='normal'
+          leftIcon={<ChevronLeftIcon />}
+        >
+          Back to sprints
         </Button>
       </Link>
 
       <EditableSprintName sprint={data} isEditable={project.amIOwner} />
 
       <Tabs
-        variant='enclosed'
         mt={7}
+        bg='white'
+        p={3}
+        boxShadow='0 0 3px rgba(20,0,50, 0.1)'
+        borderRadius='md'
         css={css`
           [aria-selected='true'] {
-            color: var(--chakra-colors-primary) !important;
+            color: var(--chakra-colors-secondary) !important;
             font-weight: 500;
           }
         `}
@@ -55,8 +64,8 @@ const SprintDetailPage = () => {
           <Tab>Retrospectives</Tab>
         </TabList>
 
-        <TabPanels>
-          <TabPanel>
+        <TabPanels height='calc(100vh - 300px)'>
+          <TabPanel height='100%'>
             <SprintDetailTab sprint={data} />
           </TabPanel>
         </TabPanels>

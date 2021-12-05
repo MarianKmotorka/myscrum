@@ -1,7 +1,7 @@
 import { ApiError } from 'api/types'
 
 export const getAvatarUrl = (userId: string) =>
-  `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23ffffff`
+  `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23F0E9D2`
 
 export const getApiErrorMessage = (err: ApiError) => {
   if (err.data.errorCode === 'ValidationError')

@@ -41,15 +41,7 @@ export default function Navbar() {
   const navItems = isLoggedIn ? (selectedProject ? NAV_ITEMS : []) : LOGGED_OUT_NAV_ITEMS
 
   return (
-    <Box
-      borderBottom={1}
-      borderStyle={'solid'}
-      borderColor={'gray.200'}
-      bg={'white'}
-      position='sticky'
-      top='0px'
-      zIndex={10}
-    >
+    <Box bg='bg' position='sticky' top='0px' zIndex={10}>
       <Container maxW='5xl'>
         <Flex color={'gray.700'} minH={'60px'} py={{ base: 2 }} align={'center'}>
           <Flex
@@ -71,7 +63,7 @@ export default function Navbar() {
               fontFamily="'Pacifico', cursive"
               fontSize='2xl'
               lineHeight='43px'
-              bg='linear-gradient(to right,#500472, #79cbb8)'
+              bg='linear-gradient(to right,#181D31, #678983)'
               backgroundClip='text'
               color='transparent'
               cursor='pointer'
@@ -85,7 +77,7 @@ export default function Navbar() {
                 <Button
                   ml={3}
                   size='xs'
-                  variant='outline'
+                  variant='secondaryOutline'
                   rightIcon={<TriangleDownIcon w='8px' h='8px' />}
                 >
                   <Text maxW='200px' overflow='hidden' textOverflow='ellipsis'>
@@ -102,7 +94,13 @@ export default function Navbar() {
 
           {!isLoggedIn && (
             <Stack flex={{ base: 1, md: 0 }} justify='flex-end' direction='row' spacing={6}>
-              <Button fontSize={'sm'} fontWeight={400} variant={'link'} onClick={redirect}>
+              <Button
+                fontSize='sm'
+                fontWeight={400}
+                variant='link'
+                color='secondary'
+                onClick={redirect}
+              >
                 Sign In
               </Button>
 
@@ -121,13 +119,13 @@ export default function Navbar() {
             <HStack>
               {!isSmallScreen && (
                 <Link to='/invitations'>
-                  <IconButton aria-label='invitations' mr={3} variant='outline' size='md'>
+                  <IconButton aria-label='invitations' mr={3} variant='bgGhost' size='md'>
                     <Box position='relative'>
                       <BiEnvelope />
 
                       {!!auth.currentUser.projectInvitationCount && (
                         <Badge
-                          bg='secondary'
+                          bg='primary'
                           color='white'
                           rounded='full'
                           position='absolute'
@@ -155,7 +153,7 @@ export default function Navbar() {
                       <Text fontSize='sm'>
                         {auth.currentUser.givenName} {auth.currentUser.surname}
                       </Text>
-                      <Text fontSize='xs' color='gray.500'>
+                      <Text fontSize='xs' color='gray.600'>
                         {auth.currentUser.email}
                       </Text>
                     </VStack>

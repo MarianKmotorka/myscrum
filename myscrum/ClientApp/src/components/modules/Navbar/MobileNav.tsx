@@ -21,7 +21,7 @@ const MobileNav = ({ items }: MobileNavProps) => {
   const { isLoggedIn } = auth
 
   return (
-    <Stack bg={'white'} p={4} display={{ md: 'none' }}>
+    <Stack bg='bg' p={4} display={{ md: 'none' }}>
       {selectedProject && isLoggedIn && (
         <Box display='flex' justifyContent='center' alignItems='center'>
           <Link to='/'>

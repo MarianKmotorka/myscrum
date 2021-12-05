@@ -23,8 +23,9 @@ export default function Login() {
               fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
             >
               <Text
-                as={'span'}
-                position={'relative'}
+                as='span'
+                position='relative'
+                color='secondary'
                 _after={{
                   content: "''",
                   width: 'full',
@@ -32,19 +33,19 @@ export default function Login() {
                   position: 'absolute',
                   bottom: 1,
                   left: 0,
-                  bg: 'secondary',
+                  bg: 'bg2',
                   zIndex: -1
                 }}
               >
                 Number 1 tool
               </Text>
               <br />
-              <Text as={'span'} color={'primary.700'}>
+              <Text as={'span'} color='secondary'>
                 for scrum teams!
               </Text>
             </Heading>
 
-            <Text color={'gray.500'}>
+            <Text color={'gray.600'}>
               My scrum is snippy tool for your every day scrum management. It lets you organize all
               the work and assign it to your people quickly. And it is all for FREE!
             </Text>
@@ -61,7 +62,13 @@ export default function Login() {
                 Get started
               </Button>
 
-              <Button size={'lg'} fontWeight={'normal'} px={6} rounded='full'>
+              <Button
+                variant='secondaryOutline'
+                size={'lg'}
+                fontWeight={'normal'}
+                px={6}
+                rounded='full'
+              >
                 How It Works
               </Button>
             </Stack>
@@ -86,7 +93,7 @@ export default function Login() {
               top={'50%'}
               left='20%'
               zIndex={-1}
-              color='secondary'
+              color='bg2'
             />
           </Flex>
         </Stack>

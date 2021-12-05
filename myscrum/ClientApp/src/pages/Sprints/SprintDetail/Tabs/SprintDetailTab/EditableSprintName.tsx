@@ -47,7 +47,7 @@ const EditableSprintName = ({ sprint, isEditable }: EditableSprintNameProps) => 
         borderRadius='5px'
         borderColor='primary'
         borderLeft='solid 5px'
-        clipPath='polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%)'
+        clipPath='polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0 100%)'
       >
         <Editable
           isDisabled={!isEditable}

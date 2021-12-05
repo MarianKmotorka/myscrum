@@ -41,7 +41,18 @@ export const ButtonStyles = {
       borderColor: 'secondary',
       transition: 'all 200ms ease',
       _hover: {
-        bg: whiten('secondary', 90)
+        bg: 'bg2'
+      }
+    },
+    ghost: {
+      _hover: {
+        bg: 'gray.50'
+      }
+    },
+    bgGhost: {
+      bg: 'bg2',
+      _hover: {
+        bg: 'transparent'
       }
     }
   },

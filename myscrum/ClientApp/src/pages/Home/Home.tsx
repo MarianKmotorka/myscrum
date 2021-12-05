@@ -30,17 +30,23 @@ const Home = () => {
     <Box mb={3}>
       <Text fontSize='4xl' mt={5}>
         Projects
-        <IconButton aria-label='refresh' ml={4} onClick={refetch} isLoading={isFetching}>
+        <IconButton
+          variant='bgGhost'
+          aria-label='refresh'
+          ml={4}
+          onClick={refetch}
+          isLoading={isFetching}
+        >
           <FiRefreshCcw />
         </IconButton>
       </Text>
 
-      <Text my={3} fontSize='md' color='gray.600'>
+      <Text my={3} fontSize='md' color='gray.700'>
         Here you can create or select project to work with.
       </Text>
 
-      <Text mt={10} mb={10} fontSize='md' color='gray.600' fontStyle='italic'>
-        <StarIcon color='gray.500' /> - indicates that you are the owner of the project
+      <Text mt={10} mb={10} fontSize='md' color='gray.700' fontStyle='italic'>
+        <StarIcon color='gray.600' /> - indicates that you are the owner of the project
       </Text>
 
       <Grid
