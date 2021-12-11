@@ -33,7 +33,7 @@ export default function Login() {
                   position: 'absolute',
                   bottom: 1,
                   left: 0,
-                  bg: 'bg2',
+                  bg: 'white',
                   zIndex: -1
                 }}
               >
