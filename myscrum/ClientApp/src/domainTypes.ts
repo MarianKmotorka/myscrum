@@ -43,3 +43,12 @@ export interface SprintDetail {
   endDate: string
   goal: string
 }
+
+export enum WorkItemType {
+  Task = 0,
+  Bug = 1,
+  Pbi = 2,
+  Feature = 3,
+  Epic = 4,
+  TestCase = 5
+}

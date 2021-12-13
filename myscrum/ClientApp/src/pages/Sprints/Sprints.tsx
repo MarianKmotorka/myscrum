@@ -47,8 +47,8 @@ const Sprints = () => {
           {selectedProject?.amIOwner && (
             <Button
               variant='primary'
+              rounded='full'
               fontWeight={400}
-              size='sm'
               leftIcon={<AddIcon />}
               onClick={onOpen}
             >

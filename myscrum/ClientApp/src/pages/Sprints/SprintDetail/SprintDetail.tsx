@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom'
 import { css } from '@emotion/react'
 import SprintDetailTab from './Tabs/SprintDetailTab/SprintDetail'
 import EditableSprintName from './Tabs/SprintDetailTab/EditableSprintName'
+import SprintBacklogTab from './Tabs/SprintBacklogTab/SprintBacklogTab'
 
 const SprintDetailPage = () => {
   const { id } = useParams()
@@ -67,6 +68,10 @@ const SprintDetailPage = () => {
         <TabPanels height='calc(100vh - 300px)'>
           <TabPanel height='100%'>
             <SprintDetailTab sprint={data} />
+          </TabPanel>
+
+          <TabPanel height='100%'>
+            <SprintBacklogTab />
           </TabPanel>
         </TabPanels>
       </Tabs>
