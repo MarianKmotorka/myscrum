@@ -7,9 +7,9 @@ export const toastOptions: ToastOptions = {
   duration: 4000
 }
 
-export const successToast = (message: string) => toast.success(message, toastOptions)
+export const successToast = (message: string) => toast.success(message)
 
-export const errorToast = (message: string) => toast.error(message, toastOptions)
+export const errorToast = (message: string) => toast.error(message)
 
 export const errorToastIfNotValidationError = (err: ApiError['data']) => {
   err.errorCode !== 'ValidationError' && errorToast(err.errorMessage)
