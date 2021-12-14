@@ -1,26 +1,31 @@
 import { Box } from '@chakra-ui/react'
-import WorkItemMenu from 'components/elements/WorkItemMenu/WorkItemMenu'
-import { WorkItemType } from 'domainTypes'
+import NewWorkItemMenu from 'components/elements/NewWorkItemMenu/NewWorkItemMenu'
+import { SprintDetail, WorkItemType } from 'domainTypes'
+import toast from 'react-hot-toast'
+import api from 'api/httpClient'
+import { getApiErrorMessage } from 'utils'
+import { useSelectedProject } from 'services/ProjectsProvider'
 
-interface SprintBacklogProps {}
+interface SprintBacklogProps {
+  sprint: SprintDetail
+}
 
-const allowedWorkItemTypes = [
-  WorkItemType.Task,
-  WorkItemType.Pbi,
-  WorkItemType.Bug,
-  WorkItemType.TestCase
-]
+const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
+  const { id } = useSelectedProject()
 
-const SprintBacklogTab = ({}: SprintBacklogProps) => {
-  const handleNewItem = (type: WorkItemType) => {
-    console.log('sleected', type)
+  const handleNewItem = (value: { type: WorkItemType; title: string }) => {
+    toast.promise(api.post('/work-items', { ...value, projectId: id, sprintId: sprint.id }), {
+      loading: 'Creating...',
+      success: `${value.title} created.`,
+      error: err => getApiErrorMessage(err)
+    })
   }
 
   return (
     <Box>
-      <WorkItemMenu
+      <NewWorkItemMenu
         onSelected={handleNewItem}
-        allowedTypes={allowedWorkItemTypes}
+        allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
         menuButtonProps={{ children: 'New item' }}
       />
     </Box>

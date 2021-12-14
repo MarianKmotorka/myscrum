@@ -71,7 +71,7 @@ const SprintDetailPage = () => {
           </TabPanel>
 
           <TabPanel height='100%'>
-            <SprintBacklogTab />
+            <SprintBacklogTab sprint={data} />
           </TabPanel>
         </TabPanels>
       </Tabs>
