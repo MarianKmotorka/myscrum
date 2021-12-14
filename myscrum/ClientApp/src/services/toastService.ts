@@ -2,14 +2,14 @@ import { ApiError } from 'api/types'
 import toast, { ToastOptions } from 'react-hot-toast'
 import { getApiErrorMessage } from 'utils'
 
-const options: ToastOptions = {
+export const toastOptions: ToastOptions = {
   position: 'bottom-left',
   duration: 4000
 }
 
-export const successToast = (message: string) => toast.success(message, options)
+export const successToast = (message: string) => toast.success(message, toastOptions)
 
-export const errorToast = (message: string) => toast.error(message, options)
+export const errorToast = (message: string) => toast.error(message, toastOptions)
 
 export const errorToastIfNotValidationError = (err: ApiError['data']) => {
   err.errorCode !== 'ValidationError' && errorToast(err.errorMessage)
