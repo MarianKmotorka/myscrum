@@ -17,7 +17,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
     toast.promise(api.post('/work-items', { ...value, projectId: id, sprintId: sprint.id }), {
       loading: 'Creating...',
       success: `${value.title} created.`,
-      error: err => getApiErrorMessage(err)
+      error: getApiErrorMessage
     })
   }
 
@@ -26,7 +26,6 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
       <NewWorkItemMenu
         onSelected={handleNewItem}
         allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
-        menuButtonProps={{ children: 'New item' }}
       />
     </Box>
   )

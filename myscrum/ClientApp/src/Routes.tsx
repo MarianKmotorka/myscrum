@@ -1,5 +1,6 @@
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import ProtectedRoute from 'components/layouts/ProtectedRoute'
+import Backlog from 'pages/Backlog/Backlog'
 import Invitations from 'pages/Invitations/Invitations'
 import SprintDetail from 'pages/Sprints/SprintDetail/SprintDetail'
 import Sprints from 'pages/Sprints/Sprints'
@@ -52,21 +53,11 @@ const Routes = () => {
         }
       />
       <Route
-        path='/retrospectives'
-        element={
-          <ProtectedRoute needsSelectedProject>
-            <DefaultLayout>
-              <h1>Retro</h1>
-            </DefaultLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path='/backlog'
         element={
           <ProtectedRoute needsSelectedProject>
             <DefaultLayout>
-              <h1>Backlog</h1>
+              <Backlog />
             </DefaultLayout>
           </ProtectedRoute>
         }

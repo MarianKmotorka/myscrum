@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
   Button,
   Input,
@@ -16,14 +17,22 @@ import {
   PlacementWithLogical
 } from '@chakra-ui/react'
 import { WorkItemType } from 'domainTypes'
-import { useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
+import { ButtonStyles } from 'styles/components/ButtonStyles'
 
 interface NewWorkItemMenuProps {
-  menuButtonProps: MenuButtonProps & { children: JSX.Element | string }
+  menuButtonProps?: MenuButtonProps & { children: JSX.Element | string }
   allowedTypes?: WorkItemType[]
   placement?: PlacementWithLogical
   onSelected(value: { type: WorkItemType; title: string }): void
 }
+
+const defaultMenuButtonChildren = (
+  <>
+    New item
+    <ChevronDownIcon ml={2} />
+  </>
+)
 
 const NewWorkItemMenu = ({
   menuButtonProps,
@@ -51,10 +60,20 @@ const NewWorkItemMenu = ({
     handleClose()
   }
 
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return
+    handleSubmit()
+  }
+
   return (
     <>
       <Menu placement={placement}>
-        <MenuButton as={Button} {...menuButtonProps} />
+        <MenuButton
+          as={Button}
+          {...ButtonStyles.variants.primary}
+          {...menuButtonProps}
+          children={menuButtonProps?.children || defaultMenuButtonChildren}
+        />
 
         <MenuList>
           {filtered.map(x => (
@@ -74,7 +93,12 @@ const NewWorkItemMenu = ({
             <ModalCloseButton />
 
             <ModalBody>
-              <Input placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} />
+              <Input
+                placeholder='Title'
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
             </ModalBody>
 
             <ModalFooter>

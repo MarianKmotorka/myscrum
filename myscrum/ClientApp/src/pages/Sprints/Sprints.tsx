@@ -3,7 +3,7 @@ import { useDisclosure } from '@chakra-ui/hooks'
 import { AddIcon } from '@chakra-ui/icons'
 import { Box, HStack, Text } from '@chakra-ui/layout'
 import { FiRefreshCcw } from 'react-icons/fi'
-import { useProjects } from 'services/ProjectsProvider'
+import { useSelectedProject } from 'services/ProjectsProvider'
 import { Sprint } from 'domainTypes'
 import api from 'api/httpClient'
 import { ApiError } from 'api/types'
@@ -15,11 +15,11 @@ import SprintsTable from './SprintsTable'
 
 const Sprints = () => {
   const { isOpen, onClose, onOpen } = useDisclosure()
-  const { selectedProject } = useProjects()
+  const selectedProject = useSelectedProject()
 
   const { data, isLoading, isFetching, error, refetch } = useQuery<Sprint[], ApiError>(
-    ['sprints', { projectId: selectedProject?.id }],
-    async () => (await api.get(`/sprints?projectId=${selectedProject?.id}`)).data
+    ['sprints', { projectId: selectedProject.id }],
+    async () => (await api.get(`/sprints?projectId=${selectedProject.id}`)).data
   )
 
   if (error) return <FetchError error={error} />
@@ -44,7 +44,7 @@ const Sprints = () => {
             <FiRefreshCcw />
           </IconButton>
 
-          {selectedProject?.amIOwner && (
+          {selectedProject.amIOwner && (
             <Button
               variant='primary'
               rounded='full'
