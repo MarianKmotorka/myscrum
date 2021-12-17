@@ -45,6 +45,7 @@ const SprintDetailPage = () => {
       <EditableSprintName sprint={data} isEditable={project.amIOwner} />
 
       <Tabs
+        isLazy
         mt={7}
         bg='white'
         p={3}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using myscrum.Domain.Common;
+using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
 
 namespace myscrum.Domain.Projects
@@ -8,6 +9,7 @@ namespace myscrum.Domain.Projects
     public class Project : Entity<string>
     {
         private List<ProjectContributor> _contributors;
+        private List<Sprint> _sprints;
 
         public Project(string name, User owner)
         {
@@ -17,6 +19,7 @@ namespace myscrum.Domain.Projects
             OwnerId = owner.Id;
             CreatedAtUtc = DateTime.UtcNow;
             _contributors = new List<ProjectContributor>();
+            _sprints = new List<Sprint>();
         }
 
         private Project()
@@ -26,6 +29,8 @@ namespace myscrum.Domain.Projects
         public string Name { get; set; }
 
         public IReadOnlyCollection<ProjectContributor> Contributors => _contributors;
+
+        public IReadOnlyCollection<Sprint> Sprints => _sprints;
 
         public User Owner { get; private set; }
 

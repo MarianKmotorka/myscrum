@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,5 +15,9 @@ namespace myscrum.Controllers
         [HttpPost]
         public async Task<WorkItemDto> CreateWorkItem(CreateWorkItem.Command request, CancellationToken cancellationToken)
             => await Mediator.Send(request, cancellationToken);
+
+        [HttpGet]
+        public async Task<List<WorkItemDto>> Get([FromQuery] GetWorkItems.Query request, CancellationToken cancellationToken)
+           => await Mediator.Send(request, cancellationToken);
     }
 }

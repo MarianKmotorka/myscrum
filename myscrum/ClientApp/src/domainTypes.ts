@@ -44,6 +44,32 @@ export interface SprintDetail {
   goal: string
 }
 
+export interface WorkItem {
+  id: string
+  title: string
+  assignedTo: User
+  sprintId?: string
+  projectId: string
+  children: WorkItem[]
+  type: WorkItemType
+  priority: number
+  description?: string
+  state: WorkItemState
+  remainingHours?: number
+  startDate?: string
+  finishDate?: string
+  implementationDetails?: string
+  acceptationCriteria?: string
+}
+
+export enum WorkItemState {
+  New = 0,
+  Approved = 1,
+  InProgress = 2,
+  ReadyForTest = 3,
+  Done = 4
+}
+
 export enum WorkItemType {
   Task = 0,
   Bug = 1,

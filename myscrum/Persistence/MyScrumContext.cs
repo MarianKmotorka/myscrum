@@ -77,7 +77,7 @@ namespace myscrum.Persistence
 
             builder.Entity<Sprint>(s =>
             {
-                s.HasOne(x => x.Project).WithMany().IsRequired();
+                s.HasOne(x => x.Project).WithMany(x => x.Sprints).IsRequired();
             });
 
             builder.Entity<WorkItem>(wit =>
