@@ -1,6 +1,6 @@
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
 import { Box } from '@chakra-ui/layout'
-import { SprintDetail } from 'domainTypes'
+import { Sprint, SprintDetail } from 'domainTypes'
 import api from 'api/httpClient'
 import { apiErrorToast, successToast } from 'services/toastService'
 import { ApiError } from 'api/types'
@@ -28,6 +28,7 @@ const EditableSprintName = ({ sprint, isEditable }: EditableSprintNameProps) => 
       })
       successToast('Saved')
       queryClient.setQueryData(['sprints', sprint.id, { projectId: project.id }], resp.data)
+      queryClient.invalidateQueries(['sprints', { projectId: project.id }])
     } catch (err) {
       apiErrorToast(err as ApiError)
       setEditableKey(prev => !prev)
