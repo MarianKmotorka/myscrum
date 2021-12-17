@@ -13,7 +13,7 @@ import { ApiError } from 'api/types'
 const Backlog = () => {
   const { id: projectId } = useSelectedProject()
 
-  const { data, isLoading, error, refetch } = useQuery<WorkItem[], ApiError>(
+  const { data, isLoading, error, isFetching, refetch } = useQuery<WorkItem[], ApiError>(
     ['work-items', { projectId }],
     async () => (await api.get(`/work-items`, { params: { projectId } })).data,
     { staleTime: 60_000 }
@@ -37,7 +37,13 @@ const Backlog = () => {
         <Text fontSize='4xl'>Backlog</Text>
 
         <ButtonGroup alignItems='center'>
-          <IconButton variant='bgGhost' aria-label='refresh' ml={4}>
+          <IconButton
+            variant='bgGhost'
+            aria-label='refresh'
+            ml={4}
+            isLoading={isFetching}
+            onClick={() => refetch()}
+          >
             <FiRefreshCcw />
           </IconButton>
 

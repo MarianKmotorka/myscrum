@@ -19,7 +19,8 @@ const Sprints = () => {
 
   const { data, isLoading, isFetching, error, refetch } = useQuery<Sprint[], ApiError>(
     ['sprints', { projectId: selectedProject.id }],
-    async () => (await api.get(`/sprints?projectId=${selectedProject.id}`)).data
+    async () => (await api.get(`/sprints?projectId=${selectedProject.id}`)).data,
+    { staleTime: 60_000 }
   )
 
   if (error) return <FetchError error={error} />
