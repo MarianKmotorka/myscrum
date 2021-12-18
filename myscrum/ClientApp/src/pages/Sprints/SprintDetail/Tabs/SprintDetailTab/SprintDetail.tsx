@@ -70,7 +70,7 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
     <Form defaultValues={defaultValue} onSubmit={onSubmit}>
       <VStack alignItems='flex-start' spacing={5} pt={project.amIOwner ? 0 : 5}>
         {project.amIOwner && (
-          <ButtonGroup ml='auto' mb='-15px'>
+          <ButtonGroup ml='auto' mb='-15px' size='sm'>
             {!isEditing && (
               <>
                 <Button variant='ghost' leftIcon={<EditIcon />} onClick={() => setIsEditing(true)}>

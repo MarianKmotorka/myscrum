@@ -21,8 +21,6 @@ namespace myscrum.Features.WorkItems
             public string ProjectId { get; set; }
 
             public string SprintId { get; set; }
-
-            public WorkItemType TopMostType { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<WorkItemDto>>
@@ -38,16 +36,39 @@ namespace myscrum.Features.WorkItems
 
             public async Task<List<WorkItemDto>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var task = request.SprintId is null ? GetItemsForBacklog(request, cancellationToken) : GetItemsForSprint(request, cancellationToken);
+                return await task;
+            }
+
+            private async Task<List<WorkItemDto>> GetItemsForSprint(Query request, CancellationToken cancellationToken)
+            {
+                var sprintItemTypes = new[] { WorkItemType.Bug, WorkItemType.Pbi, WorkItemType.TestCase };
+
                 var workItems = await _db.WorkItems
                     .Where(x => x.ProjectId == request.ProjectId)
                     .Where(x => x.SprintId == request.SprintId)
-                    .OrderBy(x => x.Priority)
                     .ProjectTo<WorkItemDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
                 GetItemsWithChildren(workItems);
 
-                return workItems.Where(x => x.Type == request.TopMostType).OrderBy(x => x.Priority).ToList();
+                return workItems
+                    .Where(x => sprintItemTypes.Contains(x.Type))
+                    .Where(x => x.Type != WorkItemType.Bug || x.ParentId == null)
+                    .Where(x => x.Type != WorkItemType.TestCase || x.ParentId == null)
+                    .OrderBy(x => x.Priority).ToList();
+            }
+
+            private async Task<List<WorkItemDto>> GetItemsForBacklog(Query request, CancellationToken cancellationToken)
+            {
+                var workItems = await _db.WorkItems
+                    .Where(x => x.ProjectId == request.ProjectId)
+                    .ProjectTo<WorkItemDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync(cancellationToken);
+
+                GetItemsWithChildren(workItems);
+
+                return workItems.Where(x => x.ParentId == null && x.SprintId == null).OrderBy(x => x.Priority).ToList();
             }
 
             private void GetItemsWithChildren(List<WorkItemDto> items)
@@ -57,9 +78,12 @@ namespace myscrum.Features.WorkItems
                     if (item.ParentId is null)
                         continue;
 
-                    var parent = items.Single(x => x.Id == item.ParentId);
+                    var parent = items.SingleOrDefault(x => x.Id == item.ParentId);
+                    if (parent is null)
+                        continue;
+
                     parent.Children.Add(item);
-                    parent.Children.OrderBy(x => x.Priority);
+                    parent.Children = parent.Children.OrderBy(x => x.Priority).ToList();
                 }
             }
         }

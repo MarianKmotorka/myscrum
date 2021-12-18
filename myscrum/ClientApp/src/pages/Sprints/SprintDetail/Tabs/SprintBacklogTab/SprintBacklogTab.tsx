@@ -1,4 +1,4 @@
-import { Box, Spinner } from '@chakra-ui/react'
+import { Box, ButtonGroup, Spinner } from '@chakra-ui/react'
 import NewWorkItemMenu from 'components/elements/NewWorkItemMenu/NewWorkItemMenu'
 import { SprintDetail, WorkItem, WorkItemType } from 'domainTypes'
 import toast from 'react-hot-toast'
@@ -22,7 +22,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
     async () =>
       (
         await api.get(`/work-items`, {
-          params: { projectId, sprintId: sprint.id, topMostType: WorkItemType.Pbi }
+          params: { projectId, sprintId: sprint.id }
         })
       ).data,
     { staleTime: 60_000 }
@@ -42,10 +42,12 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
 
   return (
     <Box>
-      <NewWorkItemMenu
-        onSelected={handleNewItem}
-        allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
-      />
+      <ButtonGroup size='sm' mb={4}>
+        <NewWorkItemMenu
+          onSelected={handleNewItem}
+          allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
+        />
+      </ButtonGroup>
 
       <WorkItemsTable items={data} />
     </Box>

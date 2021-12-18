@@ -29,7 +29,7 @@ const SprintDetailPage = () => {
   if (isLoading || !data) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
 
   return (
-    <Box>
+    <Box mb={5}>
       <Link to='/sprints'>
         <Button
           variant='link'
@@ -66,7 +66,7 @@ const SprintDetailPage = () => {
           <Tab>Retrospectives</Tab>
         </TabList>
 
-        <TabPanels height='calc(100vh - 300px)'>
+        <TabPanels minHeight='calc(100vh - 300px)'>
           <TabPanel height='100%'>
             <SprintDetailTab sprint={data} />
           </TabPanel>

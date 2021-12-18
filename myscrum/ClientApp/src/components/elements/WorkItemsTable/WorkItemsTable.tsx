@@ -14,7 +14,6 @@ const WorkItemsTable = ({ items }: WorkItemsTableProps) => {
     <Box overflowX='auto'>
       <Table
         minW={600}
-        mt={10}
         size='sm'
         css={css`
           td,

@@ -16,9 +16,7 @@ const Backlog = () => {
 
   const { data, isLoading, error, isFetching, refetch } = useQuery<WorkItem[], ApiError>(
     ['work-items', { projectId }],
-    async () =>
-      (await api.get(`/work-items`, { params: { projectId, topMostType: WorkItemType.Epic } }))
-        .data,
+    async () => (await api.get(`/work-items`, { params: { projectId } })).data,
     { staleTime: 60_000 }
   )
 
@@ -39,11 +37,11 @@ const Backlog = () => {
       <HStack mt={5}>
         <Text fontSize='4xl'>Backlog</Text>
 
-        <ButtonGroup alignItems='center'>
+        <ButtonGroup size='sm'>
           <IconButton
             variant='bgGhost'
             aria-label='refresh'
-            ml={4}
+            ml={2}
             isLoading={isFetching}
             onClick={() => refetch()}
           >
@@ -64,8 +62,8 @@ const Backlog = () => {
         </ButtonGroup>
       </HStack>
 
-      <Text my={3} fontSize='md' color='gray.700'>
-        This is your project backlog with all items that has not been assigned to any sprint.
+      <Text mt={3} mb={10} fontSize='md' color='gray.700'>
+        This is your project backlog with all items needed for the project to be completed.
       </Text>
 
       <WorkItemsTable items={data} />
