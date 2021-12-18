@@ -1,5 +1,5 @@
 import { ApiError } from 'api/types'
-import { WorkItemType } from 'domainTypes'
+import { WorkItemState, WorkItemType } from 'domainTypes'
 
 export const getAvatarUrl = (userId: string) =>
   `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23F0E9D2`
@@ -17,4 +17,12 @@ export const workItemTypeToImageMap = {
   [WorkItemType.Task]: '/task.png',
   [WorkItemType.TestCase]: '/test-case.png',
   [WorkItemType.Pbi]: '/pbi.png'
+}
+
+export const workItemStateToTextColorMap = {
+  [WorkItemState.New]: { text: 'New', color: '#b2b2b2' },
+  [WorkItemState.Approved]: { text: 'Approved', color: '#b2b2b2' },
+  [WorkItemState.InProgress]: { text: 'In progress', color: '#007acc' },
+  [WorkItemState.ReadyForTest]: { text: 'Ready for test', color: '#5688e0' },
+  [WorkItemState.Done]: { text: 'Done', color: '#339933' }
 }

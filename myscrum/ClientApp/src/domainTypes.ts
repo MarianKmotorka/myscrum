@@ -47,7 +47,7 @@ export interface SprintDetail {
 export interface WorkItem {
   id: string
   title: string
-  assignedTo: User
+  assignedTo?: User
   sprintId?: string
   projectId: string
   children: WorkItem[]
