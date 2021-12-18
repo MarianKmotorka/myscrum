@@ -11,32 +11,34 @@ interface WorkItemsTableProps {
 
 const WorkItemsTable = ({ items }: WorkItemsTableProps) => {
   return (
-    <Table
-      minW={600}
-      mt={10}
-      size='sm'
-      css={css`
-        td,
-        th {
-          border: none;
-        }
-      `}
-    >
-      <Thead>
-        <Tr>
-          <Th>Title</Th>
-          <Th>State</Th>
-          <Th>Assigned To</Th>
-          <Th>Remaining Hours</Th>
-        </Tr>
-      </Thead>
+    <Box overflowX='auto'>
+      <Table
+        minW={600}
+        mt={10}
+        size='sm'
+        css={css`
+          td,
+          th {
+            border: none;
+          }
+        `}
+      >
+        <Thead>
+          <Tr>
+            <Th>Title</Th>
+            <Th>State</Th>
+            <Th>Assigned To</Th>
+            <Th isNumeric>Remaining Hours</Th>
+          </Tr>
+        </Thead>
 
-      <Tbody>
-        {items.map(x => (
-          <Row item={x} />
-        ))}
-      </Tbody>
-    </Table>
+        <Tbody>
+          {items.map(x => (
+            <Row item={x} />
+          ))}
+        </Tbody>
+      </Table>
+    </Box>
   )
 }
 
@@ -92,7 +94,7 @@ const Row = ({
           <Text noOfLines={1}>{assignedTo?.fullName}</Text>
         </Td>
 
-        <Td>
+        <Td isNumeric>
           <Text noOfLines={1}>{remainingHours}</Text>
         </Td>
       </Tr>
