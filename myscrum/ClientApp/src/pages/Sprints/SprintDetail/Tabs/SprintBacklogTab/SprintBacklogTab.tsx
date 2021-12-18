@@ -8,6 +8,7 @@ import { useSelectedProject } from 'services/ProjectsProvider'
 import { ApiError } from 'api/types'
 import { useQuery } from 'react-query'
 import FetchError from 'components/elements/FetchError'
+import WorkItemsTable from 'components/elements/WorkItemsTable/WorkItemsTable'
 
 interface SprintBacklogProps {
   sprint: SprintDetail
@@ -41,9 +42,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
         allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
       />
 
-      {data.map(x => (
-        <p key={x.id}>{x.title}</p>
-      ))}
+      <WorkItemsTable items={data} />
     </Box>
   )
 }

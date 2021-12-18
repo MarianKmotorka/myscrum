@@ -1,6 +1,6 @@
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
 import { Box } from '@chakra-ui/layout'
-import { Sprint, SprintDetail } from 'domainTypes'
+import { SprintDetail } from 'domainTypes'
 import api from 'api/httpClient'
 import { apiErrorToast, successToast } from 'services/toastService'
 import { ApiError } from 'api/types'

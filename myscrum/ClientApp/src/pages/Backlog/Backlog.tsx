@@ -9,6 +9,7 @@ import NewWorkItemMenu from 'components/elements/NewWorkItemMenu/NewWorkItemMenu
 import FetchError from 'components/elements/FetchError'
 import { useQuery } from 'react-query'
 import { ApiError } from 'api/types'
+import WorkItemsTable from 'components/elements/WorkItemsTable/WorkItemsTable'
 
 const Backlog = () => {
   const { id: projectId } = useSelectedProject()
@@ -54,7 +55,8 @@ const Backlog = () => {
               WorkItemType.Feature,
               WorkItemType.Epic,
               WorkItemType.Bug,
-              WorkItemType.TestCase
+              WorkItemType.TestCase,
+              WorkItemType.Task
             ]}
           />
         </ButtonGroup>
@@ -64,9 +66,7 @@ const Backlog = () => {
         This is your project backlog with all items that has not been assigned to any sprint.
       </Text>
 
-      {data.map(x => (
-        <p key={x.id}>{x.title}</p>
-      ))}
+      <WorkItemsTable items={data} />
     </Box>
   )
 }
