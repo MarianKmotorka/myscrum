@@ -36,7 +36,7 @@ const WorkItemsTable = ({ items }: WorkItemsTableProps) => {
                 src={workItemTypeToImageMap[x.type]}
                 mr={2}
               />
-              {x.title}
+              {x.title} - {x.id}
             </Td>
           </Tr>
         ))}

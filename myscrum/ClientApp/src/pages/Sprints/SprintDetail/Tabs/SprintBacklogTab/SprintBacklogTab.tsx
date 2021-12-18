@@ -19,7 +19,12 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
 
   const { data, isLoading, error, refetch } = useQuery<WorkItem[], ApiError>(
     ['work-items', { projectId, sprintId: sprint.id }],
-    async () => (await api.get(`/work-items`, { params: { projectId, sprintId: sprint.id } })).data,
+    async () =>
+      (
+        await api.get(`/work-items`, {
+          params: { projectId, sprintId: sprint.id, topMostType: WorkItemType.Pbi }
+        })
+      ).data,
     { staleTime: 60_000 }
   )
 

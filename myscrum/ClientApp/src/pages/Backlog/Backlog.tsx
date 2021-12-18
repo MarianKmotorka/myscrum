@@ -16,7 +16,9 @@ const Backlog = () => {
 
   const { data, isLoading, error, isFetching, refetch } = useQuery<WorkItem[], ApiError>(
     ['work-items', { projectId }],
-    async () => (await api.get(`/work-items`, { params: { projectId } })).data,
+    async () =>
+      (await api.get(`/work-items`, { params: { projectId, topMostType: WorkItemType.Epic } }))
+        .data,
     { staleTime: 60_000 }
   )
 

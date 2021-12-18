@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
+using myscrum.Domain.WorkItems;
 using myscrum.Features.WorkItems.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Features.WorkItems
 {
@@ -20,6 +21,8 @@ namespace myscrum.Features.WorkItems
             public string ProjectId { get; set; }
 
             public string SprintId { get; set; }
+
+            public WorkItemType TopMostType { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<WorkItemDto>>
@@ -42,7 +45,22 @@ namespace myscrum.Features.WorkItems
                     .ProjectTo<WorkItemDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
-                return workItems;
+                GetItemsWithChildren(workItems);
+
+                return workItems.Where(x => x.Type == request.TopMostType).OrderBy(x => x.Priority).ToList();
+            }
+
+            private void GetItemsWithChildren(List<WorkItemDto> items)
+            {
+                foreach (var item in items)
+                {
+                    if (item.ParentId is null)
+                        continue;
+
+                    var parent = items.Single(x => x.Id == item.ParentId);
+                    parent.Children.Add(item);
+                    parent.Children.OrderBy(x => x.Priority);
+                }
             }
         }
 

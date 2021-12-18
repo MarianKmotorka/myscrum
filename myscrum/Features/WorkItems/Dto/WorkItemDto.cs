@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoMapper;
 using myscrum.Common.Mappings;
 using myscrum.Domain.WorkItems;
 using myscrum.Features.Common;
+using System;
+using System.Collections.Generic;
 
 namespace myscrum.Features.WorkItems.Dto
 {
@@ -20,7 +21,7 @@ namespace myscrum.Features.WorkItems.Dto
 
         public string ParentId { get; set; }
 
-        public List<WorkItemDto> Children { get; set; }
+        public List<WorkItemDto> Children { get; set; } = new();
 
         public WorkItemType Type { get; set; }
 
@@ -39,5 +40,11 @@ namespace myscrum.Features.WorkItems.Dto
         public string ImplementationDetails { get; set; }
 
         public string AcceptationCriteria { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<WorkItem, WorkItemDto>()
+                .ForMember(x => x.Children, act => act.Ignore());
+        }
     }
 }
