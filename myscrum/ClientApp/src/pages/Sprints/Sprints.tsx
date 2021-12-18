@@ -35,7 +35,7 @@ const Sprints = () => {
           Sprints
         </Text>
 
-        <ButtonGroup alignItems='center'>
+        <ButtonGroup alignItems='center' size='sm'>
           <IconButton
             aria-label='refresh'
             variant='bgGhost'
@@ -46,13 +46,7 @@ const Sprints = () => {
           </IconButton>
 
           {selectedProject.amIOwner && (
-            <Button
-              variant='primary'
-              rounded='full'
-              fontWeight={400}
-              leftIcon={<AddIcon />}
-              onClick={onOpen}
-            >
+            <Button variant='primary' fontWeight={400} leftIcon={<AddIcon />} onClick={onOpen}>
               Create sprint
             </Button>
           )}

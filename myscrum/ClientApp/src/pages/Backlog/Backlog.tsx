@@ -55,8 +55,7 @@ const Backlog = () => {
               WorkItemType.Feature,
               WorkItemType.Epic,
               WorkItemType.Bug,
-              WorkItemType.TestCase,
-              WorkItemType.Task
+              WorkItemType.TestCase
             ]}
           />
         </ButtonGroup>

@@ -33,6 +33,7 @@ const Home = () => {
         <IconButton
           variant='bgGhost'
           aria-label='refresh'
+          size='sm'
           ml={4}
           onClick={refetch}
           isLoading={isFetching}

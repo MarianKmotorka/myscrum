@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +7,10 @@ using myscrum.Domain.WorkItems;
 using myscrum.Features.WorkItems.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Features.WorkItems
 {
@@ -110,7 +110,6 @@ namespace myscrum.Features.WorkItems
                     .Must((req, _) => req.StartDate < req.FinishDate)
                     .When(x => x.FinishDate.HasValue && x.StartDate.HasValue)
                     .WithMessage("Start date must be before end date");
-
             }
 
             private async Task<bool> BeInSpecifiedProject(Command command, string sprintId, CancellationToken cancellationToken)
