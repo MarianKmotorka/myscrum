@@ -61,11 +61,16 @@ const Backlog = () => {
         </ButtonGroup>
       </HStack>
 
-      <Text mt={3} mb={10} fontSize='md' color='gray.700'>
+      <Text mt={3} mb={4} fontSize='md' color='gray.700'>
         This is your project backlog with all items needed for the project to be completed.
       </Text>
 
-      <WorkItemsTable items={data} refetch={() => refetch()} />
+      <WorkItemsTable
+        items={data}
+        refetch={async () => {
+          await refetch()
+        }}
+      />
     </Box>
   )
 }

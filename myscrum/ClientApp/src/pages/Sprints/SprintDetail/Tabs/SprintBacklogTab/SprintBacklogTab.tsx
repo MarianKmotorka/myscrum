@@ -42,14 +42,19 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
 
   return (
     <Box>
-      <ButtonGroup size='sm' mb={4}>
+      <ButtonGroup size='sm' mb={2}>
         <NewWorkItemMenu
           onSelected={handleNewItem}
           allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
         />
       </ButtonGroup>
 
-      <WorkItemsTable items={data} refetch={() => refetch()} />
+      <WorkItemsTable
+        items={data}
+        refetch={async () => {
+          await refetch()
+        }}
+      />
     </Box>
   )
 }
