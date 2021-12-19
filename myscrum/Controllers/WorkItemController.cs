@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using myscrum.Features.WorkItems;
 using myscrum.Features.WorkItems.Dto;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Controllers
 {
@@ -15,6 +15,13 @@ namespace myscrum.Controllers
         [HttpPost]
         public async Task<WorkItemDto> CreateWorkItem(CreateWorkItem.Command request, CancellationToken cancellationToken)
             => await Mediator.Send(request, cancellationToken);
+
+        [HttpPatch("{id}/priority")]
+        public async Task ChangePriority(string id, ChangeWorkItemPriority.Command request, CancellationToken cancellationToken)
+        {
+            request.Id = id;
+            await Mediator.Send(request, cancellationToken);
+        }
 
         [HttpGet]
         public async Task<List<WorkItemDto>> Get([FromQuery] GetWorkItems.Query request, CancellationToken cancellationToken)

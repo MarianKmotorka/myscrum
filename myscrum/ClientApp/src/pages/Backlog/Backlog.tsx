@@ -65,7 +65,7 @@ const Backlog = () => {
         This is your project backlog with all items needed for the project to be completed.
       </Text>
 
-      <WorkItemsTable items={data} />
+      <WorkItemsTable items={data} refetch={() => refetch()} />
     </Box>
   )
 }

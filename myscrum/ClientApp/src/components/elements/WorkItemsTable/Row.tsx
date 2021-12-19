@@ -9,6 +9,7 @@ import { shouldDropAbove } from './utils'
 interface RowProps {
   item: WorkItem
   levelOfNesting?: number
+  onPriorityChange: (id: string, newPriority: number) => Promise<void>
 }
 
 interface DragItem {
@@ -16,8 +17,8 @@ interface DragItem {
   dropAbove?: boolean
 }
 
-const Row = ({ item, levelOfNesting = 0 }: RowProps) => {
-  const { title, children, type, state, assignedTo, remainingHours } = item
+const Row = ({ item, onPriorityChange, levelOfNesting = 0 }: RowProps) => {
+  const { title, children, type, state, assignedTo, remainingHours, priority } = item
   const [expanded, setExpanded] = useState(false)
   const [dropAbove, setDropAbove] = useState<boolean>()
   const rowRef = useRef<HTMLTableRowElement>(null!)
@@ -28,8 +29,10 @@ const Row = ({ item, levelOfNesting = 0 }: RowProps) => {
     item,
     end: ({ id, dropAbove }, monitor) => {
       const dropResult = monitor.getDropResult()
-      if (id === dropResult?.id) return
-      console.log(dropAbove ? 'ABOVE' : 'BELLOW', monitor.getDropResult()?.title)
+      if (id === dropResult?.id || !dropResult) return
+
+      const newPriority = dropAbove ? dropResult.priority : dropResult.priority + 1
+      onPriorityChange(id, newPriority)
     }
   }))
 
@@ -84,7 +87,9 @@ const Row = ({ item, levelOfNesting = 0 }: RowProps) => {
             mr={2}
           />
 
-          <Text noOfLines={1}>{title}</Text>
+          <Text noOfLines={1}>
+            {priority} {title}
+          </Text>
         </Td>
 
         <Td>
@@ -109,7 +114,14 @@ const Row = ({ item, levelOfNesting = 0 }: RowProps) => {
       </Tr>
 
       {expanded &&
-        children.map(x => <Row key={x.id} item={x} levelOfNesting={levelOfNesting + 1} />)}
+        children.map(x => (
+          <Row
+            key={x.id}
+            item={x}
+            levelOfNesting={levelOfNesting + 1}
+            onPriorityChange={onPriorityChange}
+          />
+        ))}
     </>
   )
 }

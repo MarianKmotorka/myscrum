@@ -49,7 +49,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
         />
       </ButtonGroup>
 
-      <WorkItemsTable items={data} />
+      <WorkItemsTable items={data} refetch={() => refetch()} />
     </Box>
   )
 }
