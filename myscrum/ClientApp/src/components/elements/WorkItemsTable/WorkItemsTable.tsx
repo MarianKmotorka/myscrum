@@ -18,7 +18,7 @@ const WorkItemsTable = ({ items }: WorkItemsTableProps) => {
         css={css`
           td,
           th {
-            border: none;
+            border-color: transparent;
           }
         `}
       >
@@ -34,7 +34,7 @@ const WorkItemsTable = ({ items }: WorkItemsTableProps) => {
         <Tbody>
           <DndProvider backend={HTML5Backend}>
             {items.map(x => (
-              <Row item={x} />
+              <Row key={x.id} item={x} />
             ))}
           </DndProvider>
         </Tbody>

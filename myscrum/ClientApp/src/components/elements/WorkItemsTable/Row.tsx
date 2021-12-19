@@ -1,26 +1,60 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, HStack, Image, Td, Text, Tr } from '@chakra-ui/react'
 import { WorkItem } from 'domainTypes'
-import { useState } from 'react'
-import { useDrag } from 'react-dnd'
+import { useRef, useState } from 'react'
+import { useDrag, useDrop } from 'react-dnd'
 import { workItemStateToTextColorMap, workItemTypeToImageMap } from 'utils'
+import { shouldDropAbove } from './utils'
 
 interface RowProps {
   item: WorkItem
   levelOfNesting?: number
 }
 
-const Row = ({
-  item: { id, title, children, type, state, assignedTo, remainingHours },
-  levelOfNesting = 0
-}: RowProps) => {
-  const [expanded, setExpanded] = useState(false)
+interface DragItem {
+  id: string
+  dropAbove?: boolean
+}
 
-  const [, drag] = useDrag(() => ({
-    type: 'row',
-    item: { id }
+const Row = ({ item, levelOfNesting = 0 }: RowProps) => {
+  const { title, children, type, state, assignedTo, remainingHours } = item
+  const [expanded, setExpanded] = useState(false)
+  const [dropAbove, setDropAbove] = useState<boolean>()
+  const rowRef = useRef<HTMLTableRowElement>(null!)
+  const dragItemType = `levelOfNesting-${levelOfNesting}`
+
+  const [, drag] = useDrag<DragItem, WorkItem, {}>(() => ({
+    type: dragItemType,
+    item,
+    end: ({ id, dropAbove }, monitor) => {
+      const dropResult = monitor.getDropResult()
+      if (id === dropResult?.id) return
+      console.log(dropAbove ? 'ABOVE' : 'BELLOW', monitor.getDropResult()?.title)
+    }
   }))
 
+  const [{ canDrop, isOver }, drop] = useDrop<
+    DragItem,
+    WorkItem,
+    { canDrop: boolean; isOver: boolean }
+  >({
+    accept: dragItemType,
+    drop: () => item,
+    hover: (item, monitor) => {
+      const value = shouldDropAbove(monitor, rowRef)
+      setDropAbove(value)
+      item.dropAbove = value
+    },
+    collect: monitor => ({
+      canDrop: monitor.canDrop(),
+      isOver: monitor.isOver()
+    })
+  })
+
+  drag(drop(rowRef))
+  const borderCss = 'solid 2px var(--chakra-colors-primary)'
+  const canDropAbove = isOver && canDrop && dropAbove
+  const canDropBellow = isOver && canDrop && !dropAbove
   const iconProps = {
     visibility: children.length ? 'visible' : 'hidden',
     cursor: 'pointer',
@@ -31,7 +65,14 @@ const Row = ({
 
   return (
     <>
-      <Tr key={id} ref={drag} _hover={{ bg: 'rgba(0,0,0,0.05)' }} transition='0.1s'>
+      <Tr
+        ref={rowRef}
+        _hover={{ bg: 'rgba(0,0,0,0.05)' }}
+        border={borderCss}
+        borderX='none'
+        borderTopColor={canDropAbove ? 'primary' : 'transparent'}
+        borderBottom={canDropBellow ? 'primary' : 'transparent'}
+      >
         <Td display='flex' alignItems='center' pl={`${levelOfNesting * 32}px`} title={title}>
           {expanded ? <ChevronDownIcon {...iconProps} /> : <ChevronRightIcon {...iconProps} />}
 
@@ -67,7 +108,8 @@ const Row = ({
         </Td>
       </Tr>
 
-      {expanded && children.map(x => <Row item={x} levelOfNesting={levelOfNesting + 1} />)}
+      {expanded &&
+        children.map(x => <Row key={x.id} item={x} levelOfNesting={levelOfNesting + 1} />)}
     </>
   )
 }

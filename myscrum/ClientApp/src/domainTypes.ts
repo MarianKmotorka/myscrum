@@ -58,6 +58,7 @@ export interface WorkItem {
   remainingHours?: number
   startDate?: string
   finishDate?: string
+  parentId?: string
   implementationDetails?: string
   acceptationCriteria?: string
 }
