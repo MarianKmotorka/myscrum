@@ -22,12 +22,12 @@ const MobileNav = ({ items }: MobileNavProps) => {
 
   return (
     <Stack bg='bg' p={4} display={{ md: 'none' }}>
-      {selectedProject && isLoggedIn && (
+      {isLoggedIn && (
         <Box display='flex' justifyContent='center' alignItems='center'>
           <Link to='/'>
             <Button size='sm' variant='outline' rightIcon={<TriangleDownIcon w='8px' h='8px' />}>
               <Text maxW='200px' overflow='hidden' textOverflow='ellipsis'>
-                {selectedProject.name}
+                {selectedProject?.name || 'Select project'}
               </Text>
             </Button>
           </Link>

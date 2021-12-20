@@ -19,6 +19,7 @@ import {
   Badge
 } from '@chakra-ui/react'
 import { BiEnvelope } from 'react-icons/bi'
+import { AiOutlinePushpin } from 'react-icons/ai'
 import { HamburgerIcon, CloseIcon, ChevronDownIcon, TriangleDownIcon } from '@chakra-ui/icons'
 import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
 import MobileNav from './MobileNav'
@@ -72,16 +73,18 @@ export default function Navbar() {
               myscrum
             </Text>
 
-            {selectedProject && isLoggedIn && !isSmallScreen && (
+            {isLoggedIn && !isSmallScreen && (
               <Link to='/'>
                 <Button
                   ml={3}
                   size='xs'
-                  variant='secondaryOutline'
-                  rightIcon={<TriangleDownIcon w='8px' h='8px' />}
+                  variant={selectedProject ? 'secondaryOutline' : 'ghost'}
+                  rightIcon={
+                    selectedProject ? <AiOutlinePushpin /> : <TriangleDownIcon w='8px' h='8px' />
+                  }
                 >
                   <Text maxW='200px' overflow='hidden' textOverflow='ellipsis'>
-                    {selectedProject.name}
+                    {selectedProject?.name || 'Select project'}
                   </Text>
                 </Button>
               </Link>
