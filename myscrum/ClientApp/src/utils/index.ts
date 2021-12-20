@@ -25,6 +25,15 @@ export const workItemTypeToImageMap = {
   [WorkItemType.Pbi]: pbiPng
 }
 
+export const workItemTypeToColorMap = {
+  [WorkItemType.Bug]: '#CC293D',
+  [WorkItemType.Epic]: '#FF7B00',
+  [WorkItemType.Feature]: '#773B93',
+  [WorkItemType.Task]: '#F2CB1D',
+  [WorkItemType.TestCase]: '#8E5ACA',
+  [WorkItemType.Pbi]: '#009CCC'
+}
+
 export const workItemStateToTextColorMap = {
   [WorkItemState.New]: { text: 'New', color: '#b2b2b2' },
   [WorkItemState.Approved]: { text: 'Approved', color: '#b2b2b2' },

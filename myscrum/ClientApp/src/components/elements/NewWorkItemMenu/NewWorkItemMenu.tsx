@@ -1,6 +1,7 @@
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
   Button,
+  Image,
   Input,
   Menu,
   MenuButton,
@@ -19,6 +20,7 @@ import {
 import { WorkItemType } from 'domainTypes'
 import { KeyboardEvent, useState } from 'react'
 import { ButtonStyles } from 'styles/components/ButtonStyles'
+import { workItemTypeToColorMap, workItemTypeToImageMap } from 'utils'
 
 interface NewWorkItemMenuProps {
   menuButtonProps?: MenuButtonProps & { children: JSX.Element | string }
@@ -88,8 +90,18 @@ const NewWorkItemMenu = ({
         <Modal isOpen onClose={handleClose}>
           <ModalOverlay />
 
-          <ModalContent>
-            <ModalHeader>Create {WorkItemType[selectedType]}</ModalHeader>
+          <ModalContent borderLeft={`solid 5px ${workItemTypeToColorMap[selectedType]}`}>
+            <ModalHeader display='flex' alignItems='center'>
+              <Image
+                width='15px'
+                objectFit='contain'
+                maxH='15px'
+                src={workItemTypeToImageMap[selectedType]}
+                mr={2}
+              />
+              Create {WorkItemType[selectedType]}
+            </ModalHeader>
+
             <ModalCloseButton />
 
             <ModalBody>
@@ -106,7 +118,14 @@ const NewWorkItemMenu = ({
                 Dismiss
               </Button>
 
-              <Button variant='primary' type='submit' isDisabled={!title} onClick={handleSubmit}>
+              <Button
+                variant='primary'
+                bg={workItemTypeToColorMap[selectedType]}
+                _hover={{ bg: workItemTypeToColorMap[selectedType] }}
+                type='submit'
+                isDisabled={!title}
+                onClick={handleSubmit}
+              >
                 Create
               </Button>
             </ModalFooter>
