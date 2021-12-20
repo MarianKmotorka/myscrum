@@ -1,4 +1,5 @@
 import { HStack, Text } from '@chakra-ui/layout'
+import { css } from '@emotion/react'
 
 interface InfoItemProps {
   icon: JSX.Element
@@ -8,11 +9,17 @@ interface InfoItemProps {
 
 const InfoItem = ({ icon, name, value }: InfoItemProps) => {
   return (
-    <HStack>
+    <HStack
+      css={css`
+        svg {
+          color: var(--chakra-colors-primary);
+        }
+      `}
+    >
       {icon}
 
-      <Text display='inline-block'>
-        <Text as='b' color='secondary' display='inline-block' minW='50px'>
+      <Text display='inline-block' fontSize='lg'>
+        <Text as='b' fontWeight={500} display='inline-block' minW='60px'>
           {name}:
         </Text>
 

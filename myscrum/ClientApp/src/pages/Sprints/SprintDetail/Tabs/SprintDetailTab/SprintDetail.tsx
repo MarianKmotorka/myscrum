@@ -92,7 +92,7 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
                 <Button variant='ghost' onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
-                <Button isLoading={submitting} variant='secondary' type='submit'>
+                <Button isLoading={submitting} variant='primary' type='submit'>
                   Save
                 </Button>
               </>

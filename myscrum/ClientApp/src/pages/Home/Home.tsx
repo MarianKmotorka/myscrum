@@ -31,7 +31,7 @@ const Home = () => {
       <Text fontSize='4xl' mt={5}>
         Projects
         <IconButton
-          variant='bgGhost'
+          variant='outline'
           aria-label='refresh'
           size='sm'
           ml={4}
@@ -47,7 +47,7 @@ const Home = () => {
       </Text>
 
       <Text mt={10} mb={10} fontSize='md' color='gray.700' fontStyle='italic'>
-        <StarIcon color='gray.600' /> - indicates that you are the owner of the project
+        <StarIcon color='secondary' /> - indicates that you are the owner of the project
       </Text>
 
       <Grid
@@ -60,7 +60,7 @@ const Home = () => {
       >
         <AspectRatio ratio={1}>
           <Box {...projectCardProps} onClick={onOpen}>
-            <AddIcon color='primary' />
+            <AddIcon color='secondary' />
           </Box>
         </AspectRatio>
 
@@ -71,8 +71,14 @@ const Home = () => {
           return (
             <AspectRatio key={x.id} ratio={1}>
               <Box {...projectCardProps} {...overrideProps} onClick={() => setProjectToManage(x)}>
-                {x.amIOwner && <StarIcon position='absolute' right={2} top={2} color='gray.500' />}
-                <Text noOfLines={3}>{x.name}</Text>
+                {x.amIOwner && <StarIcon position='absolute' right={2} top={2} color='secondary' />}
+                <Text
+                  px={1}
+                  noOfLines={3}
+                  borderBottom={isSelected ? 'solid 3px var(--chakra-colors-primary)' : undefined}
+                >
+                  {x.name}
+                </Text>
               </Box>
             </AspectRatio>
           )

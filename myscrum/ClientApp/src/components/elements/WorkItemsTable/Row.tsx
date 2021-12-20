@@ -1,8 +1,10 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, HStack, Image, Td, Text, Tr } from '@chakra-ui/react'
+import { Box, HStack, Icon, Image, Td, Text, Tr } from '@chakra-ui/react'
+import { css } from '@emotion/react'
 import { WorkItem } from 'domainTypes'
 import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import { BsThreeDots } from 'react-icons/bs'
 import { workItemStateToTextColorMap, workItemTypeToImageMap } from 'utils'
 import { shouldDropAbove } from './utils'
 
@@ -70,7 +72,14 @@ const Row = ({ item, onPriorityChange, levelOfNesting = 0 }: RowProps) => {
     <>
       <Tr
         ref={rowRef}
-        _hover={{ bg: 'rgba(0,0,0,0.05)' }}
+        css={css`
+          :hover {
+            background: var(--chakra-colors-bg2);
+            .dots-icon {
+              visibility: visible;
+            }
+          }
+        `}
         border={borderCss}
         borderX='none'
         borderTopColor={canDropAbove ? 'primary' : 'transparent'}
@@ -88,6 +97,10 @@ const Row = ({ item, onPriorityChange, levelOfNesting = 0 }: RowProps) => {
           />
 
           <Text noOfLines={1}>{title}</Text>
+
+          <Icon className='dots-icon' cursor='pointer' fontSize='lg' ml='auto' visibility='hidden'>
+            <BsThreeDots />
+          </Icon>
         </Td>
 
         <Td>

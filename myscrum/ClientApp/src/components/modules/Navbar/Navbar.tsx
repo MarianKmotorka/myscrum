@@ -63,7 +63,7 @@ export default function Navbar() {
               fontFamily="'Pacifico', cursive"
               fontSize='2xl'
               lineHeight='43px'
-              bg='linear-gradient(to right,#181D31, #678983)'
+              bg='linear-gradient(to right,var(--chakra-colors-primary), #ff7600)'
               backgroundClip='text'
               color='transparent'
               cursor='pointer'
@@ -119,7 +119,7 @@ export default function Navbar() {
             <HStack>
               {!isSmallScreen && (
                 <Link to='/invitations'>
-                  <IconButton aria-label='invitations' mr={3} variant='bgGhost' size='md'>
+                  <IconButton aria-label='invitations' mr={3} variant='outline' size='md'>
                     <Box position='relative'>
                       <BiEnvelope />
 

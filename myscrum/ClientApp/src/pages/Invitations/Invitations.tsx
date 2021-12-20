@@ -57,7 +57,7 @@ const Invitations = () => {
       <Text fontSize='4xl' mt={5}>
         Invitations
         <IconButton
-          variant='bgGhost'
+          variant='outline'
           aria-label='refresh'
           ml={4}
           onClick={() => refetch()}
@@ -80,7 +80,15 @@ const Invitations = () => {
         my={7}
       >
         {data?.length === 0 && (
-          <Text mt={5} maxW='250px' bg='bg2' borderRadius='md' color='gray.700' p={5}>
+          <Text
+            mt={5}
+            maxW='250px'
+            border='solid 1px'
+            borderColor='gray.200'
+            borderRadius='md'
+            color='gray.700'
+            p={5}
+          >
             {'No invitations so far :('}
           </Text>
         )}

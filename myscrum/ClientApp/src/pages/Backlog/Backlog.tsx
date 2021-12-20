@@ -39,7 +39,7 @@ const Backlog = () => {
 
         <ButtonGroup size='sm'>
           <IconButton
-            variant='bgGhost'
+            variant='outline'
             aria-label='refresh'
             ml={2}
             isLoading={isFetching}

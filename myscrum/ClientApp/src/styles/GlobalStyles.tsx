@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
     body{
-        background-color: #F0E9D2;
+        background-color: var(--chakra-colors-bg);
     }
 
     .chakra-tabs__tablist button {

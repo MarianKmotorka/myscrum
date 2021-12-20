@@ -32,7 +32,7 @@ const WorkItemsTable = ({ items, refetch }: WorkItemsTableProps) => {
 
   return (
     <Box overflowX='auto'>
-      <Spinner color='gray.500' mb={2} ml={2} visibility={fetching ? 'visible' : 'hidden'} />
+      <Spinner color='gray.500' mb={1} ml={2} visibility={fetching ? 'visible' : 'hidden'} />
 
       <Table
         minW={600}

@@ -36,30 +36,26 @@ const EditableSprintName = ({ sprint, isEditable }: EditableSprintNameProps) => 
   }
 
   return (
-    <Box filter='drop-shadow(0 0 3px rgba(20,0,50, 0.1))'>
-      <Box
-        p={3}
-        mt={5}
-        pl={5}
-        bg='white'
-        fontSize='lg'
-        color='primary'
-        fontWeight='500'
-        borderRadius='5px'
-        borderColor='primary'
-        borderLeft='solid 5px'
-        clipPath='polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0 100%)'
+    <Box
+      p={3}
+      mt={5}
+      pl={5}
+      bg='white'
+      fontSize='lg'
+      fontWeight='500'
+      borderRadius='5px'
+      boxShadow='0 8px 15px rgba(0,0,50, 0.1)'
+      borderLeft='solid 5px var(--chakra-colors-primary)'
+    >
+      <Editable
+        isDisabled={!isEditable}
+        key={editableKey ? 0 : 1}
+        defaultValue={sprint.name}
+        onSubmit={rename}
       >
-        <Editable
-          isDisabled={!isEditable}
-          key={editableKey ? 0 : 1}
-          defaultValue={sprint.name}
-          onSubmit={rename}
-        >
-          <EditablePreview />
-          <EditableInput />
-        </Editable>
-      </Box>
+        <EditablePreview />
+        <EditableInput />
+      </Editable>
     </Box>
   )
 }

@@ -14,9 +14,9 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
   const formatDate = (date: string) => moment(date).format('DD MMM YYYY')
 
   return (
-    <Box overflowX='auto'>
-      <Table minW={600} mt={10} variant='striped'>
-        <TableCaption placement='top' textAlign='start'>
+    <Box overflowX='auto' border='solid 1px' borderColor='gray.200' mt={10} borderRadius={3}>
+      <Table minW={600}>
+        <TableCaption mt={0} bg='bg2' placement='top' textAlign='start'>
           {caption}
         </TableCaption>
 
@@ -42,15 +42,10 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
                 > td {
                   border: none;
                 }
-
-                :nth-of-type(odd) td {
-                  background: var(--chakra-colors-bg2) !important;
-                }
               `}
             >
               <Td
                 fontWeight={x.isCurrentSprint ? '500' : '400'}
-                color={x.isCurrentSprint ? 'secondary' : undefined}
                 _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
               >
                 <Link to={`/sprints/${x.id}`}>

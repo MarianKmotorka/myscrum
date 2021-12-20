@@ -10,9 +10,6 @@ interface DesktopNavProps {
 }
 
 const DesktopNav = ({ items }: DesktopNavProps) => {
-  const linkColor = 'secondary'
-  const popoverContentBgColor = 'white'
-
   return (
     <Stack direction={'row'} spacing={4}>
       {items.map(navItem => (
@@ -24,7 +21,7 @@ const DesktopNav = ({ items }: DesktopNavProps) => {
                 href={navItem.isExternal ? navItem.href : undefined}
                 fontSize={'sm'}
                 fontWeight={500}
-                color={linkColor}
+                color='black'
                 _hover={{
                   textDecoration: 'none'
                 }}
@@ -42,7 +39,7 @@ const DesktopNav = ({ items }: DesktopNavProps) => {
               <PopoverContent
                 border={0}
                 boxShadow={'xl'}
-                bg={popoverContentBgColor}
+                bg='white'
                 p={4}
                 rounded={'xl'}
                 minW={'sm'}
@@ -70,7 +67,7 @@ const DesktopSubNav = ({ label, href, subLabel, isExternal }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: 'bg' }}
+      _hover={{ bg: 'gray.50' }}
     >
       <LinkOrNothing isNothing={!!isExternal} to={href || ''}>
         <Stack direction={'row'} align={'center'}>

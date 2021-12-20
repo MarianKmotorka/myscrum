@@ -31,7 +31,7 @@ interface NewWorkItemMenuProps {
 
 const defaultMenuButtonChildren = (
   <>
-    New item
+    NEW ITEM
     <ChevronDownIcon ml={2} />
   </>
 )

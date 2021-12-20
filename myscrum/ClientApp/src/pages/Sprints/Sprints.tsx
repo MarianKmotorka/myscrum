@@ -38,7 +38,7 @@ const Sprints = () => {
         <ButtonGroup alignItems='center' size='sm'>
           <IconButton
             aria-label='refresh'
-            variant='bgGhost'
+            variant='outline'
             onClick={() => refetch()}
             isLoading={isFetching}
           >

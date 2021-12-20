@@ -47,9 +47,8 @@ const SprintDetailPage = () => {
       <Tabs
         isLazy
         mt={7}
-        bg='white'
         p={3}
-        boxShadow='0 0 3px rgba(20,0,50, 0.1)'
+        boxShadow='0 10px 20px rgba(0,0,50, 0.1)'
         borderRadius='md'
         css={css`
           [aria-selected='true'] {
@@ -59,8 +58,8 @@ const SprintDetailPage = () => {
         `}
       >
         <TabList>
-          <Tab>Info</Tab>
           <Tab>Sprint backlog</Tab>
+          <Tab>Info</Tab>
           <Tab>Capacity</Tab>
           <Tab>Statistics</Tab>
           <Tab>Retrospectives</Tab>
@@ -68,11 +67,11 @@ const SprintDetailPage = () => {
 
         <TabPanels minHeight='calc(100vh - 300px)'>
           <TabPanel height='100%'>
-            <SprintDetailTab sprint={data} />
+            <SprintBacklogTab sprint={data} />
           </TabPanel>
 
           <TabPanel height='100%'>
-            <SprintBacklogTab sprint={data} />
+            <SprintDetailTab sprint={data} />
           </TabPanel>
         </TabPanels>
       </Tabs>

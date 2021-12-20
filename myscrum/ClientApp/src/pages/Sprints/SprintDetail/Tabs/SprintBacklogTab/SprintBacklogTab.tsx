@@ -42,7 +42,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
 
   return (
     <Box>
-      <ButtonGroup size='sm' mb={2}>
+      <ButtonGroup size='sm' mb={2} mt={4}>
         <NewWorkItemMenu
           onSelected={handleNewItem}
           allowedTypes={[WorkItemType.Pbi, WorkItemType.Bug, WorkItemType.TestCase]}
