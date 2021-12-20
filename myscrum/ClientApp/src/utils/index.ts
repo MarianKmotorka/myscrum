@@ -1,5 +1,11 @@
 import { ApiError } from 'api/types'
 import { WorkItemState, WorkItemType } from 'domainTypes'
+import bugPng from '../img/bug.png'
+import epicPng from '../img/epic.png'
+import featurePng from '../img/feature.png'
+import taskPng from '../img/task.png'
+import testCasePng from '../img/test-case.png'
+import pbiPng from '../img/pbi.png'
 
 export const getAvatarUrl = (userId: string) =>
   `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23F0E9D2`
@@ -11,12 +17,12 @@ export const getApiErrorMessage = (err: ApiError) => {
 }
 
 export const workItemTypeToImageMap = {
-  [WorkItemType.Bug]: '/bug.png',
-  [WorkItemType.Epic]: '/epic.png',
-  [WorkItemType.Feature]: '/feature.png',
-  [WorkItemType.Task]: '/task.png',
-  [WorkItemType.TestCase]: '/test-case.png',
-  [WorkItemType.Pbi]: '/pbi.png'
+  [WorkItemType.Bug]: bugPng,
+  [WorkItemType.Epic]: epicPng,
+  [WorkItemType.Feature]: featurePng,
+  [WorkItemType.Task]: taskPng,
+  [WorkItemType.TestCase]: testCasePng,
+  [WorkItemType.Pbi]: pbiPng
 }
 
 export const workItemStateToTextColorMap = {
