@@ -87,7 +87,7 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
         borderTopColor={canDropAbove ? 'primary' : 'transparent'}
         borderBottom={canDropBellow ? 'primary' : 'transparent'}
       >
-        <Td display='flex' alignItems='center' pl={`${levelOfNesting * 32}px`} title={title}>
+        <Td display='flex' alignItems='center' pl={`${levelOfNesting * 32}px`}>
           {expanded ? <ChevronDownIcon {...iconProps} /> : <ChevronRightIcon {...iconProps} />}
 
           <Image
@@ -98,7 +98,9 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
             mr={2}
           />
 
-          <Text noOfLines={1}>{title}</Text>
+          <Text noOfLines={1} title={title}>
+            {title}
+          </Text>
 
           <RowMenu workItem={item} refetch={refetch} sprintId={sprintId} />
         </Td>

@@ -70,7 +70,7 @@ export default function Navbar() {
               cursor='pointer'
               onClick={() => navigate('/')}
             >
-              myscrum
+              myScrum
             </Text>
 
             {isLoggedIn && !isSmallScreen && (

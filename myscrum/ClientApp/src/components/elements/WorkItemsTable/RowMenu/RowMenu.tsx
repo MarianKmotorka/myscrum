@@ -51,19 +51,25 @@ const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
 
   return (
     <>
-      <Popover placement='right-start'>
-        <PopoverTrigger>
-          <Icon className='dots-icon' cursor='pointer' fontSize='lg' ml='auto' visibility='hidden'>
-            <BsThreeDots />
-          </Icon>
-        </PopoverTrigger>
+      <Box ml='auto' role='group' position='relative'>
+        <Icon className='dots-icon' cursor='pointer' fontSize='lg' visibility='hidden'>
+          <BsThreeDots />
+        </Icon>
 
-        <PopoverContent
+        <Box
           boxShadow='xl'
-          maxW='200px'
+          width='200px'
           border='none'
           _focus={{ boxShadow: 'xl', outline: 'none' }}
+          _groupHover={{ display: 'block' }}
           overflow='hidden'
+          display='none'
+          borderRadius={8}
+          bg='white'
+          top='0px'
+          left='100%'
+          position='absolute'
+          mb={5}
         >
           {items.map(({ name, action, icon }) => (
             <Box
@@ -80,8 +86,8 @@ const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
               {name}
             </Box>
           ))}
-        </PopoverContent>
-      </Popover>
+        </Box>
+      </Box>
 
       {action && (
         <Modal isOpen onClose={() => setAction(undefined)}>

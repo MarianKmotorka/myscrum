@@ -32,7 +32,7 @@ const WorkItemsTable = ({ items, sprintId, refetch }: WorkItemsTableProps) => {
   }
 
   return (
-    <Box overflowX='auto'>
+    <Box overflowX='auto' pb='150px'>
       <Spinner color='gray.500' mb={1} ml={2} visibility={fetching ? 'visible' : 'hidden'} />
 
       <Table
