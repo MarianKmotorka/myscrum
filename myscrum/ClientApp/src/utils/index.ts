@@ -42,7 +42,7 @@ export const workItemStateToTextColorMap = {
   [WorkItemState.Done]: { text: 'Done', color: '#339933' }
 }
 
-export const allowedChildWorkItemsMap = {
+export const allowedChildWorkItemsMap: Record<WorkItemType, WorkItemType[]> = {
   [WorkItemType.Bug]: [WorkItemType.Task, WorkItemType.TestCase],
   [WorkItemType.Epic]: [WorkItemType.Feature],
   [WorkItemType.Feature]: [WorkItemType.Bug, WorkItemType.Pbi, WorkItemType.TestCase],

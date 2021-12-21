@@ -1,16 +1,21 @@
 import { ArrowForwardIcon, LinkIcon, PlusSquareIcon } from '@chakra-ui/icons'
 import {
   Box,
+  HStack,
   Icon,
+  Image,
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Text
 } from '@chakra-ui/react'
 import { WorkItem, WorkItemType } from 'domainTypes'
 import { useState } from 'react'
 import { BsThreeDots } from 'react-icons/bs'
+import { workItemTypeToColorMap, workItemTypeToImageMap } from 'utils'
+import LinkExistingItemModalContent from './LinkExistingItemModalContent'
 import LinkNewItemModalContent from './LinkNewItemModalContent'
 
 interface RowMenuProps {
@@ -45,6 +50,11 @@ const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
   const items = [WorkItemType.Task, WorkItemType.TestCase].includes(workItem.type)
     ? rowMenuItems.filter(x => x.action !== 'linkExisting' && x.action !== 'linkNew')
     : rowMenuItems
+
+  const handleClose = async () => {
+    await refetch()
+    setAction(undefined)
+  }
 
   return (
     <>
@@ -87,12 +97,26 @@ const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
       </Box>
 
       {action && (
-        <Modal isOpen onClose={() => setAction(undefined)}>
+        <Modal isOpen onClose={handleClose} size='lg'>
           <ModalOverlay />
 
-          <ModalContent borderLeft='solid 6px' borderColor='gray.200'>
-            <ModalHeader alignItems='center' d='flex' gridGap={3}>
-              {actionItem?.icon} {actionItem?.name}
+          <ModalContent>
+            <ModalHeader>
+              <Box borderLeft={`solid 5px ${workItemTypeToColorMap[workItem.type]}`} pl={2}>
+                <Text>{actionItem?.name}</Text>
+
+                <HStack>
+                  <Image
+                    width='15px'
+                    objectFit='contain'
+                    maxH='15px'
+                    src={workItemTypeToImageMap[workItem.type]}
+                  />
+                  <Text fontSize='sm' color='gray.500' d='flex' fontWeight={500} noOfLines={1}>
+                    {workItem.title}
+                  </Text>
+                </HStack>
+              </Box>
             </ModalHeader>
 
             <ModalCloseButton />
@@ -101,8 +125,15 @@ const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
               <LinkNewItemModalContent
                 workItem={workItem}
                 sprintId={sprintId}
-                refetch={refetch}
-                onClose={() => setAction(undefined)}
+                onClose={handleClose}
+              />
+            )}
+
+            {action === 'linkExisting' && (
+              <LinkExistingItemModalContent
+                workItem={workItem}
+                sprintId={sprintId}
+                onClose={handleClose}
               />
             )}
           </ModalContent>

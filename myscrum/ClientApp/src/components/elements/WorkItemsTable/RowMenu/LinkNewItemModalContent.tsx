@@ -14,7 +14,6 @@ interface LinkNewItemModalContentProps {
   workItem: WorkItem
   sprintId: string | undefined
   onClose: () => void
-  refetch: () => Promise<any>
 }
 
 interface FormValue {
@@ -22,12 +21,7 @@ interface FormValue {
   title: string
 }
 
-const LinkNewItemModalContent = ({
-  workItem,
-  sprintId,
-  onClose,
-  refetch
-}: LinkNewItemModalContentProps) => {
+const LinkNewItemModalContent = ({ workItem, sprintId, onClose }: LinkNewItemModalContentProps) => {
   const queryClient = useQueryClient()
   const { id: projectId } = useSelectedProject()
   const { onSubmit, submitting } = useSubmitForm<FormValue>({
@@ -42,41 +36,38 @@ const LinkNewItemModalContent = ({
     errorCallback: errorToastIfNotValidationError,
     successCallback: async () => {
       sprintId && queryClient.invalidateQueries(['work-items', { projectId }])
-      await refetch()
       onClose()
     }
   })
 
   return (
-    <>
-      <Form onSubmit={onSubmit} defaultValues={{ title: '', type: '' }}>
-        <ModalBody>
-          <VStack>
-            <FormSelect name='type' label='Work Item Type' validate={requiredValidator} isRequired>
-              <option value=''>Select work item type</option>
+    <Form onSubmit={onSubmit} defaultValues={{ title: '', type: '' }}>
+      <ModalBody>
+        <VStack>
+          <FormSelect name='type' label='Work Item Type' validate={requiredValidator} isRequired>
+            <option value=''>Select work item type</option>
 
-              {allowedChildWorkItemsMap[workItem.type].map(x => (
-                <option key={x} value={x}>
-                  {WorkItemType[x]}
-                </option>
-              ))}
-            </FormSelect>
+            {allowedChildWorkItemsMap[workItem.type].map(x => (
+              <option key={x} value={x}>
+                {WorkItemType[x]}
+              </option>
+            ))}
+          </FormSelect>
 
-            <FormInput name='title' label='Title' validate={requiredValidator} isRequired />
-          </VStack>
-        </ModalBody>
+          <FormInput name='title' label='Title' validate={requiredValidator} isRequired />
+        </VStack>
+      </ModalBody>
 
-        <ModalFooter>
-          <Button mr={2} variant='ghost' onClick={onClose}>
-            Dismiss
-          </Button>
+      <ModalFooter>
+        <Button mr={2} variant='ghost' onClick={onClose}>
+          Dismiss
+        </Button>
 
-          <Button type='submit' isLoading={submitting}>
-            Save
-          </Button>
-        </ModalFooter>
-      </Form>
-    </>
+        <Button type='submit' isLoading={submitting}>
+          Save
+        </Button>
+      </ModalFooter>
+    </Form>
   )
 }
 
