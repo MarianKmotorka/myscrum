@@ -14,7 +14,7 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
   const formatDate = (date: string) => moment(date).format('DD MMM YYYY')
 
   return (
-    <Box overflowX='auto' border='solid 1px' borderColor='gray.200' mt={10} borderRadius={3}>
+    <Box overflowX='auto' border='solid 1px' borderColor='gray.200' mt={10} borderRadius={8}>
       <Table minW={600}>
         <TableCaption mt={0} bg='bg2' placement='top' textAlign='start'>
           {caption}

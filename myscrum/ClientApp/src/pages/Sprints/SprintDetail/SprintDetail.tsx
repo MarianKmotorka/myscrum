@@ -50,6 +50,8 @@ const SprintDetailPage = () => {
         p={3}
         boxShadow='0 10px 20px rgba(0,0,50, 0.1)'
         borderRadius='md'
+        variant='soft-rounded'
+        colorScheme='gray'
         css={css`
           [aria-selected='true'] {
             color: var(--chakra-colors-secondary) !important;

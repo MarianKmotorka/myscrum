@@ -1,17 +1,19 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, HStack, Icon, Image, Td, Text, Tr } from '@chakra-ui/react'
+import { Box, HStack, Image, Td, Text, Tr } from '@chakra-ui/react'
 import { css } from '@emotion/react'
 import { WorkItem } from 'domainTypes'
 import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { BsThreeDots } from 'react-icons/bs'
 import { workItemStateToTextColorMap, workItemTypeToImageMap } from 'utils'
+import RowMenu from './RowMenu/RowMenu'
 import { shouldDropAbove } from './utils'
 
 interface RowProps {
   item: WorkItem
+  sprintId: string | undefined
   levelOfNesting?: number
   onPriorityChange: (id: string, newPriority: number) => Promise<void>
+  refetch: () => Promise<any>
 }
 
 interface DragItem {
@@ -19,7 +21,7 @@ interface DragItem {
   dropAbove?: boolean
 }
 
-const Row = ({ item, onPriorityChange, levelOfNesting = 0 }: RowProps) => {
+const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: RowProps) => {
   const { title, children, type, state, assignedTo, remainingHours } = item
   const [expanded, setExpanded] = useState(false)
   const [dropAbove, setDropAbove] = useState<boolean>()
@@ -98,9 +100,7 @@ const Row = ({ item, onPriorityChange, levelOfNesting = 0 }: RowProps) => {
 
           <Text noOfLines={1}>{title}</Text>
 
-          <Icon className='dots-icon' cursor='pointer' fontSize='lg' ml='auto' visibility='hidden'>
-            <BsThreeDots />
-          </Icon>
+          <RowMenu workItem={item} refetch={refetch} sprintId={sprintId} />
         </Td>
 
         <Td>
@@ -129,6 +129,8 @@ const Row = ({ item, onPriorityChange, levelOfNesting = 0 }: RowProps) => {
           <Row
             key={x.id}
             item={x}
+            sprintId={sprintId}
+            refetch={refetch}
             levelOfNesting={levelOfNesting + 1}
             onPriorityChange={onPriorityChange}
           />

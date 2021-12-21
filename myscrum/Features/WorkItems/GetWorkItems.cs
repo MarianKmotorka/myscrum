@@ -68,7 +68,7 @@ namespace myscrum.Features.WorkItems
 
                 GetItemsWithChildren(workItems);
 
-                return workItems.Where(x => x.ParentId == null && x.SprintId == null).OrderBy(x => x.Priority).ToList();
+                return workItems.Where(x => x.ParentId == null).OrderBy(x => x.Priority).ToList();
             }
 
             private void GetItemsWithChildren(List<WorkItemDto> items)

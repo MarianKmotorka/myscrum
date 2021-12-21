@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using myscrum.Domain.Common;
+﻿using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace myscrum.Domain.WorkItems
 {
@@ -12,12 +12,12 @@ namespace myscrum.Domain.WorkItems
     {
         public static readonly IReadOnlyDictionary<WorkItemType, WorkItemType[]> AllowedParentsMap = new Dictionary<WorkItemType, WorkItemType[]>
         {
-            [WorkItemType.Bug] = new[] { WorkItemType.Pbi },
-            [WorkItemType.Task] = new[] { WorkItemType.Pbi },
+            [WorkItemType.Bug] = new[] { WorkItemType.Pbi,WorkItemType.Feature,WorkItemType.TestCase },
+            [WorkItemType.Task] = new[] { WorkItemType.Pbi, WorkItemType.Bug },
             [WorkItemType.Pbi] = new[] { WorkItemType.Feature },
             [WorkItemType.Feature] = new[] { WorkItemType.Epic },
             [WorkItemType.Epic] = Array.Empty<WorkItemType>(),
-            [WorkItemType.TestCase] = Array.Empty<WorkItemType>(),
+            [WorkItemType.TestCase] = new[] { WorkItemType.Bug },
         };
 
         private List<WorkItem> _children;

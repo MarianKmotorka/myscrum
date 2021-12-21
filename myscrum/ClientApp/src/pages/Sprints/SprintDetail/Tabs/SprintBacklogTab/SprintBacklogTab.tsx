@@ -6,7 +6,7 @@ import api from 'api/httpClient'
 import { getApiErrorMessage } from 'utils'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import { ApiError } from 'api/types'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import FetchError from 'components/elements/FetchError'
 import WorkItemsTable from 'components/elements/WorkItemsTable/WorkItemsTable'
 
@@ -16,6 +16,7 @@ interface SprintBacklogProps {
 
 const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
   const { id: projectId } = useSelectedProject()
+  const queryClient = useQueryClient()
 
   const { data, isLoading, error, refetch } = useQuery<WorkItem[], ApiError>(
     ['work-items', { projectId, sprintId: sprint.id }],
@@ -34,6 +35,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
       success: `${value.title} created.`,
       error: getApiErrorMessage
     })
+    queryClient.invalidateQueries(['work-items', { projectId }])
     refetch()
   }
 
@@ -50,6 +52,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
       </ButtonGroup>
 
       <WorkItemsTable
+        sprintId={sprint.id}
         items={data}
         refetch={async () => {
           await refetch()

@@ -15,5 +15,6 @@ export const selectedCardOverrideProps = {
   fontWeight: 500,
   boxShadow: '0 10px 20px rgba(0,0,50,0.1)',
   borderColor: 'primary',
+  border: 'solid 3px',
   _hover: {}
 }

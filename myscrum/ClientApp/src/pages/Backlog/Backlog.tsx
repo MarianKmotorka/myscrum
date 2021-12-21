@@ -67,6 +67,7 @@ const Backlog = () => {
 
       <WorkItemsTable
         items={data}
+        sprintId={undefined}
         refetch={async () => {
           await refetch()
         }}

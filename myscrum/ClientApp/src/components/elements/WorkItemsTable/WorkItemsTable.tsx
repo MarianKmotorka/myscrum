@@ -12,10 +12,11 @@ import Row from './Row'
 
 interface WorkItemsTableProps {
   items: WorkItem[]
+  sprintId: string | undefined
   refetch: () => Promise<void>
 }
 
-const WorkItemsTable = ({ items, refetch }: WorkItemsTableProps) => {
+const WorkItemsTable = ({ items, sprintId, refetch }: WorkItemsTableProps) => {
   const { id: projectId } = useSelectedProject()
   const [fetching, setFetching] = useState(false)
 
@@ -56,7 +57,13 @@ const WorkItemsTable = ({ items, refetch }: WorkItemsTableProps) => {
         <Tbody>
           <DndProvider backend={HTML5Backend}>
             {items.map(x => (
-              <Row key={x.id} item={x} onPriorityChange={changePriority} />
+              <Row
+                sprintId={sprintId}
+                refetch={refetch}
+                key={x.id}
+                item={x}
+                onPriorityChange={changePriority}
+              />
             ))}
           </DndProvider>
         </Tbody>

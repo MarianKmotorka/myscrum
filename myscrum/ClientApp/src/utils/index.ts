@@ -8,7 +8,7 @@ import testCasePng from '../img/test-case.png'
 import pbiPng from '../img/pbi.png'
 
 export const getAvatarUrl = (userId: string) =>
-  `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23F0E9D2`
+  `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23ffffff`
 
 export const getApiErrorMessage = (err: ApiError) => {
   if (err.data.errorCode === 'ValidationError')
@@ -40,4 +40,13 @@ export const workItemStateToTextColorMap = {
   [WorkItemState.InProgress]: { text: 'In progress', color: '#007acc' },
   [WorkItemState.ReadyForTest]: { text: 'Ready for test', color: '#5688e0' },
   [WorkItemState.Done]: { text: 'Done', color: '#339933' }
+}
+
+export const allowedChildWorkItemsMap = {
+  [WorkItemType.Bug]: [WorkItemType.Task, WorkItemType.TestCase],
+  [WorkItemType.Epic]: [WorkItemType.Feature],
+  [WorkItemType.Feature]: [WorkItemType.Bug, WorkItemType.Pbi, WorkItemType.TestCase],
+  [WorkItemType.Task]: [],
+  [WorkItemType.TestCase]: [],
+  [WorkItemType.Pbi]: [WorkItemType.Task, WorkItemType.Bug, WorkItemType.TestCase]
 }
