@@ -6,10 +6,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalOverlay,
-  Popover,
-  PopoverContent,
-  PopoverTrigger
+  ModalOverlay
 } from '@chakra-ui/react'
 import { WorkItem, WorkItemType } from 'domainTypes'
 import { useState } from 'react'
