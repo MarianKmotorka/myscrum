@@ -7,7 +7,7 @@ import { WorkItem, WorkItemType } from 'domainTypes'
 import { useQueryClient } from 'react-query'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import { errorToastIfNotValidationError } from 'services/toastService'
-import { allowedChildWorkItemsMap } from 'utils'
+import { allowedChildWorkItemsMap, workItemTypeToTextMap } from 'utils'
 import { requiredValidator } from 'utils/validators'
 
 interface LinkNewItemModalContentProps {
@@ -49,7 +49,7 @@ const LinkNewItemModalContent = ({ workItem, sprintId, onClose }: LinkNewItemMod
 
             {allowedChildWorkItemsMap[workItem.type].map(x => (
               <option key={x} value={x}>
-                {WorkItemType[x]}
+                {workItemTypeToTextMap[x]}
               </option>
             ))}
           </FormSelect>

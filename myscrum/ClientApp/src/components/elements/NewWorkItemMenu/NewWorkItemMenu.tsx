@@ -20,7 +20,7 @@ import {
 import { WorkItemType } from 'domainTypes'
 import { KeyboardEvent, useState } from 'react'
 import { ButtonStyles } from 'styles/components/ButtonStyles'
-import { workItemTypeToColorMap, workItemTypeToImageMap } from 'utils'
+import { workItemTypeToColorMap, workItemTypeToImageMap, workItemTypeToTextMap } from 'utils'
 
 interface NewWorkItemMenuProps {
   menuButtonProps?: MenuButtonProps & { children: JSX.Element | string }
@@ -80,7 +80,7 @@ const NewWorkItemMenu = ({
         <MenuList>
           {filtered.map(x => (
             <MenuItem key={x.key} onClick={() => setSelectedType(x.value)}>
-              {x.key}
+              {workItemTypeToTextMap[x.value]}
             </MenuItem>
           ))}
         </MenuList>
@@ -99,7 +99,7 @@ const NewWorkItemMenu = ({
                 src={workItemTypeToImageMap[selectedType]}
                 mr={2}
               />
-              Create {WorkItemType[selectedType]}
+              Create {workItemTypeToTextMap[selectedType]}
             </ModalHeader>
 
             <ModalCloseButton />

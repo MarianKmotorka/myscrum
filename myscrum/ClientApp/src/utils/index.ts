@@ -8,12 +8,12 @@ import testCasePng from '../img/test-case.png'
 import pbiPng from '../img/pbi.png'
 
 export const getAvatarUrl = (userId: string) =>
-  `https://avatars.dicebear.com/api/bottts/${userId}.svg?background=%23ffffff`
+  `https://avatars.dicebear.com/api/micah/${userId}.svg?background=%23ffffff`
 
 export const getApiErrorMessage = (err: ApiError) => {
   if (err.data.errorCode === 'ValidationError')
     return err.data.errorDetails[0]?.message || 'Something went wrong :('
-  return err.data.errorMessage
+  return err.data.errorMessage || err.data.errorCode || 'Something went wrong :('
 }
 
 export const workItemTypeToImageMap = {
@@ -32,6 +32,15 @@ export const workItemTypeToColorMap = {
   [WorkItemType.Task]: '#F2CB1D',
   [WorkItemType.TestCase]: '#8E5ACA',
   [WorkItemType.Pbi]: '#009CCC'
+}
+
+export const workItemTypeToTextMap = {
+  [WorkItemType.Bug]: 'Bug',
+  [WorkItemType.Epic]: 'Epic',
+  [WorkItemType.Feature]: 'Feature',
+  [WorkItemType.Task]: 'Task',
+  [WorkItemType.TestCase]: 'Test Case',
+  [WorkItemType.Pbi]: 'Product Backlog Item'
 }
 
 export const workItemStateToTextColorMap = {
