@@ -17,6 +17,7 @@ import { BsThreeDots } from 'react-icons/bs'
 import { workItemTypeToColorMap, workItemTypeToImageMap } from 'utils'
 import LinkExistingItemModalContent from './LinkExistingItemModalContent'
 import LinkNewItemModalContent from './LinkNewItemModalContent'
+import MoveToSprintModalContent from './MoveToSprintModalContent'
 
 interface RowMenuProps {
   workItem: WorkItem
@@ -47,9 +48,15 @@ const rowMenuItems: Array<{ name: string; action: RowMenuAction; icon: JSX.Eleme
 const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
   const [action, setAction] = useState<RowMenuAction>()
   const actionItem = rowMenuItems.find(x => x.action === action)
-  const items = [WorkItemType.Task, WorkItemType.TestCase].includes(workItem.type)
-    ? rowMenuItems.filter(x => x.action !== 'linkExisting' && x.action !== 'linkNew')
-    : rowMenuItems
+  const items = (() => {
+    if ([WorkItemType.Task, WorkItemType.TestCase].includes(workItem.type))
+      return rowMenuItems.filter(x => x.action !== 'linkExisting' && x.action !== 'linkNew')
+
+    if ([WorkItemType.Epic, WorkItemType.Feature].includes(workItem.type))
+      return rowMenuItems.filter(x => x.action !== 'move')
+
+    return rowMenuItems
+  })()
 
   const handleClose = async () => {
     await refetch()
@@ -135,6 +142,10 @@ const RowMenu = ({ workItem, sprintId, refetch }: RowMenuProps) => {
                 sprintId={sprintId}
                 onClose={handleClose}
               />
+            )}
+
+            {action === 'move' && (
+              <MoveToSprintModalContent workItem={workItem} onClose={handleClose} />
             )}
           </ModalContent>
         </Modal>

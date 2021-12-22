@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +6,11 @@ using myscrum.Common.Behaviours.Authorization;
 using myscrum.Features.Sprints.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Features.Sprints
 {
@@ -19,6 +19,8 @@ namespace myscrum.Features.Sprints
         public class Query : IRequest<List<SprintDto>>
         {
             public string ProjectId { get; set; }
+
+            public string Search { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<SprintDto>>
@@ -34,9 +36,14 @@ namespace myscrum.Features.Sprints
 
             public async Task<List<SprintDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return (await _db.Sprints
+                var query = _db.Sprints
                     .Where(x => x.ProjectId == request.ProjectId)
-                    .ProjectTo<SprintDto>(_mapper.ConfigurationProvider)
+                    .ProjectTo<SprintDto>(_mapper.ConfigurationProvider);
+
+                if (!string.IsNullOrEmpty(request.Search))
+                    query = query.Where(x => x.Name.Contains(request.Search));
+
+                return (await query
                     .OrderByDescending(x => x.StartDate)
                     .ToListAsync(cancellationToken))
                     .Select(x =>

@@ -44,5 +44,12 @@ namespace myscrum.Controllers
             request.Id = id;
             await Mediator.Send(request, cancellationToken);
         }
+
+        [HttpPatch("{id}/move-to-sprint")]
+        public async Task SetChildWorkItem(string id, MoveToSprint.Command request, CancellationToken cancellationToken)
+        {
+            request.Id = id;
+            await Mediator.Send(request, cancellationToken);
+        }
     }
 }

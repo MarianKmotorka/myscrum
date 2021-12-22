@@ -50,6 +50,7 @@ const WorkItemsTable = ({ items, sprintId, refetch }: WorkItemsTableProps) => {
             <Th>Title</Th>
             <Th>State</Th>
             <Th>Assigned To</Th>
+            <Th>Sprint</Th>
             <Th isNumeric>Remaining Hours</Th>
           </Tr>
         </Thead>

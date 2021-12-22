@@ -17,6 +17,8 @@ namespace myscrum.Features.WorkItems.Dto
 
         public string SprintId { get; set; }
 
+        public string SprintName { get; set; }
+
         public string ProjectId { get; set; }
 
         public string ParentId { get; set; }
@@ -44,7 +46,8 @@ namespace myscrum.Features.WorkItems.Dto
         public void Mapping(Profile profile)
         {
             profile.CreateMap<WorkItem, WorkItemDto>()
-                .ForMember(x => x.Children, act => act.Ignore());
+                .ForMember(x => x.Children, act => act.Ignore())
+                .ForMember(x => x.SprintName, act => act.MapFrom(src => src.Sprint.Name));
         }
     }
 }

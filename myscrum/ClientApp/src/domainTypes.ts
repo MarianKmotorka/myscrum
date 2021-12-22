@@ -49,6 +49,7 @@ export interface WorkItem {
   title: string
   assignedTo?: User
   sprintId?: string
+  sprintName?: string
   projectId: string
   children: WorkItem[]
   type: WorkItemType

@@ -58,7 +58,15 @@ const Sprints = () => {
       <SprintsTable data={data} caption='All sprints' />
 
       {data.length === 0 && (
-        <Text mt={5} maxW='250px' bg='bg2' borderRadius='md' color='gray.700' p={5}>
+        <Text
+          mt={5}
+          maxW='250px'
+          border='solid 1px'
+          borderColor='gray.200'
+          borderRadius='md'
+          color='gray.700'
+          p={5}
+        >
           {'No sprints created so far :('}
         </Text>
       )}

@@ -76,7 +76,8 @@ const LinkExistingItemModalContent = ({
 
         <Box maxH='400px' overflowY='auto' mt={6}>
           {data
-            ?.filter(x => x.id !== workItem.id && !x.parentId)
+            ?.filter(x => x.id !== workItem.id)
+            ?.filter(x => x.parentId !== workItem.id)
             ?.filter(x => allowedChildWorkItemsMap[workItem.type].includes(x.type))
             ?.map(x => (
               <Box key={x.id} d='flex' alignItems='center' py={1}>

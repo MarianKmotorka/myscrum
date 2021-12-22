@@ -22,7 +22,7 @@ interface DragItem {
 }
 
 const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: RowProps) => {
-  const { title, children, type, state, assignedTo, remainingHours } = item
+  const { title, children, type, state, assignedTo, remainingHours, sprintName } = item
   const [expanded, setExpanded] = useState(false)
   const [dropAbove, setDropAbove] = useState<boolean>()
   const rowRef = useRef<HTMLTableRowElement>(null!)
@@ -119,6 +119,10 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
 
         <Td>
           <Text noOfLines={1}>{assignedTo?.fullName}</Text>
+        </Td>
+
+        <Td>
+          <Text noOfLines={1}>{sprintName}</Text>
         </Td>
 
         <Td isNumeric>
