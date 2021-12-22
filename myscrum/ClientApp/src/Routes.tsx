@@ -4,6 +4,7 @@ import Backlog from 'pages/Backlog/Backlog'
 import Invitations from 'pages/Invitations/Invitations'
 import SprintDetail from 'pages/Sprints/SprintDetail/SprintDetail'
 import Sprints from 'pages/Sprints/Sprints'
+import WorkItemDetail from 'pages/WorkItemDetail/WorkItemDetail'
 import { Route, Routes as RouterRoutes } from 'react-router'
 import GoogleLoginCallback from './pages/GoogleLoginCallback/GoogleLoginCallback'
 import Home from './pages/Home/Home'
@@ -22,6 +23,7 @@ const Routes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/invitations'
         element={
@@ -32,6 +34,7 @@ const Routes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/sprints'
         element={
@@ -42,6 +45,7 @@ const Routes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/sprints/:id'
         element={
@@ -52,12 +56,24 @@ const Routes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/backlog'
         element={
           <ProtectedRoute needsSelectedProject>
             <DefaultLayout>
               <Backlog />
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/work-items/:id'
+        element={
+          <ProtectedRoute needsSelectedProject>
+            <DefaultLayout>
+              <WorkItemDetail />
             </DefaultLayout>
           </ProtectedRoute>
         }

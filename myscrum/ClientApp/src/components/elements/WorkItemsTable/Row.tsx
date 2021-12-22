@@ -4,6 +4,7 @@ import { css } from '@emotion/react'
 import { WorkItem } from 'domainTypes'
 import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import { Link } from 'react-router-dom'
 import { workItemStateToTextColorMap, workItemTypeToImageMap } from 'utils'
 import RowMenu from './RowMenu/RowMenu'
 import { shouldDropAbove } from './utils'
@@ -22,7 +23,7 @@ interface DragItem {
 }
 
 const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: RowProps) => {
-  const { title, children, type, state, assignedTo, remainingHours, sprintName } = item
+  const { id, title, children, type, state, assignedTo, remainingHours, sprintName } = item
   const [expanded, setExpanded] = useState(false)
   const [dropAbove, setDropAbove] = useState<boolean>()
   const rowRef = useRef<HTMLTableRowElement>(null!)
@@ -98,9 +99,15 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
             mr={2}
           />
 
-          <Text noOfLines={1} title={title}>
-            {title}
-          </Text>
+          <Link to={`/work-items/${id}`}>
+            <Text
+              noOfLines={1}
+              title={title}
+              _hover={{ textDecoration: 'underline', color: 'blue.500' }}
+            >
+              {title}
+            </Text>
+          </Link>
 
           <RowMenu workItem={item} refetch={refetch} sprintId={sprintId} />
         </Td>

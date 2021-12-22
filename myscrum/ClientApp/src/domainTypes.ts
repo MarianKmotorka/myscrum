@@ -64,6 +64,31 @@ export interface WorkItem {
   acceptationCriteria?: string
 }
 
+export interface WorkItemDetail {
+  id: string
+  title: string
+  assignedTo?: User
+  sprint?: Sprint
+  projectId: string
+  children: WorkItemLookup[]
+  type: WorkItemType
+  priority: number
+  description?: string
+  state: WorkItemState
+  remainingHours?: number
+  startDate?: string
+  finishDate?: string
+  parent?: WorkItemLookup
+  implementationDetails?: string
+  acceptationCriteria?: string
+}
+
+interface WorkItemLookup {
+  id: string
+  type: WorkItemType
+  title: string
+}
+
 export enum WorkItemState {
   New = 0,
   Approved = 1,
