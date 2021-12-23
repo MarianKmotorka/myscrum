@@ -54,7 +54,7 @@ const StateAndSprint = ({ defaultState }: Props) => {
       </HStack>
 
       <HStack maxW={400}>
-        <Text color='gray.500' width={50}>
+        <Text color='gray.500' width={50} mr='16px'>
           Sprint
         </Text>
 

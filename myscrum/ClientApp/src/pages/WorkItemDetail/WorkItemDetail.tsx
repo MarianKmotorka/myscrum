@@ -16,6 +16,7 @@ import AssignedTo from './AssignedTo'
 import { WorkItemDetailFormValues } from './utils'
 import { BiSave } from 'react-icons/bi'
 import StateAndSprint from './StateAndSprint'
+import { requiredValidator } from 'utils/validators'
 
 const WorkItemDetailPage = () => {
   const { id } = useParams()
@@ -90,6 +91,7 @@ const WorkItemDetailPage = () => {
 
                 <FormInput
                   name='title'
+                  validate={requiredValidator}
                   fontWeight={500}
                   fontSize='2xl'
                   mb={2}
