@@ -23,7 +23,7 @@ const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
 
         <Box>
           <Text fontWeight={500} borderBottom='solid 1px' borderColor='gray.200'>
-            Acceptation Criteria
+            Acceptance Criteria
           </Text>
           <FormTextArea name='acceptationCriteria' border='none' pl={0} rows={5} />
         </Box>
