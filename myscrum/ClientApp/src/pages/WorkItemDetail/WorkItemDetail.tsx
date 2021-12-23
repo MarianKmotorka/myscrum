@@ -5,7 +5,19 @@ import { useNavigate, useParams } from 'react-router-dom'
 import api from 'api/httpClient'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import FetchError from 'components/elements/FetchError'
-import { Box, Button, HStack, Image, Spinner, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  Image,
+  Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text
+} from '@chakra-ui/react'
 import { workItemTypeToImageMap, workItemTypeToTextMap, workItemTypeToColorMap } from 'utils'
 import Form from 'components/elements/HookForm/Form'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
@@ -104,6 +116,22 @@ const WorkItemDetailPage = () => {
               </Box>
 
               <StateAndSprint defaultState={state} />
+
+              <Tabs isLazy p={2} borderRadius='md' variant='soft-rounded' colorScheme='gray'>
+                <TabList>
+                  <Tab>Details</Tab>
+                  <Tab>Linked</Tab>
+                  <Tab>History</Tab>
+                  <Tab>Discussion</Tab>
+                </TabList>
+
+                <TabPanels>
+                  <TabPanel>DETAILS</TabPanel>
+                  <TabPanel>LINKED</TabPanel>
+                  <TabPanel>HISTORY</TabPanel>
+                  <TabPanel>DISCUSSION</TabPanel>
+                </TabPanels>
+              </Tabs>
             </>
           )}
         </Form>
