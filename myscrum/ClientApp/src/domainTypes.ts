@@ -83,10 +83,13 @@ export interface WorkItemDetail {
   acceptationCriteria?: string
 }
 
-interface WorkItemLookup {
+export interface WorkItemLookup {
   id: string
   type: WorkItemType
   title: string
+  sprintId?: string
+  state: WorkItemState
+  assignedTo?: User
 }
 
 export enum WorkItemState {

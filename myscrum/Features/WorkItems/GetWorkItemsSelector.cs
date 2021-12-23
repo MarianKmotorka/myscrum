@@ -20,8 +20,6 @@ namespace myscrum.Features.WorkItems
         {
             public string ProjectId { get; set; }
 
-            public string SprintId { get; set; }
-
             public string TitleFilter { get; set; }
 
             public WorkItemType[] TypeFilter { get; set; }
@@ -41,7 +39,7 @@ namespace myscrum.Features.WorkItems
             public async Task<List<WorkItemDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var query = _db.WorkItems
-                     .Where(x => x.ProjectId == request.ProjectId && x.SprintId == request.SprintId)
+                     .Where(x => x.ProjectId == request.ProjectId)
                      .ProjectTo<WorkItemDto>(_mapper.ConfigurationProvider);
 
                 if (!string.IsNullOrEmpty(request.TitleFilter))
@@ -63,7 +61,8 @@ namespace myscrum.Features.WorkItems
                 if ((project.OwnerId == currentUserService.UserId || project.Contributors.Any(x => x.UserId == currentUserService.UserId)) == false)
                     return false;
 
-                return request.SprintId is null || project.Sprints.Any(x => x.Id == request.SprintId);
+                return true;
+
             }
         }
     }

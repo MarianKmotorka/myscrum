@@ -1,5 +1,5 @@
 import { Box, Button, Input, ModalBody, ModalFooter, Spinner, Text } from '@chakra-ui/react'
-import { Sprint, WorkItem } from 'domainTypes'
+import { Sprint } from 'domainTypes'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useSelectedProject } from 'services/ProjectsProvider'
@@ -9,9 +9,10 @@ import { ApiError } from 'api/types'
 import FetchError from 'components/elements/FetchError'
 import { apiErrorToast } from 'services/toastService'
 import { CheckIcon } from '@chakra-ui/icons'
+import { WorkItemActionMenuProps } from '../WorkItemActionMenu'
 
 interface MoveToSprintModalContentProps {
-  workItem: WorkItem
+  workItem: WorkItemActionMenuProps['workItem']
   onClose: () => void
 }
 

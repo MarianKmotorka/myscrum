@@ -1,36 +1,27 @@
-import { Input, InputProps } from '@chakra-ui/input'
-import { FormControl, FormLabel, FormHelperText } from '@chakra-ui/react'
+import { FormControl, FormHelperText, FormLabel, Textarea, TextareaProps } from '@chakra-ui/react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Validator } from './types'
 
-interface IFormInputProps extends Omit<InputProps, 'value' | 'onChange'> {
+interface FormTextAreaProps extends Omit<TextareaProps, 'value' | 'onChange'> {
   name: string
   label?: string
-  type?: string
   placeholder?: string
   validate?: Validator<any>
 }
 
-const FormInput = ({
+const FormTextArea = ({
   name,
-  isDisabled,
   label,
-  isRequired,
-  type,
+  placeholder,
   validate: initialValidate,
+  isDisabled,
+  isRequired,
   ...rest
-}: IFormInputProps) => {
+}: FormTextAreaProps) => {
   const form = useFormContext()
   const { errors } = form
 
   const validate = initialValidate ? (value: string) => initialValidate(value, form) : undefined
-
-  const getParsingOnChangeFunction =
-    (onChange: (x: any) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value
-      if (type === 'number') return onChange(Number(value))
-      return onChange(value)
-    }
 
   const errorMessage = errors[name]?.message
 
@@ -38,17 +29,15 @@ const FormInput = ({
     <Controller
       name={name}
       rules={{ validate }}
-      render={({ onChange, value, ...innerRest }) => (
+      render={({ value, ...innerRest }) => (
         <FormControl isRequired={isRequired}>
           <FormLabel mb={1}>{label}</FormLabel>
 
-          <Input
+          <Textarea
             {...innerRest}
             {...rest}
             value={value || ''}
             isInvalid={!!errorMessage}
-            type={type}
-            onChange={getParsingOnChangeFunction(onChange)}
             isDisabled={isDisabled || form.formState.isSubmitting}
           />
 
@@ -63,4 +52,4 @@ const FormInput = ({
   )
 }
 
-export default FormInput
+export default FormTextArea

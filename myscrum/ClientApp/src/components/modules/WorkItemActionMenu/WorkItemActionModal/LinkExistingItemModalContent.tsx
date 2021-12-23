@@ -1,4 +1,4 @@
-import { WorkItem } from 'domainTypes'
+import { WorkItem, WorkItemType } from 'domainTypes'
 import api from 'api/httpClient'
 import { apiErrorToast } from 'services/toastService'
 import { ApiError } from 'api/types'
@@ -12,16 +12,11 @@ import { allowedChildWorkItemsMap, workItemTypeToImageMap } from 'utils'
 import { CheckIcon } from '@chakra-ui/icons'
 
 interface LinkExistingItemModalContentProps {
-  workItem: WorkItem
-  sprintId: string | undefined
+  workItem: { id: string; type: WorkItemType; title: string }
   onClose: () => void
 }
 
-const LinkExistingItemModalContent = ({
-  workItem,
-  sprintId,
-  onClose
-}: LinkExistingItemModalContentProps) => {
+const LinkExistingItemModalContent = ({ workItem, onClose }: LinkExistingItemModalContentProps) => {
   const { id: projectId } = useSelectedProject()
   const [linkedIds, setLinkedIds] = useState<string[]>([])
   const [search, setSearch] = useState('')
@@ -32,7 +27,6 @@ const LinkExistingItemModalContent = ({
       'work-items',
       'selector',
       {
-        sprintId,
         projectId,
         titleFilter: debouncedSearch
       }
@@ -40,7 +34,6 @@ const LinkExistingItemModalContent = ({
     async () =>
       (
         await api.post('/work-items/selector', {
-          sprintId,
           projectId,
           titleFilter: debouncedSearch
         })

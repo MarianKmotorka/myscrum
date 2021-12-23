@@ -1,6 +1,6 @@
 import { ApiError } from 'api/types'
 import { WorkItemDetail } from 'domainTypes'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import api from 'api/httpClient'
 import { useSelectedProject } from 'services/ProjectsProvider'
@@ -18,42 +18,79 @@ import {
   Tabs,
   Text
 } from '@chakra-ui/react'
-import { workItemTypeToImageMap, workItemTypeToTextMap, workItemTypeToColorMap } from 'utils'
+import {
+  workItemTypeToImageMap,
+  workItemTypeToTextMap,
+  workItemTypeToColorMap,
+  formatDateForInput
+} from 'utils'
 import Form from 'components/elements/HookForm/Form'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import FormInput from 'components/elements/HookForm/FormInput'
-import { errorToastIfNotValidationError } from 'services/toastService'
+import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 import AssignedTo from './AssignedTo'
 import { WorkItemDetailFormValues } from './utils'
 import { BiSave } from 'react-icons/bi'
 import StateAndSprint from './StateAndSprint'
 import { requiredValidator } from 'utils/validators'
+import DetailsTab from './Tabs/Details/DetailsTab'
 
 const WorkItemDetailPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const { id: projectId } = useSelectedProject()
-  const { data, isLoading, error } = useQuery<WorkItemDetail, ApiError>(
+  const { data, isLoading, error, refetch } = useQuery<WorkItemDetail, ApiError>(
     ['work-items', id],
     async () => (await api.get(`/work-items/${id}?projectId=${projectId}`)).data
   )
 
-  const { onSubmit, submitting } = useSubmitForm({
+  const { onSubmit, submitting } = useSubmitForm<WorkItemDetailFormValues, WorkItemDetail>({
     url: `/work-items/${id}`,
     method: 'put',
-    errorCallback: errorToastIfNotValidationError
+    formatter: x => ({
+      ...x,
+      parentId: data?.parent?.id,
+      startDate: x.startDate || null,
+      finishDate: x.finishDate || null,
+      projectId
+    }),
+    errorCallback: errorToastIfNotValidationError,
+    successCallback: res => {
+      successToast('Saved')
+      queryClient.setQueryData(['work-items', id], res)
+      queryClient.invalidateQueries(['work-items', { projectId }])
+    }
   })
 
   if (error) return <FetchError error={error} />
   if (isLoading || !data) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
 
-  const { title, type, assignedTo, state, sprint } = data
+  const {
+    title,
+    type,
+    state,
+    sprint,
+    startDate,
+    finishDate,
+    assignedTo,
+    description,
+    remainingHours,
+    acceptationCriteria,
+    implementationDetails
+  } = data
   const defaultValues: WorkItemDetailFormValues = {
     title,
     state,
+    remainingHours,
+    startDate: startDate ? formatDateForInput(startDate) : '',
+    finishDate: finishDate ? formatDateForInput(finishDate) : '',
     sprintId: sprint?.id,
-    assignedToId: assignedTo?.id
+    assignedToId: assignedTo?.id,
+    description: description || '',
+    acceptationCriteria: acceptationCriteria || '',
+    implementationDetails: implementationDetails || ''
   }
 
   return (
@@ -91,6 +128,7 @@ const WorkItemDetailPage = () => {
                     size='sm'
                     variant='secondary'
                     _hover={{}}
+                    type='submit'
                     mr='4px !important'
                     ml='auto !important'
                     leftIcon={<BiSave />}
@@ -117,17 +155,18 @@ const WorkItemDetailPage = () => {
 
               <StateAndSprint defaultState={state} />
 
-              <Tabs isLazy p={2} borderRadius='md' variant='soft-rounded' colorScheme='gray'>
+              <Tabs p={2} borderRadius='md' variant='soft-rounded' colorScheme='gray'>
                 <TabList>
                   <Tab>Details</Tab>
-                  <Tab>Linked</Tab>
                   <Tab>History</Tab>
                   <Tab>Discussion</Tab>
                 </TabList>
 
                 <TabPanels>
-                  <TabPanel>DETAILS</TabPanel>
-                  <TabPanel>LINKED</TabPanel>
+                  <TabPanel>
+                    <DetailsTab workItem={data} refetch={refetch} />
+                  </TabPanel>
+
                   <TabPanel>HISTORY</TabPanel>
                   <TabPanel>DISCUSSION</TabPanel>
                 </TabPanels>

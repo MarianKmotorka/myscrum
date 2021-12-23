@@ -3,7 +3,7 @@ import Form from 'components/elements/HookForm/Form'
 import FormInput from 'components/elements/HookForm/FormInput'
 import FormSelect from 'components/elements/HookForm/FormSelect'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
-import { WorkItem } from 'domainTypes'
+import { WorkItemType } from 'domainTypes'
 import { useQueryClient } from 'react-query'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import { errorToastIfNotValidationError } from 'services/toastService'
@@ -11,7 +11,7 @@ import { allowedChildWorkItemsMap, workItemTypeToTextMap } from 'utils'
 import { requiredValidator } from 'utils/validators'
 
 interface LinkNewItemModalContentProps {
-  workItem: WorkItem
+  workItem: { id: string; type: WorkItemType; title: string }
   sprintId: string | undefined
   onClose: () => void
 }

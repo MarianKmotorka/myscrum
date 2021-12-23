@@ -38,6 +38,7 @@ const FormSelect = ({
           <Select
             {...innerRest}
             {...rest}
+            isInvalid={!!errorMessage}
             onChange={x => onChange(onChangeFormatter(x.target.value))}
             isDisabled={isDisabled || form.formState.isSubmitting}
           />

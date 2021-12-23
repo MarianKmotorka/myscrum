@@ -6,7 +6,7 @@ import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { Link } from 'react-router-dom'
 import { workItemStateToTextColorMap, workItemTypeToImageMap } from 'utils'
-import RowMenu from './RowMenu/RowMenu'
+import WorkItemActionMenu from '../../modules/WorkItemActionMenu/WorkItemActionMenu'
 import { shouldDropAbove } from './utils'
 
 interface RowProps {
@@ -109,7 +109,14 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
             </Text>
           </Link>
 
-          <RowMenu workItem={item} refetch={refetch} sprintId={sprintId} />
+          <Box ml='auto'>
+            <WorkItemActionMenu
+              workItem={item}
+              refetch={refetch}
+              sprintId={sprintId}
+              visibleOnlyOnHover
+            />
+          </Box>
         </Td>
 
         <Td>

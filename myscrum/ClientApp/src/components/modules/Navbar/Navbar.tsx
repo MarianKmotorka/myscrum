@@ -43,7 +43,7 @@ export default function Navbar() {
 
   return (
     <Box bg='bg' position='sticky' top='0px' zIndex={10}>
-      <Container maxW='5xl'>
+      <Container maxW='6xl'>
         <Flex color={'gray.700'} minH={'60px'} py={{ base: 2 }} align={'center'}>
           <Flex
             flex={{ base: 0, md: 'auto' }}

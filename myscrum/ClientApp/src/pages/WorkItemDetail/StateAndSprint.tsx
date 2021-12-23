@@ -37,24 +37,28 @@ const StateAndSprint = ({ defaultState }: Props) => {
           State
         </Text>
 
-        <Box
-          width='10px'
-          height='10px'
-          borderRadius='50%'
-          bg={workItemStateToTextColorMap[state].color}
-        />
+        <Box>
+          <Box
+            width='10px'
+            height='10px'
+            borderRadius='50%'
+            bg={workItemStateToTextColorMap[state].color}
+          />
+        </Box>
 
         <FormSelect name='state' onChangeFormatter={x => +x} size='sm'>
           {Object.entries(workItemStateToTextColorMap)
             .filter(([key]) => !isNaN(Number.parseInt(key)))
             .map(([key, value]) => (
-              <option value={key}>{value.text}</option>
+              <option key={key} value={key}>
+                {value.text}
+              </option>
             ))}
         </FormSelect>
       </HStack>
 
       <HStack maxW={400}>
-        <Text color='gray.500' width={50} mr='16px'>
+        <Text color='gray.500' width={50} mr='18px'>
           Sprint
         </Text>
 
@@ -69,7 +73,9 @@ const StateAndSprint = ({ defaultState }: Props) => {
           <option value=''>Backlog</option>
 
           {sprints?.map(x => (
-            <option value={x.id}>{x.name}</option>
+            <option key={x.id} value={x.id}>
+              {x.name}
+            </option>
           ))}
         </FormSelect>
       </HStack>

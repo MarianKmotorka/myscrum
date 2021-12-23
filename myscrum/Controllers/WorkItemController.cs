@@ -24,10 +24,10 @@ namespace myscrum.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task Edit(string id, EditWorkItem.Command request, CancellationToken cancellationToken)
+        public async Task<WorkItemDetailDto> Edit(string id, EditWorkItem.Command request, CancellationToken cancellationToken)
         {
             request.Id = id;
-            await Mediator.Send(request, cancellationToken);
+            return await Mediator.Send(request, cancellationToken);
         }
 
         [HttpGet("{id}")]

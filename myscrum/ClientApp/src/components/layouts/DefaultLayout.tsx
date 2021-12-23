@@ -13,7 +13,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     <Box>
       <Navbar />
 
-      <Container maxW='5xl'>
+      <Container maxW='6xl'>
         <SlideFade key={pathname} in offsetY={0} offsetX={-10}>
           {children}
         </SlideFade>

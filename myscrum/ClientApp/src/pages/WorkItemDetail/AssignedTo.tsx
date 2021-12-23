@@ -10,7 +10,7 @@ const AssignedTo = () => {
   return (
     <Controller
       name='assignedToId'
-      render={({ onChange, value, ...rest }) => {
+      render={({ onChange, value, ref, ...rest }) => {
         const assignedToId: string | undefined = value
         const assignedUser = projectUsers.find(x => x.id === assignedToId)
 
@@ -18,7 +18,7 @@ const AssignedTo = () => {
           <Popover placement='bottom-start' {...rest}>
             <PopoverTrigger>
               <HStack width='fit-content' cursor='pointer' mb={1}>
-                <Avatar size='xs' src={assignedToId ? getAvatarUrl(assignedToId) : undefined} />
+                <Avatar size='xs' src={assignedToId && getAvatarUrl(assignedToId)} />
 
                 <Text color={assignedToId ? 'black' : 'gray.500'} fontSize='0.95em'>
                   {assignedUser?.fullName || 'Unassigned'}
@@ -35,13 +35,13 @@ const AssignedTo = () => {
             >
               {[{ id: undefined, fullName: 'Unassigned' }, ...projectUsers].map(x => (
                 <HStack
-                  key={x.id}
+                  key={x.fullName}
                   p={2}
                   cursor='pointer'
                   _hover={{ bg: 'gray.50' }}
                   onClick={() => onChange(x.id)}
                 >
-                  <Avatar size='xs' src={x.id ? getAvatarUrl(x.id) : undefined} />
+                  <Avatar size='xs' src={x.id && getAvatarUrl(x.id)} />
 
                   <Text>{x.fullName}</Text>
                 </HStack>

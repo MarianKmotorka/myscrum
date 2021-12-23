@@ -17,6 +17,7 @@ import { requiredValidator } from 'utils/validators'
 import { ApiError } from 'api/types'
 import api from 'api/httpClient'
 import { useNavigate } from 'react-router'
+import { formatDateForInput } from 'utils'
 
 interface SprintDetailTabProps {
   sprint: SprintDetail
@@ -57,8 +58,6 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
       apiErrorToast(err as ApiError)
     }
   }
-
-  const formatDateForInput = (date: string) => moment(date).format('YYYY-MM-DD')
 
   const defaultValue: FormValue = {
     goal: sprint.goal,

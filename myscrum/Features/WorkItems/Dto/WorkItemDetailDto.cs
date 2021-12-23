@@ -48,6 +48,12 @@ namespace myscrum.Features.WorkItems.Dto
 
         public string Title { get; set; }
 
+        public string SprintId { get; set; }
+
+        public UserDto AssignedTo { get; set; }
+
+        public WorkItemState State { get; set; }
+
         public WorkItemType Type { get; set; }
     }
 }

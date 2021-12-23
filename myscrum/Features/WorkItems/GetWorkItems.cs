@@ -42,7 +42,7 @@ namespace myscrum.Features.WorkItems
 
             private async Task<List<WorkItemDto>> GetItemsForSprint(Query request, CancellationToken cancellationToken)
             {
-                var sprintItemTypes = new[] { WorkItemType.Bug, WorkItemType.Pbi, WorkItemType.TestCase };
+                var sprintItemTypes = new[] { WorkItemType.Bug, WorkItemType.Pbi, WorkItemType.TestCase, WorkItemType.Task };
 
                 var workItems = await _db.WorkItems
                     .Where(x => x.ProjectId == request.ProjectId)
@@ -56,6 +56,7 @@ namespace myscrum.Features.WorkItems
                     .Where(x => sprintItemTypes.Contains(x.Type))
                     .Where(x => x.Type != WorkItemType.Bug || x.ParentId == null)
                     .Where(x => x.Type != WorkItemType.TestCase || x.ParentId == null)
+                    .Where(x => x.Type != WorkItemType.Task || x.ParentId == null)
                     .OrderBy(x => x.Priority).ToList();
             }
 

@@ -4,7 +4,7 @@ import Form from 'components/elements/HookForm/Form'
 import FormInput from 'components/elements/HookForm/FormInput'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
 import { Sprint } from 'domainTypes'
-import { useProjects } from 'services/ProjectsProvider'
+import { useSelectedProject } from 'services/ProjectsProvider'
 import { errorToastIfNotValidationError, successToast } from 'services/toastService'
 import { requiredValidator } from 'utils/validators'
 import SprintNameInput from './SprintNameInput'
@@ -30,10 +30,10 @@ const defaultValues: FormValue = {
 }
 
 const CreateSprintModal = ({ isOpen, refetch, onClose }: CreateSprintModalProps) => {
-  const { selectedProject } = useProjects()
+  const { id: projectId } = useSelectedProject()
   const { submitting, onSubmit } = useSubmitForm<FormValue, Sprint>({
     url: '/sprints',
-    formatter: values => ({ ...values, projectId: selectedProject?.id }),
+    formatter: values => ({ ...values, projectId }),
     successCallback: () => {
       successToast('Sprint created.')
       onClose()

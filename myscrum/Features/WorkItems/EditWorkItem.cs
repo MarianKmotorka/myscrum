@@ -1,8 +1,10 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Domain.WorkItems;
+using myscrum.Features.WorkItems.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
 using System;
@@ -14,7 +16,7 @@ namespace myscrum.Features.WorkItems
 {
     public class EditWorkItem
     {
-        public class Command : IRequest
+        public class Command : IRequest<WorkItemDetailDto>
         {
             public string Id { get; set; }
 
@@ -43,21 +45,24 @@ namespace myscrum.Features.WorkItems
             public string AcceptationCriteria { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, WorkItemDetailDto>
         {
             private readonly MyScrumContext _db;
+            private readonly IMapper _mapper;
 
-            public Handler(MyScrumContext db)
+            public Handler(MyScrumContext db, IMapper mapper)
             {
                 _db = db;
+                _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<WorkItemDetailDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 var item = await _db.WorkItems
                     .Include(x => x.AssignedTo)
                     .Include(x => x.Sprint)
                     .Include(x => x.Parent)
+                    .Include(x => x.Children)
                     .SingleOrNotFoundAsync(x => x.Id == request.Id && x.ProjectId == request.ProjectId, cancellationToken);
 
                 var parent = request.ParentId is null ? null : await _db.WorkItems.SingleOrNotFoundAsync(x => x.Id == request.ParentId, cancellationToken);
@@ -74,9 +79,11 @@ namespace myscrum.Features.WorkItems
                 item.SetStartDate(request.StartDate);
                 item.SetFinishDate(request.FinishDate);
                 item.SetRemainingHours(request.RemainingHours);
+                item.SetTitle(request.Title);
+                item.SetState(request.State);
 
                 await _db.SaveChangesAsync(cancellationToken);
-                return Unit.Value;
+                return _mapper.Map<WorkItemDetailDto>(item);
             }
         }
 

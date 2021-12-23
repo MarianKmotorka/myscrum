@@ -6,6 +6,7 @@ import featurePng from '../img/feature.png'
 import taskPng from '../img/task.png'
 import testCasePng from '../img/test-case.png'
 import pbiPng from '../img/pbi.png'
+import moment from 'moment'
 
 export const getAvatarUrl = (userId: string) =>
   `https://avatars.dicebear.com/api/micah/${userId}.svg?background=%23ffffff`
@@ -59,3 +60,5 @@ export const allowedChildWorkItemsMap: Record<WorkItemType, WorkItemType[]> = {
   [WorkItemType.TestCase]: [],
   [WorkItemType.Pbi]: [WorkItemType.Task, WorkItemType.Bug, WorkItemType.TestCase]
 }
+
+export const formatDateForInput = (date: string) => moment(date).format('YYYY-MM-DD')
