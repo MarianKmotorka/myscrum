@@ -5,16 +5,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import api from 'api/httpClient'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import FetchError from 'components/elements/FetchError'
-import { Avatar, Box, Button, HStack, Image, Spinner, Text } from '@chakra-ui/react'
-import {
-  workItemTypeToImageMap,
-  workItemTypeToTextMap,
-  workItemTypeToColorMap,
-  getAvatarUrl
-} from 'utils'
+import { Box, Button, HStack, Image, Spinner, Text } from '@chakra-ui/react'
+import { workItemTypeToImageMap, workItemTypeToTextMap, workItemTypeToColorMap } from 'utils'
 import Form from 'components/elements/HookForm/Form'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
+import FormInput from 'components/elements/HookForm/FormInput'
+import { errorToastIfNotValidationError } from 'services/toastService'
+import AssignedTo from './AssignedTo'
+import { WorkItemDetailFormValues } from './utils'
 
 const WorkItemDetailPage = () => {
   const { id } = useParams()
@@ -26,13 +25,19 @@ const WorkItemDetailPage = () => {
   )
 
   const { onSubmit, submitting } = useSubmitForm({
-    url: `/work-items/${id}`
+    url: `/work-items/${id}`,
+    method: 'put',
+    errorCallback: errorToastIfNotValidationError
   })
 
   if (error) return <FetchError error={error} />
   if (isLoading || !data) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
 
   const { title, type, assignedTo } = data
+  const defaultValues: WorkItemDetailFormValues = {
+    title,
+    assignedToId: assignedTo?.id
+  }
 
   return (
     <Box mb={5}>
@@ -48,7 +53,7 @@ const WorkItemDetailPage = () => {
         Go back
       </Button>
 
-      <Form onSubmit={onSubmit} defaultValues={{}}>
+      <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box borderLeft={`solid 8px ${workItemTypeToColorMap[type]}`} pl={4} py={1}>
           <HStack>
             <Image
@@ -62,17 +67,17 @@ const WorkItemDetailPage = () => {
             </Text>
           </HStack>
 
-          <Text noOfLines={1} fontWeight={500} fontSize='2xl' my={2}>
-            {title}
-          </Text>
+          <FormInput
+            name='title'
+            fontWeight={500}
+            fontSize='2xl'
+            mt={1}
+            mb={2}
+            border='none'
+            pl={0}
+          />
 
-          <HStack>
-            <Avatar size='xs' src={assignedTo ? getAvatarUrl(assignedTo.id) : undefined} />
-
-            <Text color={assignedTo ? 'black' : 'gray.500'} fontSize='0.95em'>
-              {assignedTo?.fullName || 'Unassigned'}
-            </Text>
-          </HStack>
+          <AssignedTo />
         </Box>
 
         <Box height={400}></Box>
