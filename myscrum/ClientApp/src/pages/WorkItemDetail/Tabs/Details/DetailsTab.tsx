@@ -73,11 +73,13 @@ const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
         )}
 
         <>
-          <Text color='gray.500' fontSize='xs' mt={3} mb={1}>
-            Child
-          </Text>
+          <HStack alignItems='flex-end'>
+            <Text color='gray.500' fontSize='xs' mt={5} mb={1}>
+              Child
+            </Text>
 
-          <WorkItemActionMenu workItem={workItem} sprintId={undefined} refetch={refetch} />
+            <WorkItemActionMenu workItem={workItem} sprintId={undefined} refetch={refetch} />
+          </HStack>
 
           <VStack alignItems='flex-start' spacing={3}>
             {workItem.children.map(x => (

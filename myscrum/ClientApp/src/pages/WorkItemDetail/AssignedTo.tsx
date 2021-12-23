@@ -17,7 +17,7 @@ const AssignedTo = () => {
         return (
           <Popover placement='bottom-start' {...rest}>
             <PopoverTrigger>
-              <HStack width='fit-content' cursor='pointer' mb={1}>
+              <HStack width='fit-content' cursor='pointer' mb={2}>
                 <Avatar size='xs' src={assignedToId && getAvatarUrl(assignedToId)} />
 
                 <Text color={assignedToId ? 'black' : 'gray.500'} fontSize='0.95em'>

@@ -33,7 +33,7 @@ const StateAndSprint = ({ defaultState }: Props) => {
   return (
     <Box bg='bg2' borderY='solid 1px' borderColor='gray.200' height={100} py={3} pl={6}>
       <HStack maxW={400}>
-        <Text color='gray.500' width={50}>
+        <Text color='gray.500' width='65px'>
           State
         </Text>
 
@@ -58,7 +58,7 @@ const StateAndSprint = ({ defaultState }: Props) => {
       </HStack>
 
       <HStack maxW={400}>
-        <Text color='gray.500' width={50} mr='18px'>
+        <Text color='gray.500' width='65px' mr='18px'>
           Sprint
         </Text>
 
