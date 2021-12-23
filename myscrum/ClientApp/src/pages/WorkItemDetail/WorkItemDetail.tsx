@@ -14,6 +14,8 @@ import FormInput from 'components/elements/HookForm/FormInput'
 import { errorToastIfNotValidationError } from 'services/toastService'
 import AssignedTo from './AssignedTo'
 import { WorkItemDetailFormValues } from './utils'
+import { BiSave } from 'react-icons/bi'
+import StateAndSprint from './StateAndSprint'
 
 const WorkItemDetailPage = () => {
   const { id } = useParams()
@@ -33,9 +35,11 @@ const WorkItemDetailPage = () => {
   if (error) return <FetchError error={error} />
   if (isLoading || !data) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
 
-  const { title, type, assignedTo } = data
+  const { title, type, assignedTo, state, sprint } = data
   const defaultValues: WorkItemDetailFormValues = {
     title,
+    state,
+    sprintId: sprint?.id,
     assignedToId: assignedTo?.id
   }
 
@@ -53,35 +57,55 @@ const WorkItemDetailPage = () => {
         Go back
       </Button>
 
-      <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-        <Box borderLeft={`solid 8px ${workItemTypeToColorMap[type]}`} pl={4} py={1}>
-          <HStack>
-            <Image
-              width='15px'
-              objectFit='contain'
-              maxH='15px'
-              src={workItemTypeToImageMap[type]}
-            />
-            <Text color='gray.500' fontSize='xs'>
-              {workItemTypeToTextMap[type].toUpperCase()}
-            </Text>
-          </HStack>
+      <Box border='solid 1px' borderColor='gray.200'>
+        <Form debug onSubmit={onSubmit} defaultValues={defaultValues}>
+          {({ formState: { isDirty } }) => (
+            <>
+              <Box borderLeft={`solid 8px ${workItemTypeToColorMap[type]}`} pl={4} py={1}>
+                <HStack>
+                  <Image
+                    width='15px'
+                    objectFit='contain'
+                    maxH='15px'
+                    src={workItemTypeToImageMap[type]}
+                  />
 
-          <FormInput
-            name='title'
-            fontWeight={500}
-            fontSize='2xl'
-            mt={1}
-            mb={2}
-            border='none'
-            pl={0}
-          />
+                  <Text color='gray.500' fontSize='xs'>
+                    {workItemTypeToTextMap[type].toUpperCase()}
+                  </Text>
 
-          <AssignedTo />
-        </Box>
+                  <Button
+                    size='sm'
+                    variant='secondary'
+                    _hover={{}}
+                    mr='4px !important'
+                    ml='auto !important'
+                    leftIcon={<BiSave />}
+                    isDisabled={!isDirty}
+                    isLoading={submitting}
+                  >
+                    Save
+                  </Button>
+                </HStack>
 
-        <Box height={400}></Box>
-      </Form>
+                <FormInput
+                  name='title'
+                  fontWeight={500}
+                  fontSize='2xl'
+                  mb={2}
+                  mt={-1}
+                  border='none'
+                  pl={0}
+                />
+
+                <AssignedTo />
+              </Box>
+
+              <StateAndSprint defaultState={state} />
+            </>
+          )}
+        </Form>
+      </Box>
     </Box>
   )
 }

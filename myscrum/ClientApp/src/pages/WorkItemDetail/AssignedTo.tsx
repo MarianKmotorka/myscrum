@@ -17,7 +17,7 @@ const AssignedTo = () => {
         return (
           <Popover placement='bottom-start' {...rest}>
             <PopoverTrigger>
-              <HStack width='fit-content' cursor='pointer'>
+              <HStack width='fit-content' cursor='pointer' mb={1}>
                 <Avatar size='xs' src={assignedToId ? getAvatarUrl(assignedToId) : undefined} />
 
                 <Text color={assignedToId ? 'black' : 'gray.500'} fontSize='0.95em'>
@@ -36,7 +36,7 @@ const AssignedTo = () => {
               {[{ id: undefined, fullName: 'Unassigned' }, ...projectUsers].map(x => (
                 <HStack
                   key={x.id}
-                  p={3}
+                  p={2}
                   cursor='pointer'
                   _hover={{ bg: 'gray.50' }}
                   onClick={() => onChange(x.id)}

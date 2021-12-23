@@ -6,6 +6,7 @@ interface FormSelectProps extends Omit<SelectProps, 'value' | 'onChange'> {
   name: string
   label?: string
   placeholder?: string
+  onChangeFormatter?: (value: string) => any
   validate?: Validator<any>
 }
 
@@ -16,6 +17,7 @@ const FormSelect = ({
   validate: initialValidate,
   isDisabled,
   isRequired,
+  onChangeFormatter = x => x,
   ...rest
 }: FormSelectProps) => {
   const form = useFormContext()
@@ -36,7 +38,7 @@ const FormSelect = ({
           <Select
             {...innerRest}
             {...rest}
-            onChange={onChange}
+            onChange={x => onChange(onChangeFormatter(x.target.value))}
             isDisabled={isDisabled || form.formState.isSubmitting}
           />
 
