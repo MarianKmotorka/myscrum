@@ -122,7 +122,7 @@ const WorkItemDetailPage = () => {
       </Button>
 
       <Box border='solid 1px' borderColor='gray.200'>
-        <Form debug onSubmit={onSubmit} defaultValues={defaultValues}>
+        <Form onSubmit={onSubmit} defaultValues={defaultValues}>
           {({ formState: { isDirty } }) => (
             <>
               <Box borderLeft={`solid 8px ${workItemTypeToColorMap[type]}`} pl={4} py={1}>

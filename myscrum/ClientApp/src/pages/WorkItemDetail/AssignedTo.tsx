@@ -35,7 +35,7 @@ const AssignedTo = () => {
             >
               {[{ id: undefined, fullName: 'Unassigned' }, ...projectUsers].map(x => (
                 <HStack
-                  key={x.fullName}
+                  key={x.id || 'unassigned'}
                   p={2}
                   cursor='pointer'
                   _hover={{ bg: 'gray.50' }}

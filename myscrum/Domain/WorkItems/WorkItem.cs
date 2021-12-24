@@ -17,7 +17,7 @@ namespace myscrum.Domain.WorkItems
             [WorkItemType.Pbi] = new[] { WorkItemType.Feature },
             [WorkItemType.Feature] = new[] { WorkItemType.Epic },
             [WorkItemType.Epic] = Array.Empty<WorkItemType>(),
-            [WorkItemType.TestCase] = new[] { WorkItemType.Bug },
+            [WorkItemType.TestCase] = new[] { WorkItemType.Bug,WorkItemType.Pbi },
         };
 
         private List<WorkItem> _children;

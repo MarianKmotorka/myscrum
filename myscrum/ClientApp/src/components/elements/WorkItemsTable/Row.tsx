@@ -136,7 +136,13 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
         </Td>
 
         <Td>
-          <Text noOfLines={1}>{sprintName}</Text>
+          {item.sprintId && (
+            <Link to={`/sprints/${item.sprintId}`}>
+              <Text _hover={{ textDecoration: 'underline', color: 'blue.500' }} noOfLines={1}>
+                {sprintName}
+              </Text>
+            </Link>
+          )}
         </Td>
 
         <Td isNumeric>
