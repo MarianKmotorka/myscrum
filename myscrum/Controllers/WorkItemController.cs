@@ -77,5 +77,16 @@ namespace myscrum.Controllers
         [HttpGet("{id}/discussion-messages")]
         public async Task<List<DiscussionMessageDto>> GetDiscussionMessage(string id, string projectId, CancellationToken cancellationToken)
             => await Mediator.Send(new GetDiscussionMessages.Query { WorkItemId = id, ProjectId = projectId }, cancellationToken);
+
+        [HttpDelete("{id}/discussion-messages/{messageId}")]
+        public async Task Delete(string messageId, CancellationToken cancellationToken)
+            => await Mediator.Send(new DeleteDiscussionMessage.Command { Id = messageId }, cancellationToken);
+
+        [HttpPut("{id}/discussion-messages/{messageId}")]
+        public async Task EditMessage(string messageId, EditDiscussionMessage.Command request, CancellationToken cancellationToken)
+        {
+            request.Id = messageId;
+            await Mediator.Send(request, cancellationToken);
+        }
     }
 }
