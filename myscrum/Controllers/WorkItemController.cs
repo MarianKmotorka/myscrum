@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using myscrum.Features.WorkItems;
+using myscrum.Features.WorkItems.Discussion;
+using myscrum.Features.WorkItems.Discussion.Dto;
 using myscrum.Features.WorkItems.Dto;
 using System.Collections.Generic;
 using System.Threading;
@@ -58,6 +60,14 @@ namespace myscrum.Controllers
         {
             request.Id = id;
             await Mediator.Send(request, cancellationToken);
+        }
+
+        [HttpPost("{id}/discussion-messages")]
+        public async Task<DiscussionMessageDto> CreateDiscussionMessage(string id, CreateDiscussionMessage.Command request, CancellationToken cancellationToken)
+        {
+            request.WorkItemId = id;
+            request.AuthorId = CurrentUserService.UserId;
+            return await Mediator.Send(request, cancellationToken);
         }
     }
 }
