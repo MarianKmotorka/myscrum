@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using myscrum.Domain.Common;
@@ -9,6 +6,10 @@ using myscrum.Domain.Projects;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
 using myscrum.Domain.WorkItems;
+using myscrum.Domain.WorkItems.Discussion;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Persistence
 {
@@ -28,6 +29,8 @@ namespace myscrum.Persistence
         public DbSet<Sprint> Sprints { get; set; }
 
         public DbSet<WorkItem> WorkItems { get; set; }
+
+        public DbSet<DiscussionMessage> DiscussionMessages { get; set; }
 
         public DbSet<ProjectInvitation> ProjectInvitations { get; set; }
 
@@ -85,6 +88,20 @@ namespace myscrum.Persistence
                 wit.HasOne(x => x.Parent).WithMany(x => x.Children);
                 wit.Property(x => x.Title).IsRequired();
                 wit.HasOne(x => x.Project).WithMany().IsRequired();
+            });
+
+            builder.Entity<DiscussionMessage>(dm =>
+            {
+                dm.Property(x => x.Text).IsRequired();
+                dm.HasOne(x => x.Author).WithMany().IsRequired();
+                dm.HasOne(x => x.WorkItem).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            builder.Entity<DiscussionMessageLike>(pi =>
+            {
+                pi.HasKey(x => new { x.UserId, x.MessageId });
+                pi.HasOne(x => x.Message).WithMany(x => x.Likes).IsRequired();
+                pi.HasOne(x => x.User).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
         }
     }
