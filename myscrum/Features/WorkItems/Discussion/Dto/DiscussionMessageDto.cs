@@ -21,6 +21,8 @@ namespace myscrum.Features.WorkItems.Discussion.Dto
 
         public bool IsEdited { get; set; }
 
+        public string WorkItemId { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public void Mapping(Profile profile)

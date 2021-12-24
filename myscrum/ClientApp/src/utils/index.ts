@@ -62,3 +62,10 @@ export const allowedChildWorkItemsMap: Record<WorkItemType, WorkItemType[]> = {
 }
 
 export const formatDateForInput = (date: string) => moment(date).format('YYYY-MM-DD')
+
+export const toLocalTime = (date: string | Date, format?: string) => {
+  const utc = moment.utc(date).toDate()
+  return moment(utc)
+    .local()
+    .format(format || 'DD MMMM yyyy, HH:mm')
+}

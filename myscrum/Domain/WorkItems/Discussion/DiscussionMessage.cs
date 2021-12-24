@@ -12,6 +12,7 @@ namespace myscrum.Domain.WorkItems.Discussion
 
         public DiscussionMessage(string text, User author, WorkItem workItem)
         {
+            Id = Guid.NewGuid().ToString();
             Text = text ?? throw new ArgumentNullException(nameof(text));
             Author = author;
             AuthorId = author.Id;

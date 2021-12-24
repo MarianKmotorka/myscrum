@@ -108,3 +108,14 @@ export enum WorkItemType {
   Epic = 4,
   TestCase = 5
 }
+
+export interface DiscussionMessage {
+  id: string
+  text: string
+  author: User
+  isLikedByMe: boolean
+  isEdited: boolean
+  likeCount: number
+  createdAt: string
+  workItemId: string
+}

@@ -37,6 +37,7 @@ import { BiSave } from 'react-icons/bi'
 import StateAndSprint from './StateAndSprint'
 import { requiredValidator } from 'utils/validators'
 import DetailsTab from './Tabs/Details/DetailsTab'
+import Discussion from './Tabs/Discussion/Discussion'
 
 const WorkItemDetailPage = () => {
   const { id } = useParams()
@@ -193,7 +194,10 @@ const WorkItemDetailPage = () => {
                   </TabPanel>
 
                   <TabPanel>HISTORY</TabPanel>
-                  <TabPanel>DISCUSSION</TabPanel>
+
+                  <TabPanel>
+                    <Discussion workItemId={data.id} />
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             </>

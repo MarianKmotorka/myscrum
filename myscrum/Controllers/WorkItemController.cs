@@ -69,5 +69,13 @@ namespace myscrum.Controllers
             request.AuthorId = CurrentUserService.UserId;
             return await Mediator.Send(request, cancellationToken);
         }
+
+        [HttpPost("{id}/discussion-messages/{messageId}/toggle-like")]
+        public async Task CreateDiscussionMessage(string messageId, string projectId, CancellationToken cancellationToken)
+            => await Mediator.Send(new ToggleLike.Command { CurrentUserId = CurrentUserService.UserId, MessageId = messageId, ProjectId = projectId }, cancellationToken);
+
+        [HttpGet("{id}/discussion-messages")]
+        public async Task<List<DiscussionMessageDto>> GetDiscussionMessage(string id, string projectId, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetDiscussionMessages.Query { WorkItemId = id, ProjectId = projectId }, cancellationToken);
     }
 }
