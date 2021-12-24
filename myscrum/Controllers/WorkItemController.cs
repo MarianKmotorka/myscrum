@@ -34,6 +34,10 @@ namespace myscrum.Controllers
         public async Task<WorkItemDetailDto> GetDetail(string id, string projectId, CancellationToken cancellationToken)
             => await Mediator.Send(new GetWorkItemDetail.Query { Id = id, ProjectId = projectId }, cancellationToken);
 
+        [HttpDelete("{id}")]
+        public async Task Delete(string id, string projectId, CancellationToken cancellationToken)
+            => await Mediator.Send(new DeleteWorkItem.Command { Id = id, ProjectId = projectId }, cancellationToken);
+
         [HttpGet]
         public async Task<List<WorkItemDto>> Get([FromQuery] GetWorkItems.Query request, CancellationToken cancellationToken)
            => await Mediator.Send(request, cancellationToken);

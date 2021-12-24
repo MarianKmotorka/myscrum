@@ -12,7 +12,7 @@ namespace myscrum.Domain.WorkItems
     {
         public static readonly IReadOnlyDictionary<WorkItemType, WorkItemType[]> AllowedParentsMap = new Dictionary<WorkItemType, WorkItemType[]>
         {
-            [WorkItemType.Bug] = new[] { WorkItemType.Pbi,WorkItemType.Feature,WorkItemType.TestCase },
+            [WorkItemType.Bug] = new[] { WorkItemType.Pbi, WorkItemType.Feature, WorkItemType.TestCase },
             [WorkItemType.Task] = new[] { WorkItemType.Pbi, WorkItemType.Bug },
             [WorkItemType.Pbi] = new[] { WorkItemType.Feature },
             [WorkItemType.Feature] = new[] { WorkItemType.Epic },
@@ -190,6 +190,12 @@ namespace myscrum.Domain.WorkItems
                 return;
 
             AcceptationCriteria = criteria;
+        }
+
+        public void ClearChildren()
+        {
+            if (_children is not null)
+                _children.Clear();
         }
     }
 

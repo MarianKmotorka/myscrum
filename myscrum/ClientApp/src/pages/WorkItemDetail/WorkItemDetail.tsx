@@ -8,7 +8,9 @@ import FetchError from 'components/elements/FetchError'
 import {
   Box,
   Button,
+  ButtonGroup,
   HStack,
+  IconButton,
   Image,
   Spinner,
   Tab,
@@ -26,9 +28,9 @@ import {
 } from 'utils'
 import Form from 'components/elements/HookForm/Form'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
-import { ChevronLeftIcon } from '@chakra-ui/icons'
+import { ChevronLeftIcon, DeleteIcon } from '@chakra-ui/icons'
 import FormInput from 'components/elements/HookForm/FormInput'
-import { errorToastIfNotValidationError, successToast } from 'services/toastService'
+import { apiErrorToast, errorToastIfNotValidationError, successToast } from 'services/toastService'
 import AssignedTo from './AssignedTo'
 import { WorkItemDetailFormValues } from './utils'
 import { BiSave } from 'react-icons/bi'
@@ -63,6 +65,18 @@ const WorkItemDetailPage = () => {
       queryClient.invalidateQueries(['work-items', { projectId }])
     }
   })
+
+  const deleteWorkItem = async () => {
+    if (!window.confirm('Are you sure you want to permanently delete this work item?')) return
+
+    try {
+      await api.delete(`/work-items/${id}`, { params: { projectId } })
+      queryClient.invalidateQueries(['work-items', { projectId }])
+      navigate(-1)
+    } catch (err) {
+      apiErrorToast(err as ApiError)
+    }
+  }
 
   if (error) return <FetchError error={error} />
   if (isLoading || !data) return <Spinner thickness='4px' color='gray.500' size='xl' mt='30px' />
@@ -124,19 +138,30 @@ const WorkItemDetailPage = () => {
                     {workItemTypeToTextMap[type].toUpperCase()}
                   </Text>
 
-                  <Button
+                  <ButtonGroup
                     size='sm'
                     variant='secondary'
                     _hover={{}}
-                    type='submit'
                     mr='4px !important'
                     ml='auto !important'
-                    leftIcon={<BiSave />}
-                    isDisabled={!isDirty}
-                    isLoading={submitting}
                   >
-                    Save
-                  </Button>
+                    <Button
+                      type='submit'
+                      leftIcon={<BiSave />}
+                      isDisabled={!isDirty}
+                      isLoading={submitting}
+                    >
+                      Save
+                    </Button>
+
+                    <IconButton
+                      icon={<DeleteIcon />}
+                      aria-label='delete'
+                      colorScheme='red'
+                      variant='outline'
+                      onClick={deleteWorkItem}
+                    />
+                  </ButtonGroup>
                 </HStack>
 
                 <FormInput

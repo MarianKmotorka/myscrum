@@ -12,7 +12,7 @@ interface DetailsTabProps {
 
 const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
   return (
-    <HStack alignItems='flex-start' spacing={10}>
+    <Box d='flex' gridGap={10} flexDirection={{ base: 'column', md: 'row' }}>
       <VStack minW={300} alignItems='stretch' flex='1'>
         <Box>
           <Text fontWeight={500} borderBottom='solid 1px' borderColor='gray.200'>
@@ -88,7 +88,7 @@ const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
           </VStack>
         </>
       </Box>
-    </HStack>
+    </Box>
   )
 }
 
