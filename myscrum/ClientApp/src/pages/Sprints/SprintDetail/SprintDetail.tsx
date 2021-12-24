@@ -59,7 +59,7 @@ const SprintDetailPage = () => {
           }
         `}
       >
-        <TabList>
+        <TabList overflowX='auto'>
           <Tab>Sprint backlog</Tab>
           <Tab>Info</Tab>
           <Tab>Capacity</Tab>
