@@ -11,6 +11,7 @@ export interface WorkItemActionMenuProps {
   workItem: { id: string; type: WorkItemType; title: string; sprintId?: string }
   sprintId: string | undefined
   visibleOnlyOnHover?: boolean
+  moveToSprintDisabled?: boolean
   refetch: () => Promise<any>
 }
 
@@ -36,24 +37,31 @@ const WorkItemActionMenu = ({
   workItem,
   sprintId,
   visibleOnlyOnHover,
+  moveToSprintDisabled,
   refetch
 }: WorkItemActionMenuProps) => {
   const [action, setAction] = useState<WorkItemAction>()
   const actionItem = rowMenuItems.find(x => x.action === action)
   const items = (() => {
+    let output = rowMenuItems
+
+    if (moveToSprintDisabled) output = output.filter(x => x.action !== 'move')
+
     if ([WorkItemType.Task, WorkItemType.TestCase].includes(workItem.type))
-      return rowMenuItems.filter(x => x.action !== 'linkExisting' && x.action !== 'linkNew')
+      output = output.filter(x => x.action !== 'linkExisting' && x.action !== 'linkNew')
 
     if ([WorkItemType.Epic, WorkItemType.Feature].includes(workItem.type))
-      return rowMenuItems.filter(x => x.action !== 'move')
+      output = output.filter(x => x.action !== 'move')
 
-    return rowMenuItems
+    return output
   })()
 
   const handleClose = async () => {
     await refetch()
     setAction(undefined)
   }
+
+  if (items.length === 0) return <></>
 
   return (
     <>

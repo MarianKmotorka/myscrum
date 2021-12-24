@@ -78,7 +78,12 @@ const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
               Child
             </Text>
 
-            <WorkItemActionMenu workItem={workItem} sprintId={undefined} refetch={refetch} />
+            <WorkItemActionMenu
+              workItem={workItem}
+              sprintId={undefined}
+              refetch={refetch}
+              moveToSprintDisabled
+            />
           </HStack>
 
           <VStack alignItems='flex-start' spacing={3}>
