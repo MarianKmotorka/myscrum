@@ -28,9 +28,16 @@ const FormInput = ({
   const getParsingOnChangeFunction =
     (onChange: (x: any) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
-      if (type === 'number') return onChange(Number(value))
+      if (type === 'number') return onChange(value || value === '0' ? Number(value) : value)
       return onChange(value)
     }
+
+  const handleBlur = (value: any, onChange: any, onBlur: any) => {
+    if (type === 'number') {
+      onChange(Number(value))
+    }
+    onBlur()
+  }
 
   const errorMessage = errors[name]?.message
 
@@ -38,16 +45,17 @@ const FormInput = ({
     <Controller
       name={name}
       rules={{ validate }}
-      render={({ onChange, value, ...innerRest }) => (
+      render={({ onChange, value, onBlur, ...innerRest }) => (
         <FormControl isRequired={isRequired}>
           <FormLabel mb={1}>{label}</FormLabel>
 
           <Input
             {...innerRest}
             {...rest}
-            value={value || ''}
+            value={value ?? ''}
             isInvalid={!!errorMessage}
             type={type}
+            onBlur={() => handleBlur(value, onChange, onBlur)}
             onChange={getParsingOnChangeFunction(onChange)}
             isDisabled={isDisabled || form.formState.isSubmitting}
           />

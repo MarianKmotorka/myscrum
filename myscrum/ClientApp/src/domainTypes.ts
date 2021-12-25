@@ -119,3 +119,10 @@ export interface DiscussionMessage {
   createdAt: string
   workItemId: string
 }
+
+export interface SprintSetting {
+  user: User
+  sprintId: string
+  daysOff: number
+  capacityPerDay: number
+}

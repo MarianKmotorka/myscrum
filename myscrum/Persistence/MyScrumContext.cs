@@ -28,6 +28,8 @@ namespace myscrum.Persistence
 
         public DbSet<Sprint> Sprints { get; set; }
 
+        public DbSet<UserSprintSetting> SprintSettings { get; set; }
+
         public DbSet<WorkItem> WorkItems { get; set; }
 
         public DbSet<DiscussionMessage> DiscussionMessages { get; set; }

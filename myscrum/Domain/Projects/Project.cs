@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using myscrum.Domain.Common;
+﻿using myscrum.Domain.Common;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Users;
+using System;
+using System.Collections.Generic;
 
 namespace myscrum.Domain.Projects
 {
@@ -44,6 +44,9 @@ namespace myscrum.Domain.Projects
                 _contributors = new List<ProjectContributor>();
 
             _contributors.Add(new ProjectContributor(user, this));
+
+            foreach (var sprint in _sprints)
+                sprint.AddSetting(user);
         }
     }
 }

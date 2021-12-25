@@ -1,5 +1,6 @@
 ﻿using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
+using myscrum.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,12 +49,20 @@ namespace myscrum.Domain.Sprints
 
         public void SetSetting(string userId, int capacityPerDay, int daysOff)
         {
-            if (_settings is null)
-                _settings = new();
-
             var setting = _settings.Single(x => x.UserId == userId);
             setting.SetDaysOff(daysOff);
             setting.SetCapacityPerDay(capacityPerDay);
+        }
+
+        public void AddSetting(User user, int capacityPerDay = 0, int daysOff = 0)
+        {
+            if (_settings is null)
+                _settings = new();
+
+            var newSetting = new UserSprintSetting(user, this);
+            newSetting.SetCapacityPerDay(capacityPerDay);
+            newSetting.SetDaysOff(daysOff);
+            _settings.Add(newSetting);
         }
     }
 }

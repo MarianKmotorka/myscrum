@@ -1,9 +1,9 @@
-﻿using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Persistence;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Features.Projects
 {
@@ -33,6 +33,7 @@ namespace myscrum.Features.Projects
             {
                 var invitation = await _db.ProjectInvitations
                     .Include(x => x.Project)
+                    .ThenInclude(x => x.Sprints)
                     .Include(x => x.User)
                     .SingleOrNotFoundAsync(x => x.ProjectId == request.ProjectId && x.UserId == request.UserId, cancellationToken);
 

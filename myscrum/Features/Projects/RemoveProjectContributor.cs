@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Features.Projects
 {

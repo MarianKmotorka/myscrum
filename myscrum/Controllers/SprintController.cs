@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using myscrum.Features.Sprints;
 using myscrum.Features.Sprints.Dto;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Controllers
 {
@@ -24,6 +24,10 @@ namespace myscrum.Controllers
         public async Task<SprintDetailDto> Get(string id, string projectId, CancellationToken cancellationToken)
            => await Mediator.Send(new GetSprintDetail.Query { Id = id, ProjectId = projectId }, cancellationToken);
 
+        [HttpGet("{id}/settings")]
+        public async Task<List<SprintSettingsDto>> GetSettings(string id, string projectId, CancellationToken cancellationToken)
+           => await Mediator.Send(new GetSprintSettings.Query { SprintId = id, ProjectId = projectId }, cancellationToken);
+
         [HttpPatch("{id}")]
         public async Task<SprintDetailDto> Patch(string id, EditSprint.Command command, CancellationToken cancellationToken)
         {
@@ -36,6 +40,13 @@ namespace myscrum.Controllers
         {
             await Mediator.Send(new DeleteSprint.Command { SprintId = id }, cancellationToken);
             return NoContent();
+        }
+
+        [HttpPut("{id}/settings")]
+        public async Task EditSettings(string id, EditSprintSettings.Command command, CancellationToken cancellationToken)
+        {
+            command.SprintId = id;
+            await Mediator.Send(command, cancellationToken);
         }
     }
 }
