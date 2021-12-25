@@ -1,6 +1,6 @@
 import { ApiError } from 'api/types'
 import { SprintSetting } from 'domainTypes'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import api from 'api/httpClient'
 import FetchError from 'components/elements/FetchError'
