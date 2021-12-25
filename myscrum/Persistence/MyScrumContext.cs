@@ -103,6 +103,13 @@ namespace myscrum.Persistence
                 pi.HasOne(x => x.Message).WithMany(x => x.Likes).IsRequired();
                 pi.HasOne(x => x.User).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
+
+            builder.Entity<UserSprintSetting>(s =>
+            {
+                s.HasKey(x => new { x.UserId, x.SprintId });
+                s.HasOne(x => x.Sprint).WithMany(x => x.Settings).IsRequired();
+                s.HasOne(x => x.User).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
         }
     }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +7,10 @@ using myscrum.Domain.Sprints;
 using myscrum.Features.Sprints.Dto;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace myscrum.Features.Sprints
 {
@@ -42,7 +42,12 @@ namespace myscrum.Features.Sprints
 
             public async Task<SprintDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var project = await _db.Projects.SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
+                var project = await _db.Projects
+                    .Include(x => x.Contributors)
+                    .ThenInclude(x => x.User)
+                    .Include(x => x.Owner)
+                    .SingleOrNotFoundAsync(x => x.Id == request.ProjectId, cancellationToken);
+
                 var newSprint = new Sprint(request.Name, request.StartDate, request.EndDate, project) { Goal = request.Goal };
 
                 _db.Add(newSprint);

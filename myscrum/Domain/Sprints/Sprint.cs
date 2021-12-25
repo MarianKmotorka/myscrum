@@ -1,11 +1,16 @@
-﻿using System;
-using myscrum.Domain.Common;
+﻿using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace myscrum.Domain.Sprints
 {
     public class Sprint : Entity<string>
     {
+
+        private List<UserSprintSetting> _settings;
+
         public Sprint(string name, DateTime startDate, DateTime endDate, Project project)
         {
             Id = Guid.NewGuid().ToString();
@@ -14,6 +19,13 @@ namespace myscrum.Domain.Sprints
             EndDate = endDate;
             Project = project;
             ProjectId = project.Id;
+
+            _settings = new();
+
+            foreach (var contributor in project.Contributors)
+                _settings.Add(new UserSprintSetting(contributor.User, this));
+
+            _settings.Add(new UserSprintSetting(project.Owner, this));
         }
 
         private Sprint()
@@ -31,5 +43,17 @@ namespace myscrum.Domain.Sprints
         public string ProjectId { get; private set; }
 
         public Project Project { get; private set; }
+
+        public IReadOnlyList<UserSprintSetting> Settings => _settings;
+
+        public void SetSetting(string userId, int capacityPerDay, int daysOff)
+        {
+            if (_settings is null)
+                _settings = new();
+
+            var setting = _settings.Single(x => x.UserId == userId);
+            setting.SetDaysOff(daysOff);
+            setting.SetCapacityPerDay(capacityPerDay);
+        }
     }
 }
