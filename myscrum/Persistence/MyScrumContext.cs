@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
 using myscrum.Domain.Sprints;
+using myscrum.Domain.Sprints.Retrospectives;
 using myscrum.Domain.Users;
 using myscrum.Domain.WorkItems;
 using myscrum.Domain.WorkItems.Discussion;
@@ -27,6 +28,10 @@ namespace myscrum.Persistence
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Sprint> Sprints { get; set; }
+
+        public DbSet<RetrospectiveComment> RetrospectiveComments { get; set; }
+
+        public DbSet<RetrospectiveCommentVote> RetrospectiveCommentVotes { get; set; }
 
         public DbSet<UserSprintSetting> SprintSettings { get; set; }
 
@@ -110,6 +115,13 @@ namespace myscrum.Persistence
             {
                 s.HasKey(x => new { x.UserId, x.SprintId });
                 s.HasOne(x => x.Sprint).WithMany(x => x.Settings).IsRequired();
+                s.HasOne(x => x.User).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            builder.Entity<RetrospectiveCommentVote>(s =>
+            {
+                s.HasKey(x => new { x.UserId, x.RetrospectiveCommentId });
+                s.HasOne(x => x.RetrospectiveComment).WithMany(x => x.Votes).IsRequired();
                 s.HasOne(x => x.User).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
         }
