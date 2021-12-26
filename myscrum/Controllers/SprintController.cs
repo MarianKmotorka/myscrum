@@ -69,5 +69,9 @@ namespace myscrum.Controllers
         [HttpGet("{id}/retrospective-comments")]
         public async Task<List<RetrospectiveCommentDto>> Get(string id, CancellationToken cancellationToken)
           => await Mediator.Send(new GetRetrospectiveComments.Query { SprintId = id }, cancellationToken);
+
+        [HttpDelete("{id}/retrospective-comments/{itemId}")]
+        public async Task DeleteComment(string itemId, CancellationToken cancellationToken)
+        => await Mediator.Send(new DeleteRetrospectiveComment.Command { Id = itemId }, cancellationToken);
     }
 }

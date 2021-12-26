@@ -18,6 +18,8 @@ const RetrospectiveItem = memo(({ item, isMyItem }: RetrospectiveItemProps) => {
   const queryClient = useQueryClient()
 
   const edit = async () => {
+    if (text === item.text) return
+
     try {
       await api.put(`/sprints/${item.sprintId}/retrospective-comments/${item.id}`, { text })
       queryClient.setQueryData<RetroComment[]>(
@@ -25,6 +27,18 @@ const RetrospectiveItem = memo(({ item, isMyItem }: RetrospectiveItemProps) => {
         prev => prev!.map(x => (x.id === item.id ? { ...x, text } : x))
       )
       successToast('Saved')
+    } catch (err) {
+      apiErrorToast(err as ApiError)
+    }
+  }
+
+  const deleteItem = async () => {
+    try {
+      await api.delete(`/sprints/${item.sprintId}/retrospective-comments/${item.id}`)
+      queryClient.setQueryData<RetroComment[]>(
+        ['sprints', item.sprintId, 'retrospective-comments'],
+        prev => prev!.filter(x => x.id !== item.id)
+      )
     } catch (err) {
       apiErrorToast(err as ApiError)
     }
@@ -45,6 +59,7 @@ const RetrospectiveItem = memo(({ item, isMyItem }: RetrospectiveItemProps) => {
             variant='outline'
             aria-label='delete'
             icon={<DeleteIcon />}
+            onClick={deleteItem}
           />
         )}
       </HStack>
@@ -52,9 +67,11 @@ const RetrospectiveItem = memo(({ item, isMyItem }: RetrospectiveItemProps) => {
       <Textarea
         isDisabled={!isMyItem}
         _disabled={{}}
+        _hover={{}}
         value={text}
         onChange={e => setText(e.target.value)}
         onBlur={edit}
+        borderColor={item.isPositive ? 'green.400' : 'red.400'}
       />
     </VStack>
   )

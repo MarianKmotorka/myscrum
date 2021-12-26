@@ -68,14 +68,7 @@ const RetroColumn = ({ items, isGood, sprintId }: RetroColumnProps) => {
   }
 
   return (
-    <VStack
-      minW='300px'
-      flex='1'
-      pr={2}
-      spacing={6}
-      alignItems='stretch'
-      borderRight='solid 1px var(--chakra-colors-gray-200)'
-    >
+    <VStack minW='300px' flex='1' pr={2} spacing={6} alignItems='stretch'>
       <Text fontWeight={500} color='gray.600' alignSelf='center'>
         {isGood ? 'What was good 😊' : ' What was not so good 😞'}
       </Text>
