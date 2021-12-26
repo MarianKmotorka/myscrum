@@ -33,6 +33,7 @@ namespace myscrum.Features.Sprints.Retrospectives
             public async Task<List<RetrospectiveCommentDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _db.RetrospectiveComments
+                    .Where(x => x.SprintId == request.SprintId)
                     .OrderByDescending(x => x.CreatedAt)
                     .ProjectTo<RetrospectiveCommentDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
