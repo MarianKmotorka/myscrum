@@ -126,3 +126,11 @@ export interface SprintSetting {
   daysOff: number
   capacityPerDay: number
 }
+
+export interface RetroComment {
+  id: string
+  text: string
+  author: User
+  sprintId: string
+  isPositive: boolean
+}
