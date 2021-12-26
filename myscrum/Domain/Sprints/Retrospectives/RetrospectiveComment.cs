@@ -41,5 +41,7 @@ namespace myscrum.Domain.Sprints.Retrospectives
         public DateTime CreatedAt { get; private set; }
 
         public IReadOnlyList<RetrospectiveCommentVote> Votes => _votes;
+
+        public void SetText(string text) => Text = text;
     }
 }

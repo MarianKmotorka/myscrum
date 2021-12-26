@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using myscrum.Features.Sprints;
 using myscrum.Features.Sprints.Dto;
+using myscrum.Features.Sprints.Retrospectives;
+using myscrum.Features.Sprints.Retrospectives.Dto;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,5 +50,24 @@ namespace myscrum.Controllers
             command.SprintId = id;
             await Mediator.Send(command, cancellationToken);
         }
+
+        [HttpPost("{id}/retrospective-comments")]
+        public async Task<RetrospectiveCommentDto> CreateComment(string id, CreateOrUpdateRetrospectiveComment.Command command, CancellationToken cancellationToken)
+        {
+            command.SprintId = id;
+            return await Mediator.Send(command, cancellationToken);
+        }
+
+        [HttpPut("{id}/retrospective-comments/{commentId}")]
+        public async Task<RetrospectiveCommentDto> EditComment(string id, string commentId, CreateOrUpdateRetrospectiveComment.Command command, CancellationToken cancellationToken)
+        {
+            command.SprintId = id;
+            command.Id = commentId;
+            return await Mediator.Send(command, cancellationToken);
+        }
+
+        [HttpGet("{id}/retrospective-comments")]
+        public async Task<List<RetrospectiveCommentDto>> Get(string id, CancellationToken cancellationToken)
+          => await Mediator.Send(new GetRetrospectiveComments.Query { SprintId = id }, cancellationToken);
     }
 }
