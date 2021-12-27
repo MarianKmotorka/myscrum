@@ -7,6 +7,7 @@ import { apiErrorToast, successToast } from 'services/toastService'
 import { getAvatarUrl } from 'utils'
 import api from 'api/httpClient'
 import { useQueryClient } from 'react-query'
+import { motion } from 'framer-motion'
 
 interface RetrospectiveItemProps {
   item: RetroComment
@@ -45,35 +46,37 @@ const RetrospectiveItem = memo(({ item, isMyItem }: RetrospectiveItemProps) => {
   }
 
   return (
-    <VStack alignItems='stretch' spacing={1}>
-      <HStack alignItems='flex-end'>
-        <Avatar size='sm' src={getAvatarUrl(item.author.id)} />
+    <motion.div layout>
+      <VStack alignItems='stretch' spacing={1}>
+        <HStack alignItems='flex-end'>
+          <Avatar size='sm' src={getAvatarUrl(item.author.id)} />
 
-        <Text color='gray.500'>{item.author.fullName}</Text>
+          <Text color='gray.500'>{item.author.fullName}</Text>
 
-        {isMyItem && (
-          <IconButton
-            ml='auto !important'
-            size='xs'
-            colorScheme='red'
-            variant='outline'
-            aria-label='delete'
-            icon={<DeleteIcon />}
-            onClick={deleteItem}
-          />
-        )}
-      </HStack>
+          {isMyItem && (
+            <IconButton
+              ml='auto !important'
+              size='xs'
+              colorScheme='red'
+              variant='outline'
+              aria-label='delete'
+              icon={<DeleteIcon />}
+              onClick={deleteItem}
+            />
+          )}
+        </HStack>
 
-      <Textarea
-        isDisabled={!isMyItem}
-        _disabled={{}}
-        _hover={{}}
-        value={text}
-        onChange={e => setText(e.target.value)}
-        onBlur={edit}
-        borderColor={item.isPositive ? 'green.400' : 'red.400'}
-      />
-    </VStack>
+        <Textarea
+          isDisabled={!isMyItem}
+          _disabled={{}}
+          _hover={{}}
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onBlur={edit}
+          borderColor={item.isPositive ? 'green.400' : 'red.400'}
+        />
+      </VStack>
+    </motion.div>
   )
 })
 

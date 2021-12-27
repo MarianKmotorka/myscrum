@@ -9,6 +9,7 @@ import { apiErrorToast } from 'services/toastService'
 import { ApiError } from 'api/types'
 import { useQueryClient } from 'react-query'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 interface MessageProps {
   message: DiscussionMessage
@@ -50,80 +51,88 @@ const Message = ({ message }: MessageProps) => {
   }
 
   return (
-    <Box d='flex' gridGap={3}>
-      <Avatar src={getAvatarUrl(message.author.id)} />
+    <motion.div
+      layout
+      initial={{ y: -170, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ x: 500, opacity: 0 }}
+      transition={{ duration: 0.1 }}
+    >
+      <Box d='flex' gridGap={3}>
+        <Avatar src={getAvatarUrl(message.author.id)} />
 
-      <Box width='100%' border='solid 1px var(--chakra-colors-gray-200)' borderRadius='lg'>
-        <HStack p='15px' pb={0} alignItems='flex-end'>
-          <Text fontWeight={500} color='gray.600'>
-            {message.author.fullName}
-          </Text>
+        <Box width='100%' border='solid 1px var(--chakra-colors-gray-200)' borderRadius='lg'>
+          <HStack p='15px' pb={0} alignItems='flex-end'>
+            <Text fontWeight={500} color='gray.600'>
+              {message.author.fullName}
+            </Text>
 
-          <Text color='gray.500' fontSize='sm' fontWeight={300}>
-            commented {toLocalTime(message.createdAt, 'MMM DD')}
-          </Text>
+            <Text color='gray.500' fontSize='sm' fontWeight={300}>
+              commented {toLocalTime(message.createdAt, 'MMM DD')}
+            </Text>
 
-          {message.isEdited && <EditIcon color='gray.500' mb='3px !important' />}
-        </HStack>
+            {message.isEdited && <EditIcon color='gray.500' mb='3px !important' />}
+          </HStack>
 
-        <Textarea
-          rows={2}
-          border='none'
-          width='100%'
-          value={text}
-          onChange={e => setText(e.target.value)}
-          isDisabled={!isEditing}
-          _disabled={{}}
-          _focus={{}}
-          placeholder="What's on your mind?"
-        />
+          <Textarea
+            rows={2}
+            border='none'
+            width='100%'
+            value={text}
+            onChange={e => setText(e.target.value)}
+            isDisabled={!isEditing}
+            _disabled={{}}
+            _focus={{}}
+            placeholder="What's on your mind?"
+          />
 
-        <HStack p='15px' pt={0} pb={2}>
-          {!isEditing && (
-            <>
-              <LikeButton message={message} />
+          <HStack p='15px' pt={0} pb={2}>
+            {!isEditing && (
+              <>
+                <LikeButton message={message} />
 
-              {isMyMessage && (
-                <>
-                  <IconButton
-                    variant='outline'
-                    aria-label='edit-message'
-                    icon={<EditIcon />}
-                    onClick={() => setIsEditing(true)}
-                  />
+                {isMyMessage && (
+                  <>
+                    <IconButton
+                      variant='outline'
+                      aria-label='edit-message'
+                      icon={<EditIcon />}
+                      onClick={() => setIsEditing(true)}
+                    />
 
-                  <IconButton
-                    variant='ghost'
-                    colorScheme='red'
-                    aria-label='delete-message'
-                    icon={<DeleteIcon />}
-                    onClick={handleDelete}
-                  />
-                </>
-              )}
-            </>
-          )}
+                    <IconButton
+                      variant='ghost'
+                      colorScheme='red'
+                      aria-label='delete-message'
+                      icon={<DeleteIcon />}
+                      onClick={handleDelete}
+                    />
+                  </>
+                )}
+              </>
+            )}
 
-          {isEditing && (
-            <>
-              <Button
-                variant='outline'
-                onClick={() => {
-                  setIsEditing(false)
-                  setText(message.text)
-                }}
-              >
-                Cancel
-              </Button>
+            {isEditing && (
+              <>
+                <Button
+                  variant='outline'
+                  onClick={() => {
+                    setIsEditing(false)
+                    setText(message.text)
+                  }}
+                >
+                  Cancel
+                </Button>
 
-              <Button variant='secondary' onClick={handleEdit}>
-                Save
-              </Button>
-            </>
-          )}
-        </HStack>
+                <Button variant='secondary' onClick={handleEdit}>
+                  Save
+                </Button>
+              </>
+            )}
+          </HStack>
+        </Box>
       </Box>
-    </Box>
+    </motion.div>
   )
 }
 

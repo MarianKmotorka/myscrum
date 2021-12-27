@@ -7,6 +7,7 @@ import FetchError from 'components/elements/FetchError'
 import { Box, Spinner, VStack } from '@chakra-ui/react'
 import NewMessage from './NewMessage'
 import Message from './Message'
+import { AnimatePresence } from 'framer-motion'
 
 interface DiscussionProps {
   workItemId: string
@@ -29,9 +30,11 @@ const Discussion = ({ workItemId }: DiscussionProps) => {
       <NewMessage workItemId={workItemId} />
 
       <VStack alignItems='stretch' mt={10} spacing={3}>
-        {data.map(x => (
-          <Message message={x} key={x.id} />
-        ))}
+        <AnimatePresence>
+          {data.map(x => (
+            <Message message={x} key={x.id} />
+          ))}
+        </AnimatePresence>
       </VStack>
     </Box>
   )
