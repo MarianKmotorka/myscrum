@@ -1,7 +1,7 @@
 import { Box, Button, Input, ModalBody, ModalFooter, Spinner, Text } from '@chakra-ui/react'
 import { Sprint } from 'domainTypes'
 import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import useDebounce from 'utils/hooks/useDebounce'
 import api from 'api/httpClient'
@@ -18,6 +18,7 @@ interface MoveToSprintModalContentProps {
 
 const MoveToSprintModalContent = ({ workItem, onClose }: MoveToSprintModalContentProps) => {
   const { id: projectId } = useSelectedProject()
+  const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search)
   const [movedToSprintId, setMovedToSprintId] = useState<string | undefined>(workItem.sprintId)
@@ -36,6 +37,7 @@ const MoveToSprintModalContent = ({ workItem, onClose }: MoveToSprintModalConten
         sprintId: targetSprintId
       })
       setMovedToSprintId(targetSprintId)
+      queryClient.invalidateQueries(['work-items', { projectId, sprintId: targetSprintId }])
     } catch (err) {
       apiErrorToast(err as ApiError)
     }
