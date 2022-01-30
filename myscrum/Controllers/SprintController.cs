@@ -4,6 +4,7 @@ using myscrum.Features.Sprints;
 using myscrum.Features.Sprints.Dto;
 using myscrum.Features.Sprints.Retrospectives;
 using myscrum.Features.Sprints.Retrospectives.Dto;
+using myscrum.Features.Sprints.Statistics;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,11 +68,15 @@ namespace myscrum.Controllers
         }
 
         [HttpGet("{id}/retrospective-comments")]
-        public async Task<List<RetrospectiveCommentDto>> Get(string id, CancellationToken cancellationToken)
+        public async Task<List<RetrospectiveCommentDto>> GetRetrospectiveComments(string id, CancellationToken cancellationToken)
           => await Mediator.Send(new GetRetrospectiveComments.Query { SprintId = id }, cancellationToken);
 
         [HttpDelete("{id}/retrospective-comments/{itemId}")]
         public async Task DeleteComment(string itemId, CancellationToken cancellationToken)
         => await Mediator.Send(new DeleteRetrospectiveComment.Command { Id = itemId }, cancellationToken);
+
+        [HttpGet("{id}/statistics")]
+        public async Task<GetSprintStatistics.Response> GetStats(string id, CancellationToken cancellationToken)
+          => await Mediator.Send(new GetSprintStatistics.Query { SprintId = id }, cancellationToken);
     }
 }

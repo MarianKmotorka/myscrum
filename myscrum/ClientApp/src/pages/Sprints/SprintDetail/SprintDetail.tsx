@@ -17,6 +17,7 @@ import EditableSprintName from './Tabs/SprintDetailTab/EditableSprintName'
 import SprintBacklogTab from './Tabs/SprintBacklogTab/SprintBacklogTab'
 import CapacityTab from './Tabs/SprintCapacityTab/CapacityTab'
 import RetrospectivesTab from './Tabs/RetrospectivesTab/RetrospectivesTab'
+import StatisticsTab from './Tabs/StatisticsTab/StatisticsTab'
 
 const SprintDetailPage = () => {
   const { id } = useParams()
@@ -82,7 +83,9 @@ const SprintDetailPage = () => {
             <CapacityTab sprintId={data.id} />
           </TabPanel>
 
-          <TabPanel height='100%'>Statistics are under development...</TabPanel>
+          <TabPanel height='100%'>
+            <StatisticsTab sprintId={data.id} />
+          </TabPanel>
 
           <TabPanel height='100%'>
             <RetrospectivesTab sprintId={data.id} />

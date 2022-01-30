@@ -14,6 +14,7 @@ export interface WorkItemActionMenuProps {
   visibleOnlyOnHover?: boolean
   moveToSprintDisabled?: boolean
   refetch: () => Promise<any>
+  linkToExistingItemOptions?: { moveToParentsSprint?: boolean }
 }
 
 const rowMenuItems: Array<{ name: string; action: WorkItemAction; icon: JSX.Element }> = [
@@ -39,6 +40,7 @@ const WorkItemActionMenu = ({
   sprintId,
   visibleOnlyOnHover,
   moveToSprintDisabled,
+  linkToExistingItemOptions,
   refetch
 }: WorkItemActionMenuProps) => {
   const [action, setAction] = useState<WorkItemAction>()
@@ -117,6 +119,7 @@ const WorkItemActionMenu = ({
           workItem={workItem}
           onClose={handleClose}
           actionName={actionItem?.name || ''}
+          linkToExistingItemOptions={linkToExistingItemOptions}
         />
       )}
     </>

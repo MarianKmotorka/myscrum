@@ -8,17 +8,22 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useSelectedProject } from 'services/ProjectsProvider'
 import { apiErrorToast } from 'services/toastService'
+import useObjectRef from 'utils/hooks/useObjectRef'
 import Row from './Row'
 
 interface WorkItemsTableProps {
   items: WorkItem[]
   sprintId: string | undefined
+  rowMenuOptions?: {
+    linkToExistingItemOptions?: { moveToParentsSprint?: boolean }
+  }
   refetch: () => Promise<void>
 }
 
-const WorkItemsTable = ({ items, sprintId, refetch }: WorkItemsTableProps) => {
+const WorkItemsTable = ({ items, sprintId, rowMenuOptions, refetch }: WorkItemsTableProps) => {
   const { id: projectId } = useSelectedProject()
   const [fetching, setFetching] = useState(false)
+  const rowMenuOptionsRef = useObjectRef(rowMenuOptions)
 
   const changePriority = async (id: string, priority: number) => {
     setFetching(true)
@@ -64,6 +69,7 @@ const WorkItemsTable = ({ items, sprintId, refetch }: WorkItemsTableProps) => {
                 key={x.id}
                 item={x}
                 onPriorityChange={changePriority}
+                menuOptions={rowMenuOptionsRef.current}
               />
             ))}
           </DndProvider>

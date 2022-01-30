@@ -21,6 +21,7 @@ interface WorkItemActionModalProps {
   action: WorkItemAction
   sprintId: string | undefined
   onClose: () => void
+  linkToExistingItemOptions?: { moveToParentsSprint?: boolean }
 }
 
 export type WorkItemAction = 'linkNew' | 'linkExisting' | 'move'
@@ -30,6 +31,7 @@ const WorkItemActionModal = ({
   actionName,
   action,
   sprintId,
+  linkToExistingItemOptions,
   onClose
 }: WorkItemActionModalProps) => {
   return (
@@ -62,7 +64,11 @@ const WorkItemActionModal = ({
         )}
 
         {action === 'linkExisting' && (
-          <LinkExistingItemModalContent workItem={workItem} onClose={onClose} />
+          <LinkExistingItemModalContent
+            workItem={workItem}
+            onClose={onClose}
+            moveToParentsSprint={linkToExistingItemOptions?.moveToParentsSprint}
+          />
         )}
 
         {action === 'move' && <MoveToSprintModalContent workItem={workItem} onClose={onClose} />}

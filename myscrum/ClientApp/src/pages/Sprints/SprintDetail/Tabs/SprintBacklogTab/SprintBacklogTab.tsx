@@ -54,6 +54,7 @@ const SprintBacklogTab = ({ sprint }: SprintBacklogProps) => {
       <WorkItemsTable
         sprintId={sprint.id}
         items={data}
+        rowMenuOptions={{ linkToExistingItemOptions: { moveToParentsSprint: true } }}
         refetch={async () => {
           await refetch()
         }}

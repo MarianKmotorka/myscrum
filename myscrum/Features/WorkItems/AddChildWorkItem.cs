@@ -18,6 +18,8 @@ namespace myscrum.Features.WorkItems
             public string ChildWorkItemId { get; set; }
 
             public string ProjectId { get; set; }
+
+            public bool MoveToParentsSprint { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -35,9 +37,14 @@ namespace myscrum.Features.WorkItems
                     .Include(x => x.Parent)
                     .SingleOrNotFoundAsync(x => x.Id == request.ChildWorkItemId && x.ProjectId == request.ProjectId, cancellationToken);
 
-                var parent = await _db.WorkItems.SingleOrNotFoundAsync(x => x.Id == request.Id && x.ProjectId == request.ProjectId, cancellationToken);
+                var parent = await _db.WorkItems
+                    .Include(x => x.Sprint)
+                    .SingleOrNotFoundAsync(x => x.Id == request.Id && x.ProjectId == request.ProjectId, cancellationToken);
 
                 child.SetParent(parent);
+
+                if (request.MoveToParentsSprint)
+                    child.SetSprint(parent.Sprint);
 
                 await _db.SaveChangesAsync(cancellationToken);
                 return Unit.Value;

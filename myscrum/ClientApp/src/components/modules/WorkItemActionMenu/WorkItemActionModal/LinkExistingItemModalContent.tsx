@@ -13,10 +13,15 @@ import { CheckIcon } from '@chakra-ui/icons'
 
 interface LinkExistingItemModalContentProps {
   workItem: { id: string; type: WorkItemType; title: string }
+  moveToParentsSprint?: boolean
   onClose: () => void
 }
 
-const LinkExistingItemModalContent = ({ workItem, onClose }: LinkExistingItemModalContentProps) => {
+const LinkExistingItemModalContent = ({
+  workItem,
+  moveToParentsSprint,
+  onClose
+}: LinkExistingItemModalContentProps) => {
   const { id: projectId } = useSelectedProject()
   const [linkedIds, setLinkedIds] = useState<string[]>([])
   const [search, setSearch] = useState('')
@@ -46,6 +51,7 @@ const LinkExistingItemModalContent = ({ workItem, onClose }: LinkExistingItemMod
     try {
       await api.patch(`/work-items/${workItem.id}/child-work-item`, {
         childWorkItemId: childId,
+        moveToParentsSprint,
         projectId
       })
       setLinkedIds(prev => [...prev, childId])

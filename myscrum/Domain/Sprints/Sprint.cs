@@ -1,6 +1,7 @@
 ﻿using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
 using myscrum.Domain.Users;
+using myscrum.Domain.WorkItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace myscrum.Domain.Sprints
 {
     public class Sprint : Entity<string>
     {
-
         private List<UserSprintSetting> _settings;
+        private List<WorkItem> _workItems;
 
         public Sprint(string name, DateTime startDate, DateTime endDate, Project project)
         {
@@ -46,6 +47,8 @@ namespace myscrum.Domain.Sprints
         public Project Project { get; private set; }
 
         public IReadOnlyList<UserSprintSetting> Settings => _settings;
+
+        public IReadOnlyList<WorkItem> WorkItems => _workItems;
 
         public void SetSetting(string userId, int capacityPerDay, int daysOff)
         {
