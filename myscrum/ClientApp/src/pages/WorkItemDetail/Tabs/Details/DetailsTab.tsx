@@ -3,7 +3,9 @@ import FormInput from 'components/elements/HookForm/FormInput'
 import FormTextArea from 'components/elements/HookForm/FormTextArea'
 import WorkItemActionMenu from 'components/modules/WorkItemActionMenu/WorkItemActionMenu'
 import { WorkItemDetail } from 'domainTypes'
+import { allowedChildWorkItemsMap } from 'utils'
 import RelatedWorkItem from './RelatedWorkItem'
+import { canSetRemainingHours, shouldShowRemainingHours } from './utils'
 
 interface DetailsTabProps {
   workItem: WorkItemDetail
@@ -51,10 +53,21 @@ const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
         </Text>
         <FormInput name='finishDate' type='date' border='none' pl={0} py={0} />
 
-        <Text color='gray.500' fontSize='xs' mt={3} mb={-2}>
-          Remaining Hours
-        </Text>
-        <FormInput name='remainingHours' type='number' border='none' pl={0} py={0} />
+        {shouldShowRemainingHours(workItem.type) && (
+          <>
+            <Text color='gray.500' fontSize='xs' mt={3} mb={-2}>
+              Remaining Hours
+            </Text>
+            <FormInput
+              name='remainingHours'
+              type='number'
+              border='none'
+              pl={0}
+              py={0}
+              isDisabled={!canSetRemainingHours(workItem.type)}
+            />
+          </>
+        )}
       </Box>
 
       <Box flex='1'>
@@ -72,26 +85,28 @@ const DetailsTab = ({ workItem, refetch }: DetailsTabProps) => {
           </>
         )}
 
-        <>
-          <HStack alignItems='flex-end'>
-            <Text color='gray.500' fontSize='xs' mt={5} mb={1}>
-              Child
-            </Text>
+        {allowedChildWorkItemsMap[workItem.type].length !== 0 && (
+          <>
+            <HStack alignItems='flex-end'>
+              <Text color='gray.500' fontSize='xs' mt={5} mb={1}>
+                Child
+              </Text>
 
-            <WorkItemActionMenu
-              workItem={workItem}
-              sprintId={undefined}
-              refetch={refetch}
-              moveToSprintDisabled
-            />
-          </HStack>
+              <WorkItemActionMenu
+                workItem={workItem}
+                sprintId={undefined}
+                refetch={refetch}
+                moveToSprintDisabled
+              />
+            </HStack>
 
-          <VStack alignItems='flex-start' spacing={3}>
-            {workItem.children.map(x => (
-              <RelatedWorkItem key={x.id} item={x} />
-            ))}
-          </VStack>
-        </>
+            <VStack alignItems='flex-start' spacing={3}>
+              {workItem.children.map(x => (
+                <RelatedWorkItem key={x.id} item={x} />
+              ))}
+            </VStack>
+          </>
+        )}
       </Box>
     </Box>
   )

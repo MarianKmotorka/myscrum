@@ -90,6 +90,7 @@ export interface WorkItemLookup {
   sprintId?: string
   state: WorkItemState
   assignedTo?: User
+  remainingHours?: number
 }
 
 export enum WorkItemState {

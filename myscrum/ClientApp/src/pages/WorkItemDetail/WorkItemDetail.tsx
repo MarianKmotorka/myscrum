@@ -24,7 +24,8 @@ import {
   workItemTypeToImageMap,
   workItemTypeToTextMap,
   workItemTypeToColorMap,
-  formatDateForInput
+  formatDateForInput,
+  getComputedRemainingHours
 } from 'utils'
 import Form from 'components/elements/HookForm/Form'
 import { useSubmitForm } from 'components/elements/HookForm/hooks/useSubmitForm'
@@ -38,6 +39,7 @@ import StateAndSprint from './StateAndSprint'
 import { requiredValidator } from 'utils/validators'
 import DetailsTab from './Tabs/Details/DetailsTab'
 import Discussion from './Tabs/Discussion/Discussion'
+import { canSetRemainingHours } from './Tabs/Details/utils'
 
 const WorkItemDetailPage = () => {
   const { id } = useParams()
@@ -54,16 +56,27 @@ const WorkItemDetailPage = () => {
     method: 'put',
     formatter: x => ({
       ...x,
+      remainingHours: canSetRemainingHours(type) ? x.remainingHours : null,
       parentId: data?.parent?.id,
       startDate: x.startDate || null,
       finishDate: x.finishDate || null,
       projectId
     }),
     errorCallback: errorToastIfNotValidationError,
-    successCallback: res => {
+    successCallback: (res, _, { formState: { dirtyFields } }) => {
       successToast('Saved')
       queryClient.setQueryData(['work-items', id], res)
       queryClient.invalidateQueries(['work-items', { projectId }])
+
+      // update remaining hours for parentDetail.children
+      if (dirtyFields.remainingHours && res.parent)
+        if (queryClient.getQueryData(['work-items', res.parent.id]))
+          queryClient.setQueryData<WorkItemDetail>(['work-items', res.parent.id], prev => ({
+            ...prev!,
+            children: prev!.children.map(x =>
+              x.id === id ? { ...x, remainingHours: res.remainingHours } : x
+            )
+          }))
     }
   })
 
@@ -93,12 +106,15 @@ const WorkItemDetailPage = () => {
     description,
     remainingHours,
     acceptationCriteria,
-    implementationDetails
+    implementationDetails,
+    children
   } = data
   const defaultValues: WorkItemDetailFormValues = {
     title,
     state,
-    remainingHours,
+    remainingHours: canSetRemainingHours(type)
+      ? remainingHours
+      : getComputedRemainingHours(children),
     startDate: startDate ? formatDateForInput(startDate) : '',
     finishDate: finishDate ? formatDateForInput(finishDate) : '',
     sprintId: sprint?.id,

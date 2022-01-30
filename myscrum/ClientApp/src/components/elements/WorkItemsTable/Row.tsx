@@ -2,10 +2,15 @@ import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, HStack, Image, Td, Text, Tr } from '@chakra-ui/react'
 import { css } from '@emotion/react'
 import { WorkItem } from 'domainTypes'
+import { canSetRemainingHours } from 'pages/WorkItemDetail/Tabs/Details/utils'
 import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { Link } from 'react-router-dom'
-import { workItemStateToTextColorMap, workItemTypeToImageMap } from 'utils'
+import {
+  getComputedRemainingHours,
+  workItemStateToTextColorMap,
+  workItemTypeToImageMap
+} from 'utils'
 import WorkItemActionMenu from '../../modules/WorkItemActionMenu/WorkItemActionMenu'
 import { shouldDropAbove } from './utils'
 
@@ -146,7 +151,9 @@ const Row = ({ item, sprintId, onPriorityChange, refetch, levelOfNesting = 0 }: 
         </Td>
 
         <Td isNumeric>
-          <Text noOfLines={1}>{remainingHours}</Text>
+          <Text noOfLines={1}>
+            {canSetRemainingHours(type) ? remainingHours : getComputedRemainingHours(children)}
+          </Text>
         </Td>
       </Tr>
 

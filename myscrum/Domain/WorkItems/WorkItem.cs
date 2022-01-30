@@ -13,11 +13,11 @@ namespace myscrum.Domain.WorkItems
         public static readonly IReadOnlyDictionary<WorkItemType, WorkItemType[]> AllowedParentsMap = new Dictionary<WorkItemType, WorkItemType[]>
         {
             [WorkItemType.Bug] = new[] { WorkItemType.Pbi, WorkItemType.Feature, WorkItemType.TestCase },
-            [WorkItemType.Task] = new[] { WorkItemType.Pbi, WorkItemType.Bug },
+            [WorkItemType.Task] = new[] { WorkItemType.Pbi},
             [WorkItemType.Pbi] = new[] { WorkItemType.Feature },
             [WorkItemType.Feature] = new[] { WorkItemType.Epic },
             [WorkItemType.Epic] = Array.Empty<WorkItemType>(),
-            [WorkItemType.TestCase] = new[] { WorkItemType.Bug,WorkItemType.Pbi },
+            [WorkItemType.TestCase] = new[] { WorkItemType.Pbi },
         };
 
         private List<WorkItem> _children;
@@ -156,6 +156,9 @@ namespace myscrum.Domain.WorkItems
         {
             if (hours == RemainingHours)
                 return;
+
+            if (!new[] { WorkItemType.Bug, WorkItemType.Task, WorkItemType.TestCase }.Contains(Type))
+                throw new InvalidOperationException($"Cannot set remaining hours on {Type}");
 
             RemainingHours = hours;
         }

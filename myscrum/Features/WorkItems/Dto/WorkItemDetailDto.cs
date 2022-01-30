@@ -55,5 +55,7 @@ namespace myscrum.Features.WorkItems.Dto
         public WorkItemState State { get; set; }
 
         public WorkItemType Type { get; set; }
+
+        public double? RemainingHours{ get; set; }
     }
 }

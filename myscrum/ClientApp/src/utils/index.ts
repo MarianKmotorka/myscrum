@@ -53,7 +53,7 @@ export const workItemStateToTextColorMap = {
 }
 
 export const allowedChildWorkItemsMap: Record<WorkItemType, WorkItemType[]> = {
-  [WorkItemType.Bug]: [WorkItemType.Task, WorkItemType.TestCase],
+  [WorkItemType.Bug]: [],
   [WorkItemType.Epic]: [WorkItemType.Feature],
   [WorkItemType.Feature]: [WorkItemType.Bug, WorkItemType.Pbi, WorkItemType.TestCase],
   [WorkItemType.Task]: [],
@@ -68,4 +68,13 @@ export const toLocalTime = (date: string | Date, format?: string) => {
   return moment(utc)
     .local()
     .format(format || 'DD MMMM yyyy, HH:mm')
+}
+
+export const getComputedRemainingHours = (
+  children: { remainingHours?: number }[]
+): number | undefined => {
+  if (children.length === 0) return undefined
+  if (children.every(x => !x.remainingHours && x.remainingHours !== 0)) return undefined
+
+  return children.map(x => x.remainingHours).reduce((acc, curr) => (curr ? acc! + curr : acc), 0)
 }

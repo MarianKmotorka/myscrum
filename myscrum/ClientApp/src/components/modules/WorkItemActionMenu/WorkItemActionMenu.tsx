@@ -6,6 +6,7 @@ import WorkItemActionModal, {
 import { WorkItemType } from 'domainTypes'
 import { useState } from 'react'
 import { BsThreeDots } from 'react-icons/bs'
+import { allowedChildWorkItemsMap } from 'utils'
 
 export interface WorkItemActionMenuProps {
   workItem: { id: string; type: WorkItemType; title: string; sprintId?: string }
@@ -47,7 +48,7 @@ const WorkItemActionMenu = ({
 
     if (moveToSprintDisabled) output = output.filter(x => x.action !== 'move')
 
-    if ([WorkItemType.Task, WorkItemType.TestCase].includes(workItem.type))
+    if (allowedChildWorkItemsMap[workItem.type].length === 0)
       output = output.filter(x => x.action !== 'linkExisting' && x.action !== 'linkNew')
 
     if ([WorkItemType.Epic, WorkItemType.Feature].includes(workItem.type))
