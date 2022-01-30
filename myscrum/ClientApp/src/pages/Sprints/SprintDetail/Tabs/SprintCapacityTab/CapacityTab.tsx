@@ -74,7 +74,7 @@ const CapacityTab = ({ sprintId }: CapacityTabProps) => {
 
   return (
     <Box overflowX='auto'>
-      <Form debug onSubmit={onSubmit} defaultValues={defaultValue}>
+      <Form onSubmit={onSubmit} defaultValues={defaultValue}>
         {({ formState: { isDirty } }) => (
           <>
             <HStack justifyContent='flex-end'>

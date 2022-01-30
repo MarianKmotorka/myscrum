@@ -200,7 +200,7 @@ const WorkItemDetailPage = () => {
               <Tabs p={2} borderRadius='md' variant='soft-rounded' colorScheme='gray'>
                 <TabList>
                   <Tab>Details</Tab>
-                  <Tab>History</Tab>
+                  {/* <Tab>History</Tab> */}
                   <Tab>Discussion</Tab>
                 </TabList>
 
@@ -209,7 +209,7 @@ const WorkItemDetailPage = () => {
                     <DetailsTab workItem={data} refetch={refetch} />
                   </TabPanel>
 
-                  <TabPanel>HISTORY</TabPanel>
+                  {/* <TabPanel>HISTORY</TabPanel> */}
 
                   <TabPanel>
                     <Discussion workItemId={data.id} />
