@@ -5,6 +5,7 @@ using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
 using myscrum.Domain.Sprints;
 using myscrum.Domain.Sprints.Retrospectives;
+using myscrum.Domain.Sprints.Statistics;
 using myscrum.Domain.Users;
 using myscrum.Domain.WorkItems;
 using myscrum.Domain.WorkItems.Discussion;
@@ -42,6 +43,8 @@ namespace myscrum.Persistence
         public DbSet<ProjectInvitation> ProjectInvitations { get; set; }
 
         public DbSet<ProjectContributor> ProjectContributors { get; set; }
+
+        public DbSet<BurndownData> BurndownData { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -123,6 +126,11 @@ namespace myscrum.Persistence
                 s.HasKey(x => new { x.UserId, x.RetrospectiveCommentId });
                 s.HasOne(x => x.RetrospectiveComment).WithMany(x => x.Votes).IsRequired();
                 s.HasOne(x => x.User).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            builder.Entity<BurndownData>(s =>
+            {
+                s.HasOne(x => x.Sprint).WithMany().IsRequired();
             });
         }
     }
