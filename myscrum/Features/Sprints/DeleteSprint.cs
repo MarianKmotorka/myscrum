@@ -23,9 +23,18 @@ namespace myscrum.Features.Sprints
             {
                 _db = db;
             }
+
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var sprint = await _db.Sprints.SingleOrNotFoundAsync(x => x.Id == request.SprintId, cancellationToken);
+                var sprint = await _db.Sprints
+                    .Include(x => x.WorkItems)
+                    .SingleOrNotFoundAsync(x => x.Id == request.SprintId, cancellationToken);
+
+                foreach (var item in sprint.WorkItems)
+                {
+                    item.SetSprint(null);
+                }
+
                 _db.Remove(sprint);
 
                 await _db.SaveChangesAsync(cancellationToken);

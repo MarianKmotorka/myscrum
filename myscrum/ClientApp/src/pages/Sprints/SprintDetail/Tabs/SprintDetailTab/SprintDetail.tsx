@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from '@chakra-ui/button'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { VStack } from '@chakra-ui/layout'
-import { SprintDetail } from 'domainTypes'
+import { Sprint, SprintDetail } from 'domainTypes'
 import moment from 'moment'
 import { BsCalendarWeek, BsCalendarX } from 'react-icons/bs'
 import { GiStairsGoal } from 'react-icons/gi'
@@ -52,6 +52,12 @@ const SprintDetailTab = ({ sprint }: SprintDetailTabProps) => {
 
     try {
       await api.delete(`/sprints/${sprint.id}`)
+
+      if (queryClient.getQueryData<Sprint[]>(['sprints', { projectId: project.id }]))
+        queryClient.setQueryData<Sprint[]>(['sprints', { projectId: project.id }], prev =>
+          prev!.filter(x => x.id !== sprint.id)
+        )
+
       successToast('Sprint deleted.')
       navigate('/sprints')
     } catch (err) {

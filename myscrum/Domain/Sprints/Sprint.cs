@@ -1,5 +1,6 @@
 ﻿using myscrum.Domain.Common;
 using myscrum.Domain.Projects;
+using myscrum.Domain.Sprints.Statistics;
 using myscrum.Domain.Users;
 using myscrum.Domain.WorkItems;
 using System;
@@ -12,6 +13,7 @@ namespace myscrum.Domain.Sprints
     {
         private List<UserSprintSetting> _settings;
         private List<WorkItem> _workItems;
+        private List<BurndownData> _burndownData;
 
         public Sprint(string name, DateTime startDate, DateTime endDate, Project project)
         {
@@ -49,6 +51,8 @@ namespace myscrum.Domain.Sprints
         public IReadOnlyList<UserSprintSetting> Settings => _settings;
 
         public IReadOnlyList<WorkItem> WorkItems => _workItems;
+
+        public IReadOnlyList<BurndownData> BurndownData => _burndownData;
 
         public void SetSetting(string userId, int capacityPerDay, int daysOff)
         {

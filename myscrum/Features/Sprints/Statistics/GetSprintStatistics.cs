@@ -4,9 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
+using myscrum.Common.Mappings;
+using myscrum.Domain.Sprints;
+using myscrum.Domain.Sprints.Statistics;
 using myscrum.Features.Common;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
@@ -34,13 +38,46 @@ namespace myscrum.Features.Sprints.Statistics
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 var sprint = await _db.Sprints
-                    .Include(x => x.WorkItems)
-                    .Include(x => x.Settings)
-                    .ThenInclude(x => x.User)
-                    .SingleOrNotFoundAsync(x => x.Id == request.SprintId, cancellationToken);
+                   .Include(x => x.WorkItems)
+                   .Include(x => x.BurndownData)
+                   .Include(x => x.Settings)
+                   .ThenInclude(x => x.User)
+                   .SingleOrNotFoundAsync(x => x.Id == request.SprintId, cancellationToken);
 
+                return new Response
+                {
+                    BurndownData = GetBurndownData(sprint),
+                    Capacities = GetCapacities(sprint),
+                };
+            }
+
+            private IEnumerable<Response.BurndownDataDto> GetBurndownData(Sprint sprint)
+            {
+                var dtos = sprint.BurndownData
+                    .Select(_mapper.Map<Response.BurndownDataDto>)
+                    .OrderBy(x => x.Date)
+                    .ToList();
+
+                var isTodayInSprint = sprint.StartDate < DateTime.UtcNow && sprint.EndDate > DateTime.UtcNow;
+                if (!isTodayInSprint)
+                    return dtos;
+
+                var remainingHoursForToday = sprint.WorkItems.Sum(x => x.RemainingHours ?? 0);
+                var dtoToModify = dtos.SingleOrDefault(x => x.Date.Day == DateTime.UtcNow.Day
+                                                && x.Date.Month == DateTime.UtcNow.Month
+                                                && x.Date.Year == DateTime.UtcNow.Year);
+
+                if (dtoToModify is null)
+                    return dtos;
+
+                dtoToModify.RemainingHours = remainingHoursForToday;
+                return dtos;
+            }
+
+            private IEnumerable<Response.Capacity> GetCapacities(Sprint sprint)
+            {
                 var workingDays = GetNumberOfBusinessDays(sprint.StartDate, sprint.EndDate);
-                var capacities = sprint.Settings.Select(setting =>
+                return sprint.Settings.Select(setting =>
                 {
                     var workingDaysWithoutDaysOff = workingDays - setting.DaysOff;
                     var assignedWorkHours = sprint.WorkItems.Where(x => x.AssignedToId == setting.UserId).Sum(x => x.RemainingHours ?? 0);
@@ -52,11 +89,6 @@ namespace myscrum.Features.Sprints.Statistics
                         User = _mapper.Map<UserDto>(setting.User)
                     };
                 });
-
-                return new Response
-                {
-                    Capacities = capacities
-                };
             }
 
             private static int GetNumberOfBusinessDays(DateTime startDate, DateTime endDate)
@@ -75,6 +107,8 @@ namespace myscrum.Features.Sprints.Statistics
         {
             public IEnumerable<Capacity> Capacities { get; set; }
 
+            public IEnumerable<BurndownDataDto> BurndownData { get; set; }
+
             public class Capacity
             {
                 public UserDto User { get; set; }
@@ -82,6 +116,13 @@ namespace myscrum.Features.Sprints.Statistics
                 public double AssignedWorkHours { get; set; }
 
                 public double CapacityHours { get; set; }
+            }
+
+            public class BurndownDataDto : IMapFrom<BurndownData>
+            {
+                public DateTime Date { get; set; }
+
+                public double? RemainingHours { get; set; }
             }
         }
 

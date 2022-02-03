@@ -130,7 +130,7 @@ namespace myscrum.Persistence
 
             builder.Entity<BurndownData>(s =>
             {
-                s.HasOne(x => x.Sprint).WithMany().IsRequired();
+                s.HasOne(x => x.Sprint).WithMany(x => x.BurndownData).IsRequired();
             });
         }
     }

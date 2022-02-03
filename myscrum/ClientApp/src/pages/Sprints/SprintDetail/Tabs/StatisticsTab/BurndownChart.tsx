@@ -1,27 +1,18 @@
-import { Box, Text } from '@chakra-ui/react'
-import { Area, AreaChart, CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
+import { Box } from '@chakra-ui/react'
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { toLocalTime } from 'utils'
 import { SprintStatistics } from './types'
 
 interface BurndownChartProps {
-  burndown: SprintStatistics['burndown']
+  burndown: SprintStatistics['burndownData']
 }
 
 const BurndownChart = ({ burndown }: BurndownChartProps) => {
-  burndown = [
-    { date: '1.1.', remainingHours: 30 },
-    { date: '1.2.', remainingHours: 20 },
-    { date: '1.3.', remainingHours: 37 },
-    { date: '1.4.', remainingHours: 9 },
-    { date: '1.5.', remainingHours: 9 },
-    { date: '1.6.', remainingHours: 13 },
-    { date: '1.7.', remainingHours: 10 },
-    { date: '1.8.', remainingHours: 2 },
-    { date: '1.9.', remainingHours: 0 }
-  ]
+  const data = burndown.map(x => ({ ...x, date: toLocalTime(x.date, 'D MMM') }))
 
   return (
     <Box mb={10}>
-      <AreaChart width={700} height={400} data={burndown}>
+      <AreaChart width={700} height={400} data={data}>
         <defs>
           <linearGradient id='color' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='5%' stopColor='#fca311' stopOpacity={0.8} />
