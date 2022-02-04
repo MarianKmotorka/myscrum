@@ -46,6 +46,8 @@ namespace myscrum.Features.Users
             public string FullName => $"{GivenName} {Surname}";
 
             public DateTime LastLogin { get; set; }
+
+            public string Email { get; set; }
         }
     }
 }

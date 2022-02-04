@@ -30,6 +30,7 @@ import { getAvatarUrl } from 'utils'
 import { useNavigate } from 'react-router'
 import { useProjects } from 'services/ProjectsProvider'
 import { Link } from 'react-router-dom'
+import { SystemRole } from 'domainTypes'
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure()
@@ -168,6 +169,12 @@ export default function Navbar() {
                 </MenuButton>
 
                 <MenuList bg='white' borderColor='gray.200'>
+                  {auth.currentUser.role === SystemRole.Admin && (
+                    <Link to='/admin'>
+                      <MenuItem>Admin</MenuItem>
+                    </Link>
+                  )}
+
                   <MenuItem onClick={() => auth.logout()}>Sign out</MenuItem>
                 </MenuList>
               </Menu>

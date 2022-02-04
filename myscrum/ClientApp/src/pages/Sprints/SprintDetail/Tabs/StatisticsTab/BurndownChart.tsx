@@ -1,4 +1,4 @@
-import { Box, useBreakpointValue, useMediaQuery } from '@chakra-ui/react'
+import { Box, useBreakpointValue } from '@chakra-ui/react'
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
 import { toLocalTime } from 'utils'
 import { SprintStatistics } from './types'
