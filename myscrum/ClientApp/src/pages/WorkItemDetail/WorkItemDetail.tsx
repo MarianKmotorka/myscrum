@@ -1,5 +1,5 @@
 import { ApiError } from 'api/types'
-import { WorkItemDetail } from 'domainTypes'
+import { WorkItemDetail, WorkItemType } from 'domainTypes'
 import { useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import api from 'api/httpClient'
@@ -195,7 +195,10 @@ const WorkItemDetailPage = () => {
                 <AssignedTo />
               </Box>
 
-              <StateAndSprint defaultState={state} />
+              <StateAndSprint
+                defaultState={state}
+                sprintSelectDisabled={type === WorkItemType.Feature || type === WorkItemType.Epic}
+              />
 
               <Tabs p={2} borderRadius='md' variant='soft-rounded' colorScheme='gray'>
                 <TabList>

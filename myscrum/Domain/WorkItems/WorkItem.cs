@@ -13,7 +13,7 @@ namespace myscrum.Domain.WorkItems
         public static readonly IReadOnlyDictionary<WorkItemType, WorkItemType[]> AllowedParentsMap = new Dictionary<WorkItemType, WorkItemType[]>
         {
             [WorkItemType.Bug] = new[] { WorkItemType.Pbi, WorkItemType.Feature, WorkItemType.TestCase },
-            [WorkItemType.Task] = new[] { WorkItemType.Pbi},
+            [WorkItemType.Task] = new[] { WorkItemType.Pbi },
             [WorkItemType.Pbi] = new[] { WorkItemType.Feature },
             [WorkItemType.Feature] = new[] { WorkItemType.Epic },
             [WorkItemType.Epic] = Array.Empty<WorkItemType>(),
@@ -120,6 +120,9 @@ namespace myscrum.Domain.WorkItems
         {
             if (sprint?.Id == SprintId)
                 return;
+
+            if (Type == WorkItemType.Epic || Type == WorkItemType.Feature)
+                throw new InvalidOperationException($"{Type} cannot be moved to any sprint");
 
             Sprint = sprint;
             SprintId = sprint?.Id;

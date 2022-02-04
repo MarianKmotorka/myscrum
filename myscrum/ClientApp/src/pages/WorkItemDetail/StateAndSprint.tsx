@@ -12,9 +12,10 @@ import { ApiError } from 'api/types'
 
 interface Props {
   defaultState: WorkItemState
+  sprintSelectDisabled?: boolean
 }
 
-const StateAndSprint = ({ defaultState }: Props) => {
+const StateAndSprint = ({ defaultState, sprintSelectDisabled }: Props) => {
   const { id: projectId } = useSelectedProject()
   const { watch } = useFormContext<WorkItemDetailFormValues>()
   const state = watch('state', defaultState)
@@ -67,6 +68,7 @@ const StateAndSprint = ({ defaultState }: Props) => {
         <FormSelect
           name='sprintId'
           size='sm'
+          isDisabled={sprintSelectDisabled}
           visibility={sprints ? 'visible' : 'hidden'}
           onChangeFormatter={x => x || undefined}
         >
