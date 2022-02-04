@@ -1,4 +1,4 @@
-import { Box, Spinner, Table, Tbody, Text, Th, Thead, Tr } from '@chakra-ui/react'
+import { Box, Spinner, Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react'
 import { css } from '@emotion/react'
 import api from 'api/httpClient'
 import { ApiError } from 'api/types'

@@ -79,6 +79,17 @@ const Routes = () => {
         }
       />
 
+      <Route
+        path='/admin'
+        element={
+          <ProtectedRoute adminRoute>
+            <DefaultLayout>
+              <p>Admin route bleee</p>
+            </DefaultLayout>
+          </ProtectedRoute>
+        }
+      />
+
       <Route path='/login' element={<Login />} />
 
       <Route path='google-login-callback' element={<GoogleLoginCallback />} />

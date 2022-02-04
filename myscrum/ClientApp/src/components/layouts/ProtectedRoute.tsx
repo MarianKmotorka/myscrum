@@ -1,14 +1,16 @@
 import { Box } from '@chakra-ui/layout'
 import { Spinner } from '@chakra-ui/spinner'
+import { SystemRole } from 'domainTypes'
 import { useAuth } from 'services/auth/AuthProvider'
 import { useProjects } from 'services/ProjectsProvider'
 
 interface ProtectedRouteProps {
   children: JSX.Element
   needsSelectedProject?: boolean
+  adminRoute?: boolean
 }
 
-const ProtectedRoute = ({ children, needsSelectedProject }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ children, needsSelectedProject, adminRoute }: ProtectedRouteProps) => {
   const auth = useAuth()
   const { selectedProject } = useProjects()
 
@@ -27,6 +29,11 @@ const ProtectedRoute = ({ children, needsSelectedProject }: ProtectedRouteProps)
   }
 
   if (needsSelectedProject && !selectedProject) {
+    window.location.replace(`/`)
+    return <></>
+  }
+
+  if (adminRoute && auth.currentUser.role !== SystemRole.Admin) {
     window.location.replace(`/`)
     return <></>
   }
