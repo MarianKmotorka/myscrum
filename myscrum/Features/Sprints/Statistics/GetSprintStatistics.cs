@@ -63,15 +63,27 @@ namespace myscrum.Features.Sprints.Statistics
                     return dtos;
 
                 var remainingHoursForToday = sprint.WorkItems.Sum(x => x.RemainingHours ?? 0);
-                var dtoToModify = dtos.SingleOrDefault(x => x.Date.Day == DateTime.UtcNow.Day
-                                                && x.Date.Month == DateTime.UtcNow.Month
-                                                && x.Date.Year == DateTime.UtcNow.Year);
+                dtos.Add(new Response.BurndownDataDto
+                {
+                    Date = DateTime.UtcNow,
+                    RemainingHours = remainingHoursForToday,
+                });
 
-                if (dtoToModify is null)
-                    return dtos;
+                GetDatesBetween(DateTime.UtcNow.AddDays(1), sprint.EndDate.AddDays(1))
+                    .ForEach(x => dtos.Add(new Response.BurndownDataDto
+                    {
+                        Date = x,
+                        RemainingHours = null
+                    }));
 
-                dtoToModify.RemainingHours = remainingHoursForToday;
                 return dtos;
+            }
+
+            private List<DateTime> GetDatesBetween(DateTime start, DateTime end)
+            {
+                return Enumerable.Range(0, 1 + end.Subtract(start).Days)
+                          .Select(offset => start.AddDays(offset))
+                          .ToList();
             }
 
             private IEnumerable<Response.Capacity> GetCapacities(Sprint sprint)

@@ -23,7 +23,7 @@ const StatisticsTab = ({ sprintId }: StatisticsTabProps) => {
   return (
     <>
       <WorkByAssignedTo capacities={data.capacities} />
-      <BurndownChart burndown={data.burndownData} />
+      {data.burndownData.length && <BurndownChart burndown={data.burndownData} />}
     </>
   )
 }

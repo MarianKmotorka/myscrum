@@ -71,5 +71,14 @@ namespace myscrum.Domain.Sprints
             newSetting.SetDaysOff(daysOff);
             _settings.Add(newSetting);
         }
+
+        public void TrackBurndownData(DateTime trackedDate)
+        {
+            if (BurndownData.Any(x => x.Id == Statistics.BurndownData.CreateId(trackedDate, Id)))
+                return;
+
+            var remainingHours = WorkItems.Sum(x => x.RemainingHours ?? 0);
+            _burndownData.Add(new BurndownData(trackedDate, remainingHours, this));
+        }
     }
 }

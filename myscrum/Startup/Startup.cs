@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using myscrum.BackgroundWorkers;
 using myscrum.Common.Behaviours;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Common.Exceptions;
@@ -47,6 +48,8 @@ namespace myscrum.Startup
                  options.UseSqlServer(
                      Configuration.GetConnectionString("MyScrumContext"),
                      builder => builder.MigrationsAssembly(typeof(MyScrumContext).Assembly.FullName)));
+
+            services.AddHostedService<BurndownDataWorker>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
