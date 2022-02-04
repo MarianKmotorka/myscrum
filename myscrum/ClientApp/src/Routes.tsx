@@ -1,5 +1,6 @@
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import ProtectedRoute from 'components/layouts/ProtectedRoute'
+import AdminPage from 'pages/Admin'
 import Backlog from 'pages/Backlog/Backlog'
 import Invitations from 'pages/Invitations/Invitations'
 import SprintDetail from 'pages/Sprints/SprintDetail/SprintDetail'
@@ -84,7 +85,7 @@ const Routes = () => {
         element={
           <ProtectedRoute adminRoute>
             <DefaultLayout>
-              <p>Admin route bleee</p>
+              <AdminPage />
             </DefaultLayout>
           </ProtectedRoute>
         }

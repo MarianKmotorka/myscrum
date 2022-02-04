@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using myscrum.Common.Constants;
 using myscrum.Common.Options;
+using myscrum.Domain.Users;
 using myscrum.Services;
 using myscrum.Services.Interfaces;
 
@@ -76,7 +77,6 @@ namespace myscrum.Startup
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             })
             .AddJwtBearer(o =>
             {
@@ -103,6 +103,21 @@ namespace myscrum.Startup
                 };
 
                 o.SaveToken = true;
+            });
+
+            services.AddAuthorization(configure =>
+            {
+                configure.AddPolicy(nameof(SystemRole.Admin), x => x.RequireAssertion(ctx =>
+                {
+                    var role =  ctx.User.Claims.FirstOrDefault(c=>c.Type == CustomClaims.Role)?.Value;
+                    return role == nameof(SystemRole.Admin);
+                }));
+
+                configure.AddPolicy(nameof(SystemRole.User), x => x.RequireAssertion(ctx =>
+                {
+                    var role = ctx.User.Claims.FirstOrDefault(c => c.Type == CustomClaims.Role)?.Value;
+                    return role == nameof(SystemRole.Admin) || role == nameof(SystemRole.User);
+                }));
             });
 
             services.AddTransient<IAuthService, AuthService>();

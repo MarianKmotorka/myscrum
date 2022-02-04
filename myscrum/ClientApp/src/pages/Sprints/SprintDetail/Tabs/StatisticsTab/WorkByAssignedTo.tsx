@@ -20,7 +20,7 @@ const WorkByAssignedTo = ({ capacities }: WorkByAssignedToProps) => {
         const width = (currSettingsMaxHours * 100) / maxHours
 
         return (
-          <VStack alignItems='stretch' spacing={0}>
+          <VStack alignItems='stretch' spacing={0} key={x.user.id}>
             <UserItem user={x.user} mr='auto' />
 
             <Progressbar value={x.assignedWorkHours} max={x.capacityHours} width={`${width}%`} />
