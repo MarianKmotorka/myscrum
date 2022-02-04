@@ -1,5 +1,5 @@
-import { Box } from '@chakra-ui/react'
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { Box, useBreakpointValue, useMediaQuery } from '@chakra-ui/react'
+import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
 import { toLocalTime } from 'utils'
 import { SprintStatistics } from './types'
 
@@ -8,11 +8,12 @@ interface BurndownChartProps {
 }
 
 const BurndownChart = ({ burndown }: BurndownChartProps) => {
+  const width = useBreakpointValue({ base: 420, md: 700 })
   const data = burndown.map(x => ({ ...x, date: toLocalTime(x.date, 'D MMM') }))
 
   return (
-    <Box mb={10}>
-      <AreaChart width={700} height={400} data={data}>
+    <Box mb={10} mt={5} overflow='auto'>
+      <AreaChart width={width} height={400} data={data}>
         <defs>
           <linearGradient id='color' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='5%' stopColor='#fca311' stopOpacity={0.8} />
@@ -26,6 +27,7 @@ const BurndownChart = ({ burndown }: BurndownChartProps) => {
         />
         <YAxis label={{ value: 'Remaining hours', angle: -90, position: 'insideLeft' }} />
 
+        <Tooltip />
         <CartesianGrid strokeDasharray='3 3' />
 
         <Area

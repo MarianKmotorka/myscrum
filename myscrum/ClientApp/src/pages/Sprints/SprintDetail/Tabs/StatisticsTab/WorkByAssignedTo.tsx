@@ -13,11 +13,7 @@ const WorkByAssignedTo = ({ capacities }: WorkByAssignedToProps) => {
   const maxHours = Math.max(maxCapacityHours, maxAssignedHours)
 
   return (
-    <VStack alignItems='stretch' spacing={4}>
-      <Text mb={3} color='secondary'>
-        Work by <b>Assigned to</b>
-      </Text>
-
+    <VStack alignItems='stretch' spacing={4} mt={5}>
       {capacities.map(x => {
         const isOverflow = x.assignedWorkHours > x.capacityHours
         const currSettingsMaxHours = Math.max(x.assignedWorkHours, x.capacityHours)

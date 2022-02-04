@@ -14,9 +14,6 @@ namespace myscrum.Features.Sprints.Statistics
         {
         }
 
-        /// <summary>
-        /// Saves remaining hours for yesterday
-        /// </summary>
         public class Handler : IRequestHandler<Command>
         {
             private readonly MyScrumContext _db;

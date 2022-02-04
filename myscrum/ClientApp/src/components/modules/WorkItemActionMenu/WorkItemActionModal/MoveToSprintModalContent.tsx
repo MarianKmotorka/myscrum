@@ -57,7 +57,14 @@ const MoveToSprintModalContent = ({ workItem, onClose }: MoveToSprintModalConten
         {isLoading && <Spinner />}
 
         <Button mt={2} onClick={async () => await callApi(undefined)}>
-          {!movedToSprintId ? <CheckIcon /> : 'Move to backlog'}
+          {!movedToSprintId ? (
+            <>
+              <CheckIcon mr={2} />
+              In backlog
+            </>
+          ) : (
+            'Move to backlog'
+          )}
         </Button>
 
         <Box maxH='400px' overflowY='auto' mt={6}>
