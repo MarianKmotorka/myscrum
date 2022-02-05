@@ -5,6 +5,7 @@ import Footer from './Footer'
 import ThreeTierPricing from './Pricing'
 import TopSection from './TopSection'
 import Testimonials from './Testimonials'
+import Features from './Features'
 
 export default function Login() {
   return (
@@ -12,6 +13,8 @@ export default function Login() {
       <DefaultLayout>
         <TopSection />
       </DefaultLayout>
+
+      <Features />
 
       <Testimonials />
 

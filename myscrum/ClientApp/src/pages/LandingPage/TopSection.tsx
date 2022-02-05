@@ -7,7 +7,6 @@ const TopSection = () => {
 
   return (
     <Stack
-      minH='calc(100vh - 60px)'
       align={'center'}
       spacing={{ base: 8, md: 10 }}
       py={{ base: 20, md: 28 }}
@@ -36,6 +35,7 @@ const TopSection = () => {
               fontSize='3rem'
               fontWeight={400}
               as='span'
+              background='white'
               color='primary'
               border='solid 2px'
               borderRadius='100px'
