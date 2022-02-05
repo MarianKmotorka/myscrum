@@ -1,6 +1,7 @@
 import { Button, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
 import Blob from './Blob'
+import itTeam from '../../img/landing/it-team-min.jpg'
 
 const TopSection = () => {
   const redirect = useRedirectToGoogleSignIn()
@@ -71,6 +72,8 @@ const TopSection = () => {
           </Button>
 
           <Button
+            as='a'
+            href='#landingpage_features'
             variant='secondaryOutline'
             size={'lg'}
             fontWeight={'normal'}
@@ -89,9 +92,7 @@ const TopSection = () => {
           h={'100%'}
           borderRadius='lg'
           boxShadow='30px 30px 50px rgba(0,0,0,0.4)'
-          src={
-            'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2370&q=80'
-          }
+          src={itTeam}
         />
 
         <Blob

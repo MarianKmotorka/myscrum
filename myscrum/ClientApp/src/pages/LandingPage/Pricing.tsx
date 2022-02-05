@@ -13,6 +13,7 @@ import {
   Button
 } from '@chakra-ui/react'
 import { FaCheckCircle } from 'react-icons/fa'
+import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
 
 function PriceWrapper({ children }: { children: ReactNode }) {
   return (
@@ -30,6 +31,8 @@ function PriceWrapper({ children }: { children: ReactNode }) {
 }
 
 export default function ThreeTierPricing() {
+  const redirect = useRedirectToGoogleSignIn()
+
   return (
     <Box py={12} mt={5}>
       <VStack spacing={2} textAlign='center'>
@@ -80,7 +83,7 @@ export default function ThreeTierPricing() {
               </ListItem>
             </List>
             <Box w='80%' pt={7}>
-              <Button w='full' variant='primaryOutline'>
+              <Button w='full' variant='primaryOutline' onClick={redirect}>
                 Start trial
               </Button>
             </Box>
@@ -148,7 +151,7 @@ export default function ThreeTierPricing() {
                 </ListItem>
               </List>
               <Box w='80%' pt={7}>
-                <Button w='full' variant='primary'>
+                <Button w='full' variant='primary' onClick={redirect}>
                   Start trial
                 </Button>
               </Box>
@@ -188,7 +191,7 @@ export default function ThreeTierPricing() {
               </ListItem>
             </List>
             <Box w='80%' pt={7}>
-              <Button w='full' variant='primaryOutline'>
+              <Button w='full' variant='primaryOutline' onClick={redirect}>
                 Start trial
               </Button>
             </Box>

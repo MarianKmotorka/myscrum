@@ -10,7 +10,7 @@ export default function Features() {
   const titleSize = useBreakpointValue({ base: '1.3rem', md: '4xl' })
 
   return (
-    <Box>
+    <Box id='landingpage_features'>
       <Box background='gray.50'>
         <Container maxW='6xl'>
           <Box py={10}>
