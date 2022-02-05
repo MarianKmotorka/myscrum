@@ -1,4 +1,4 @@
-import { Text, Box } from '@chakra-ui/layout'
+import { Text, Box, Badge } from '@chakra-ui/layout'
 import { Table, TableCaption, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/table'
 import { css } from '@emotion/react'
 import { Sprint } from 'domainTypes'
@@ -44,13 +44,16 @@ const SprintsTable = ({ data, caption }: SprintsTableProps) => {
                 }
               `}
             >
-              <Td
-                fontWeight={x.isCurrentSprint ? '500' : '400'}
-                _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
-              >
+              <Td _hover={{ textDecoration: 'underline', cursor: 'pointer' }} display='flex'>
                 <Link to={`/sprints/${x.id}`}>
                   <Text noOfLines={1}>{x.name}</Text>
                 </Link>
+
+                {x.isCurrentSprint && (
+                  <Badge ml={3} colorScheme='green'>
+                    CURRENT
+                  </Badge>
+                )}
               </Td>
               <Td>{formatDate(x.startDate)}</Td>
               <Td>{formatDate(x.endDate)}</Td>

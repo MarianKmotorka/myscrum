@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using myscrum.Common.Behaviours.Authorization;
 using myscrum.Persistence;
 using myscrum.Services.Interfaces;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +32,13 @@ namespace myscrum.Features.Projects
                 var projectContributor = await _db.ProjectContributors
                     .SingleOrNotFoundAsync(x => x.ProjectId == request.ProjectId && x.UserId == request.ContributorId, cancellationToken);
 
+                var contributorSprintSettings = await _db.SprintSettings
+                    .Where(x => x.Sprint.ProjectId == request.ProjectId)
+                    .Where(x => x.UserId == request.ContributorId)
+                    .ToListAsync(cancellationToken);
+
                 _db.Remove(projectContributor);
+                _db.RemoveRange(contributorSprintSettings);
                 await _db.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

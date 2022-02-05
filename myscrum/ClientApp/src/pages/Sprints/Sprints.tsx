@@ -53,8 +53,6 @@ const Sprints = () => {
         </ButtonGroup>
       </HStack>
 
-      {currentSprint && <SprintsTable data={[currentSprint]} caption='Current sprint' />}
-
       <SprintsTable data={data} caption='All sprints' />
 
       {data.length === 0 && (

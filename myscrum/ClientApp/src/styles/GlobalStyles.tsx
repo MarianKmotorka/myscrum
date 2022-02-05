@@ -12,4 +12,13 @@ export const GlobalStyles = createGlobalStyle`
     .chakra-tabs__tablist button {
             box-shadow: none !important;
     }
+
+    .chakra-avatar{
+        background: white;
+        
+        .chakra-avatar__svg{
+            color: var(--chakra-colors-gray-400)
+        }
+    }
+
 `

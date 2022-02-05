@@ -8,7 +8,7 @@ interface ProgressbarProps extends ChakraProps {
 const Progressbar = ({ value, max, ...rest }: ProgressbarProps) => {
   const valueFlex = value / max
   const maxValueFlex = 1 - valueFlex
-  const overflownValueFlex = max === 0 ? 1 : valueFlex - 1
+  const overflownValueFlex = max === 0 && value !== 0 ? 1 : valueFlex - 1
 
   return (
     <Box height='25px' width='100%' display='flex' borderRadius='0px' overflow='hidden' {...rest}>
