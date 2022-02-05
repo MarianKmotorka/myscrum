@@ -9,7 +9,7 @@ import WorkItemDetailPage from 'pages/WorkItemDetail/WorkItemDetail'
 import { Route, Routes as RouterRoutes } from 'react-router'
 import GoogleLoginCallback from './pages/GoogleLoginCallback/GoogleLoginCallback'
 import Home from './pages/Home/Home'
-import Login from './pages/Login/Login'
+import LandingPage from './pages/LandingPage'
 
 const Routes = () => {
   return (
@@ -91,7 +91,7 @@ const Routes = () => {
         }
       />
 
-      <Route path='/login' element={<Login />} />
+      <Route path='/login' element={<LandingPage />} />
 
       <Route path='google-login-callback' element={<GoogleLoginCallback />} />
     </RouterRoutes>
