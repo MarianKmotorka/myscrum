@@ -53,14 +53,14 @@ export default function ThreeTierPricing() {
         <PriceWrapper>
           <Box py={4} px={12}>
             <Text fontWeight='500' fontSize='2xl'>
-              Hobby
+              Free
             </Text>
             <HStack justifyContent='center'>
               <Text fontSize='3xl' fontWeight='600'>
                 €
               </Text>
               <Text fontSize='5xl' fontWeight='900'>
-                79
+                0
               </Text>
               <Text fontSize='3xl' color='gray.500'>
                 /month
@@ -71,7 +71,7 @@ export default function ThreeTierPricing() {
             <List spacing={3} textAlign='start' px={12}>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color='green.500' />
-                unlimited build minutes
+                100 minutes build time
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color='green.500' />

@@ -25,7 +25,7 @@ import useRedirectToGoogleSignIn from 'services/auth/useRedirectToGoogleSignIn'
 import MobileNav from './MobileNav'
 import DesktopNav from './DesktopNav'
 import { useAuth } from 'services/auth/AuthProvider'
-import { LOGGED_OUT_NAV_ITEMS, NAV_ITEMS } from './utils'
+import { NAV_ITEMS } from './utils'
 import { getAvatarUrl } from 'utils'
 import { useNavigate } from 'react-router'
 import { useProjects } from 'services/ProjectsProvider'
@@ -40,26 +40,33 @@ export default function Navbar() {
   const auth = useAuth()
   const { isLoggedIn } = auth
   const navigate = useNavigate()
-  const navItems = isLoggedIn ? (selectedProject ? NAV_ITEMS : []) : LOGGED_OUT_NAV_ITEMS
+  const navItems = isLoggedIn && selectedProject ? NAV_ITEMS : []
+  const burgerVisible = !!navItems.length
 
   return (
     <Box bg='bg' position='sticky' top='0px' zIndex={10}>
       <Container maxW='6xl'>
         <Flex color={'gray.700'} minH={'60px'} py={{ base: 2 }} align={'center'}>
-          <Flex
-            flex={{ base: 0, md: 'auto' }}
-            ml={{ base: -2 }}
-            display={{ base: 'flex', md: 'none' }}
-          >
-            <IconButton
-              onClick={onToggle}
-              icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-              variant={'ghost'}
-              aria-label={'Toggle Navigation'}
-            />
-          </Flex>
+          {burgerVisible && (
+            <Flex
+              flex={{ base: 0, md: 'auto' }}
+              ml={{ base: -2 }}
+              display={{ base: 'flex', md: 'none' }}
+            >
+              <IconButton
+                onClick={onToggle}
+                icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+                variant={'ghost'}
+                aria-label={'Toggle Navigation'}
+              />
+            </Flex>
+          )}
 
-          <Flex flex={{ base: 1 }} alignItems='center' justify={{ base: 'center', md: 'start' }}>
+          <Flex
+            flex={{ base: 1 }}
+            alignItems='center'
+            justify={{ base: burgerVisible ? 'center' : 'start', md: 'start' }}
+          >
             <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily="'Pacifico', cursive"
